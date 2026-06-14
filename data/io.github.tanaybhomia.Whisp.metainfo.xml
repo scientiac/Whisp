@@ -8,7 +8,9 @@
   <project_license>GPL-3.0-or-later</project_license>
   <url type="homepage">https://tanaybhomia.github.io/Whisp</url>
   <url type="bugtracker">https://github.com/tanaybhomia/Whisp/issues</url>
-  
+  <url type="vcs-browser">https://github.com/tanaybhomia/Whisp</url>
+  <url type="help">https://tanaybhomia.github.io/Whisp/manual.html</url>
+  <url type="contact">https://matrix.to/#/@tanaybhomia:matrix.org</url>
   <branding>
     <color type="primary" scheme_preference="light">#00cccc</color>
     <color type="primary" scheme_preference="dark">#004252</color>
