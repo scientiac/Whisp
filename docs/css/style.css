@@ -110,6 +110,28 @@ h1, h2, h3 {
     border-color: var(--text-secondary);
 }
 
+.btn-donate {
+    background: linear-gradient(-45deg, #0ab3bb, #00cccc, #40e0d0, #00f2fe);
+    background-size: 400% 400%;
+    animation: gradient-shift 15s ease infinite;
+    color: white !important;
+    border: none;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.btn-donate:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 204, 204, 0.4);
+    animation: gradient-shift 2s ease infinite;
+}
+
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 .disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -420,8 +442,8 @@ footer {
 
 /* User Manual Styles */
 .manual-page {
-    background-color: var(--bg-color);
-    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.15) 1px, transparent 1px);
+    background-color: var(--window-bg);
+    background-image: radial-gradient(circle, var(--dot-color, rgba(0, 0, 0, 0.15)) 1px, transparent 1px);
     background-size: 20px 20px;
     background-position: 0 0;
     margin: 0;
@@ -689,5 +711,9 @@ kbd {
 
     .manual-sidebar {
         background: rgba(36, 36, 36, 0.8);
+    }
+    
+    .manual-page {
+        --dot-color: rgba(255, 255, 255, 0.15);
     }
 }
