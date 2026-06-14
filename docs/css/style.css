@@ -232,6 +232,11 @@ h1, h2, h3 {
     border-color: rgba(192, 97, 203, 0.3);
 }
 
+.teal-card {
+    background: linear-gradient(135deg, rgba(10, 179, 187, 0.1) 0%, rgba(36, 36, 36, 0) 100%);
+    border-color: rgba(10, 179, 187, 0.3);
+}
+
 .bento-content h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;

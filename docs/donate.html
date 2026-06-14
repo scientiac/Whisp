@@ -34,36 +34,73 @@
         </section>
 
         <section class="bento-section" style="margin-top: 0;">
-            <div class="bento-grid" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto; gap: 2rem;">
+            <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 1000px; margin: 0 auto; gap: 2rem;">
                 
                 <!-- UPI Card -->
-                <div class="bento-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 2rem;">
-                    <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">🇮🇳 Local UPI (0% Fees)</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 2.5rem; max-width: 400px;">Scan with Google Pay, PhonePe, or Paytm to send money directly with zero platform fees.</p>
+                <div class="bento-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 4rem 2rem;">
+                    <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">🇮🇳 Local UPI</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 320px; height: 3rem; display: flex; align-items: center; justify-content: center;">Scan with any UPI app to send money directly with zero platform fees.</p>
                     
-                    <div style="background: white; padding: 1.5rem; border-radius: 16px; border: 1px solid var(--card-border); display: inline-block; margin-bottom: 2rem;">
-                        <!-- TODO: Replace the placeholder below with the actual QR code image -->
-                        <div style="width: 250px; height: 250px; border: 2px dashed #ccc; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999;">
-                            [ Drop assets/upi-qr.png here ]
-                        </div>
+                    <div style="background: white; padding: 1.5rem; border-radius: 16px; border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; width: 260px; height: 260px; margin-bottom: 2.5rem; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" id="qr-trigger" title="Click to enlarge">
+                        <img src="assets/upi-qr.png" alt="Whisp UPI QR Code" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;">
                     </div>
-                    <div style="background: var(--card-hover); padding: 0.8rem 1.5rem; border-radius: 8px; border: 1px solid var(--card-border);">
-                        <code style="font-size: 1.3rem; font-weight: bold; color: var(--text-primary);">tanaybhomia@upi</code>
+                    <div style="background: var(--card-hover); padding: 1rem; border-radius: 8px; border: 1px solid var(--card-border); width: 320px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; text-align: center;">
+                        <code style="font-size: 1.05rem; font-weight: bold; color: var(--text-primary); white-space: nowrap;">bhomia123456789@okhdfcbank</code>
                     </div>
                 </div>
 
-                <!-- Buy Me a Coffee Card -->
-                <div class="bento-card alert-card" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 2rem; padding: 2.5rem 3rem;">
-                    <div>
-                        <h3 style="margin-bottom: 0.5rem; color: var(--text-primary); font-size: 1.5rem;">🌍 International / Cards</h3>
-                        <p style="color: var(--text-secondary); margin: 0;">Support the project via Buy Me a Coffee using Credit Card, Apple Pay, etc.</p>
+                <!-- Ko-fi Card -->
+                <div class="bento-card teal-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 4rem 2rem; position: relative;">
+                    <div style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(10, 179, 187, 0.15); color: var(--accent-color); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: bold; border: 1px solid rgba(10, 179, 187, 0.4);">In Works 🚧</div>
+                    <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem; opacity: 0.6;">🌍 International</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 320px; height: 3rem; display: flex; align-items: center; justify-content: center; opacity: 0.6;">Support the project via Ko-fi using PayPal, Credit Cards, or Google Pay.</p>
+                    
+                    <!-- Spacing icon to visually balance with the QR code on the left -->
+                    <div style="display: flex; align-items: center; justify-content: center; width: 260px; height: 260px; margin-bottom: 2.5rem; opacity: 0.4; filter: grayscale(100%);">
+                        <span style="font-size: 100px; opacity: 0.9; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));">☕</span>
                     </div>
-                    <a href="https://buymeacoffee.com/tanaybhomia" target="_blank" class="btn btn-primary" style="white-space: nowrap; font-size: 1.1rem; padding: 0.8rem 1.5rem;">Support via BMC</a>
+                    
+                    <a href="#" onclick="return false;" class="btn btn-secondary disabled" style="padding: 1rem; border-radius: 8px; width: 320px; box-sizing: border-box; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; pointer-events: none; opacity: 0.5;">Setup pending...</a>
                 </div>
 
             </div>
         </section>
     </main>
+
+    <!-- QR Code Lightbox Modal -->
+    <div id="qr-modal" style="opacity: 0; pointer-events: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); cursor: zoom-out; transition: opacity 0.3s ease;">
+        <img id="qr-modal-img" src="assets/upi-qr.png" style="max-width: 90vw; max-height: 90vh; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); object-fit: contain; transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+        <p style="position: absolute; bottom: 2rem; color: rgba(255,255,255,0.7); font-size: 1.2rem; font-family: var(--font-mono);">Press ESC or click anywhere to close</p>
+    </div>
+
+    <script>
+        const qrTrigger = document.getElementById('qr-trigger');
+        const qrModal = document.getElementById('qr-modal');
+        const qrModalImg = document.getElementById('qr-modal-img');
+
+        // Open modal
+        qrTrigger.addEventListener('click', () => {
+            qrModal.style.opacity = '1';
+            qrModal.style.pointerEvents = 'all';
+            qrModalImg.style.transform = 'scale(1)';
+        });
+
+        const closeModal = () => {
+            qrModal.style.opacity = '0';
+            qrModal.style.pointerEvents = 'none';
+            qrModalImg.style.transform = 'scale(0.9)';
+        };
+
+        // Close modal on click
+        qrModal.addEventListener('click', closeModal);
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
 
     <footer style="margin-top: 4rem;">
         <p>Whisp &copy; 2026. Built natively for GNOME with GTK4 and Libadwaita.</p>
