@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Whisp Development</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="brand">
+                <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px;">
+                    <img src="assets/icon.svg" alt="Whisp App Icon" class="brand-icon" style="width: 24px; height: 24px;">
+                    <span class="brand-name">Whisp</span>
+                </a>
+            </div>
+            
+            <div class="nav-links" style="display: flex; gap: 1.5rem; align-items: center;">
+                <a href="manual.html" style="color: var(--text-primary); text-decoration: none; font-weight: 600;">User Manual</a>
+                <a href="https://github.com/tanaybhomia/Whisp" target="_blank" class="btn btn-secondary">View on GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero-centered" style="margin-top: 4rem; margin-bottom: 3rem;">
+            <h1>Support Development</h1>
+            <p class="subtitle">Whisp is completely free and open-source. If you find it useful in your daily workflow, consider buying me a coffee to support future updates!</p>
+        </section>
+
+        <section class="bento-section" style="margin-top: 0;">
+            <div class="bento-grid" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto; gap: 2rem;">
+                
+                <!-- UPI Card -->
+                <div class="bento-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 2rem;">
+                    <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">🇮🇳 Local UPI (0% Fees)</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 2.5rem; max-width: 400px;">Scan with Google Pay, PhonePe, or Paytm to send money directly with zero platform fees.</p>
+                    
+                    <div style="background: white; padding: 1.5rem; border-radius: 16px; border: 1px solid var(--card-border); display: inline-block; margin-bottom: 2rem;">
+                        <!-- TODO: Replace the placeholder below with the actual QR code image -->
+                        <div style="width: 250px; height: 250px; border: 2px dashed #ccc; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999;">
+                            [ Drop assets/upi-qr.png here ]
+                        </div>
+                    </div>
+                    <div style="background: var(--card-hover); padding: 0.8rem 1.5rem; border-radius: 8px; border: 1px solid var(--card-border);">
+                        <code style="font-size: 1.3rem; font-weight: bold; color: var(--text-primary);">tanaybhomia@upi</code>
+                    </div>
+                </div>
+
+                <!-- Buy Me a Coffee Card -->
+                <div class="bento-card alert-card" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 2rem; padding: 2.5rem 3rem;">
+                    <div>
+                        <h3 style="margin-bottom: 0.5rem; color: var(--text-primary); font-size: 1.5rem;">🌍 International / Cards</h3>
+                        <p style="color: var(--text-secondary); margin: 0;">Support the project via Buy Me a Coffee using Credit Card, Apple Pay, etc.</p>
+                    </div>
+                    <a href="https://buymeacoffee.com/tanaybhomia" target="_blank" class="btn btn-primary" style="white-space: nowrap; font-size: 1.1rem; padding: 0.8rem 1.5rem;">Support via BMC ☕</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer style="margin-top: 4rem;">
+        <p>Whisp &copy; 2026. Built natively for GNOME with GTK4 and Libadwaita.</p>
+    </footer>
+</body>
+</html>
