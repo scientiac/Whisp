@@ -111,22 +111,54 @@ h1, h2, h3 {
 }
 
 .btn-donate {
-    background: linear-gradient(-45deg, #0ab3bb, #00cccc, #40e0d0, #00f2fe);
-    background-size: 400% 400%;
-    animation: gradient-shift 15s ease infinite;
-    color: white !important;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(
+        45deg,
+        #0ab3bb,
+        #06888e,
+        #0fced6,
+        #046569
+    );
+    background-size: 300% 300%;
+    animation: liquidGradient 10s ease infinite;
+    color: white;
     border: none;
-    transition: all 0.3s ease;
-    font-weight: bold;
+    font-weight: 800;
+}
+
+.btn-donate::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    z-index: -1;
+    background: linear-gradient(
+        45deg,
+        #0ab3bb,
+        #06888e,
+        #0fced6,
+        #046569
+    );
+    background-size: 300% 300%;
+    animation: liquidGradient 10s ease infinite;
+    border-radius: inherit;
+    filter: blur(15px);
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
 }
 
 .btn-donate:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 204, 204, 0.4);
-    animation: gradient-shift 2s ease infinite;
+    transform: translateY(-2px);
 }
 
-@keyframes gradient-shift {
+.btn-donate:hover::before {
+    opacity: 0.85;
+}
+
+@keyframes liquidGradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
@@ -722,3 +754,22 @@ kbd {
         --dot-color: rgba(255, 255, 255, 0.15);
     }
 }
+
+/* Scroll Reveal Animations */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.delay-1 { transition-delay: 0.15s; }
+.delay-2 { transition-delay: 0.30s; }
+.delay-3 { transition-delay: 0.45s; }
+.delay-4 { transition-delay: 0.60s; }
+

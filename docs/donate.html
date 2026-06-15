@@ -28,16 +28,16 @@
     </nav>
 
     <main>
-        <section class="hero-centered" style="margin-top: 4rem; margin-bottom: 3rem;">
-            <h1>Support Development</h1>
-            <p class="subtitle">Whisp is completely free and open-source. If you find it useful in your daily workflow, consider buying me a coffee to support future updates!</p>
+        <section class="hero-centered reveal" style="margin-top: 4rem; margin-bottom: 3rem;">
+            <h1 class="reveal delay-1">Support Development</h1>
+            <p class="subtitle reveal delay-2">Whisp is completely free and open-source. If you find it useful in your daily workflow, consider buying me a coffee to support future updates!</p>
         </section>
 
         <section class="bento-section" style="margin-top: 0;">
             <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 1000px; margin: 0 auto; gap: 2rem;">
                 
                 <!-- UPI Card -->
-                <div class="bento-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 4rem 2rem;">
+                <div class="bento-card reveal delay-1" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 4rem 2rem;">
                     <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">🇮🇳 Local UPI</h3>
                     <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 320px; height: 3rem; display: flex; align-items: center; justify-content: center;">Scan with any UPI app to send money directly with zero platform fees.</p>
                     
@@ -50,7 +50,7 @@
                 </div>
 
                 <!-- Ko-fi Card -->
-                <div class="bento-card teal-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 4rem 2rem; position: relative;">
+                <div class="bento-card teal-card reveal delay-2" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 4rem 2rem; position: relative;">
                     <div style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(10, 179, 187, 0.15); color: var(--accent-color); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: bold; border: 1px solid rgba(10, 179, 187, 0.4);">In Works 🚧</div>
                     <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem; opacity: 0.6;">🌍 International</h3>
                     <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 320px; height: 3rem; display: flex; align-items: center; justify-content: center; opacity: 0.6;">Support the project via Ko-fi using PayPal, Credit Cards, or Google Pay.</p>
@@ -99,6 +99,26 @@
             if (e.key === 'Escape') {
                 closeModal();
             }
+        });
+
+        // Reveal Animations Observer
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50px 0px',
+            threshold: 0.1
+        };
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
         });
     </script>
 

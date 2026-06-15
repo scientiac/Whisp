@@ -69,56 +69,56 @@
 
     <main>
         <section class="hero-centered">
-            <div class="hero-icon-wrapper">
+            <div class="hero-icon-wrapper reveal">
                 <img src="assets/icon.svg" alt="Whisp App Icon" class="hero-app-icon">
             </div>
-            <h1>The Anti-Note for GNOME.</h1>
-            <p class="subtitle">A fluid, gesture-driven scratchpad designed for absolute speed.</p>
+            <h1 class="reveal delay-1">The Anti-Note for GNOME.</h1>
+            <p class="subtitle reveal delay-2">A fluid, gesture-driven scratchpad designed for absolute speed.</p>
             
-            <div class="hero-actions" style="display: flex; justify-content: center; gap: 1rem;">
+            <div class="hero-actions reveal delay-3" style="display: flex; justify-content: center; gap: 1rem;">
                 <a href="https://flathub.org/apps/io.github.tanaybhomia.Whisp" target="_blank" class="btn btn-primary">Download on Flathub</a>
                 <a href="donate.html" class="btn btn-secondary btn-donate">Support the project</a>
             </div>
             
             <!-- Centered Master Image -->
-            <div class="hero-image-wrapper">
+            <div class="hero-image-wrapper reveal delay-4">
                 <img src="assets/1-hero.png" alt="Whisp Interface" class="hero-image">
             </div>
         </section>
 
         <section class="bento-section">
-            <h2 class="section-title">Core Features</h2>
+            <h2 class="section-title reveal">Core Features</h2>
             <div class="bento-grid">
                 
-                <div class="bento-card large">
+                <div class="bento-card large reveal">
                     <div class="bento-content">
                         <h3>Spatial Navigation</h3>
                         <p>Whisp abandons traditional file hierarchies. Fluidly swipe between your recent notes using 1:1 touchpad gestures natively powered by Adwaita Carousel.</p>
                     </div>
                 </div>
 
-                <div class="bento-card">
+                <div class="bento-card reveal delay-1">
                     <div class="bento-content">
                         <h3>WYSIWYG Markdown</h3>
                         <p>Toggle WYSIWYG mode on to instantly hide Markdown symbols and view clean rich text.</p>
                     </div>
                 </div>
 
-                <div class="bento-card">
+                <div class="bento-card reveal delay-2">
                     <div class="bento-content">
                         <h3>Smart Extraction</h3>
                         <p>Paste a URL and it automatically shrinks via TinyURL in the background. Pure text extraction strips formatting.</p>
                     </div>
                 </div>
 
-                <div class="bento-card wide">
+                <div class="bento-card wide reveal">
                     <div class="bento-content">
                         <h3>Native Paper Themes</h3>
                         <p>Select between Dotted, Grid, or Blank backgrounds to perfectly mimic the feel of a physical engineering notebook right on your desktop.</p>
                     </div>
                 </div>
                 
-                <div class="bento-card alert-card">
+                <div class="bento-card alert-card reveal delay-1">
                     <div class="bento-content">
                         <h3>Coming Soon: The Math Engine</h3>
                         <p>Phase 2 brings a contextual evaluator that processes arithmetic line-by-line and overlays ghost-text results directly in the margins of your notes.</p>
@@ -128,9 +128,9 @@
             </div>
         </section>
 
-        <section class="carousel-section">
+        <section class="carousel-section reveal">
             <h2 class="section-title">Explore the interface</h2>
-            <div class="carousel-container">
+            <div class="carousel-container reveal delay-1">
                 <button class="carousel-btn prev-btn">&lt;</button>
                 <div class="carousel-track-container">
                     <ul class="carousel-track">
@@ -288,6 +288,26 @@
                 heroIconImg.style.transition = 'transform 0.1s ease-out';
             });
         }
+
+        // Reveal Animations Observer
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50px 0px',
+            threshold: 0.1
+        };
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
     </script>
 </body>
 </html>

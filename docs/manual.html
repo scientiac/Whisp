@@ -50,20 +50,21 @@
             <div class="nav-group">
                 <h3>Customization</h3>
                 <a href="#nav-themes">Paper Themes</a>
+                <a href="#nav-darkmode">Dark Mode</a>
                 <a href="#nav-typography">Typography</a>
             </div>
         </aside>
 
         <main class="manual-content">
-            <header class="manual-header">
-                <span class="version-badge">Updated for v1.0.0</span>
+            <header class="manual-header reveal">
+                <span class="version-badge">Updated for v1.3.3</span>
                 <h1>User Manual</h1>
                 <div class="intent-banner">
                     <strong>Design Intent:</strong> Prioritize the present moment above organization or recall. Navigating Whisp should feel like dancing in your short-term memory.
                 </div>
             </header>
 
-            <section id="nav-navigation" class="manual-section">
+            <section id="nav-navigation" class="manual-section reveal">
                 <h2>Navigation</h2>
                 <ul>
                     <li>Two-finger swipe left or right on your touchpad to smoothly transition between notes.</li>
@@ -77,7 +78,7 @@
                 </div>
             </section>
 
-            <section id="nav-create" class="manual-section">
+            <section id="nav-create" class="manual-section reveal">
                 <h2>Creating Notes</h2>
                 <ul>
                     <li>Swiping past the latest (right-most) note will automatically spawn a fresh, blank note.</li>
@@ -88,7 +89,7 @@
                 </div>
             </section>
 
-            <section id="nav-delete" class="manual-section">
+            <section id="nav-delete" class="manual-section reveal">
                 <h2>Deleting Notes</h2>
                 <ul>
                     <li>Deleting a note removes it from the main view and moves it to a hidden <code>.trash</code> directory.</li>
@@ -102,7 +103,7 @@
                 </div>
             </section>
 
-            <section id="nav-search" class="manual-section">
+            <section id="nav-search" class="manual-section reveal">
                 <h2>Search</h2>
                 <ul>
                     <li>Instantly search through all your notes. Clicking a search result immediately jumps you to that note.</li>
@@ -114,7 +115,7 @@
 
             <hr>
 
-            <section id="nav-markdown" class="manual-section">
+            <section id="nav-markdown" class="manual-section reveal">
                 <h2>Markdown Formatting</h2>
                 <ul>
                     <li>Whisp supports standard Markdown for fast formatting, but powers it up with smart keyboard toggles.</li>
@@ -131,7 +132,7 @@
                 </div>
             </section>
 
-            <section id="nav-wysiwyg" class="manual-section">
+            <section id="nav-wysiwyg" class="manual-section reveal">
                 <h2>WYSIWYG Mode</h2>
                 <ul>
                     <li>Tired of looking at Markdown syntax? Toggle the live formatting view (the eye icon).</li>
@@ -142,7 +143,7 @@
                 </div>
             </section>
 
-            <section id="nav-lists" class="manual-section">
+            <section id="nav-lists" class="manual-section reveal">
                 <h2>Smart Lists</h2>
                 <ul>
                     <li>Type <code>list</code> or <code>list: Custom Title</code> at the top of your note to activate List Mode.</li>
@@ -158,7 +159,7 @@
                 </div>
             </section>
 
-            <section id="nav-checkbox" class="manual-section">
+            <section id="nav-checkbox" class="manual-section reveal">
                 <h2>Checkboxes</h2>
                 <ul>
                     <li>Whisp uses native unicode checkboxes (<code>☐</code> and <code>☑</code>) to keep your lists minimal and portable.</li>
@@ -171,7 +172,7 @@
 
             <hr>
 
-            <section id="nav-smartpaste" class="manual-section">
+            <section id="nav-smartpaste" class="manual-section reveal">
                 <h2>Smart Paste (URL)</h2>
                 <ul>
                     <li>Dropping massive tracking URLs ruins the visual flow of a note.</li>
@@ -184,7 +185,7 @@
                 </div>
             </section>
 
-            <section id="nav-plainpaste" class="manual-section">
+            <section id="nav-plainpaste" class="manual-section reveal">
                 <h2>Plain Text Paste</h2>
                 <ul>
                     <li>Pasting text from the web often brings along unwanted markdown syntax.</li>
@@ -197,7 +198,7 @@
 
             <hr>
 
-            <section id="nav-themes" class="manual-section">
+            <section id="nav-themes" class="manual-section reveal">
                 <h2>Paper Themes</h2>
                 <ul>
                     <li>Customize the aesthetic of your notes by opening Preferences.</li>
@@ -205,7 +206,15 @@
                 </ul>
             </section>
 
-            <section id="nav-typography" class="manual-section">
+            <section id="nav-darkmode" class="manual-section reveal">
+                <h2>Dark Mode</h2>
+                <ul>
+                    <li>Whisp is built natively for GNOME and will automatically adapt its UI, editor, and paper themes to match your system's global Dark Mode setting.</li>
+                    <li>The dotted and grid backgrounds dynamically invert to maintain high contrast and readability.</li>
+                </ul>
+            </section>
+
+            <section id="nav-typography" class="manual-section reveal">
                 <h2>Typography</h2>
                 <ul>
                     <li>You have complete control over the editor font through the Preferences menu.</li>
@@ -238,6 +247,26 @@
 
         sections.forEach(section => observer.observe(section));
         
+        // Reveal Animations Observer
+        const revealOptions = {
+            root: null,
+            rootMargin: '0px 0px -20px 0px',
+            threshold: 0.1
+        };
+
+        const revealObserver = new IntersectionObserver((entries, revealObs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    revealObs.unobserve(entry.target);
+                }
+            });
+        }, revealOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+
         // Smooth scrolling
         navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
