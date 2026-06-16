@@ -21,3 +21,7 @@ install_data('icons/io.github.tanaybhomia.Whisp.svg',
 install_data('icons/io.github.tanaybhomia.Whisp-symbolic.svg',
   install_dir: get_option('datadir') / 'icons/hicolor/symbolic/apps'
 )
+
+install_data('icons/io.github.tanaybhomia.Whisp-pin-symbolic.svg',
+  install_dir: get_option('datadir') / 'icons/hicolor/symbolic/apps'
+)

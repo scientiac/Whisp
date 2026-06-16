@@ -370,7 +370,7 @@ class WhispWindow(Adw.ApplicationWindow):
         self.header_bar.pack_start(del_btn)
 
         # Pin Note Button
-        self.pin_btn = Gtk.ToggleButton(icon_name="view-pin-symbolic")
+        self.pin_btn = Gtk.ToggleButton(icon_name="io.github.tanaybhomia.Whisp-pin-symbolic")
         self.pin_btn.set_tooltip_text("Pin Note")
         self.pin_btn.connect("toggled", self.on_pin_note_toggled)
         self.header_bar.pack_start(self.pin_btn)
