@@ -217,14 +217,24 @@ class ChangelogWindow(Adw.Window):
         
         content_box.append(scrolled)
         
+        btn_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        btn_box.set_halign(Gtk.Align.CENTER)
+        btn_box.set_margin_top(12)
+        
+        donate_btn = Gtk.Button(label="Donate")
+        donate_btn.add_css_class("pill")
+        donate_btn.set_size_request(120, -1)
+        donate_btn.connect("clicked", lambda _: Gtk.show_uri(self, "https://tanaybhomia.github.io/Whisp/donate.html", Gdk.CURRENT_TIME))
+        btn_box.append(donate_btn)
+
         btn = Gtk.Button(label="Awesome! Continue")
         btn.add_css_class("suggested-action")
         btn.add_css_class("pill")
-        btn.set_halign(Gtk.Align.CENTER)
-        btn.set_size_request(200, -1)
-        btn.set_margin_top(12)
+        btn.set_size_request(160, -1)
         btn.connect("clicked", lambda _: self.close())
-        content_box.append(btn)
+        btn_box.append(btn)
+        
+        content_box.append(btn_box)
         
         box.append(content_box)
         
@@ -580,6 +590,7 @@ class WhispWindow(Adw.ApplicationWindow):
             version=version,
             website="https://github.com/tanaybhomia/Whisp",
             issue_url="https://github.com/tanaybhomia/Whisp/issues",
+            support_url="https://tanaybhomia.github.io/Whisp/donate.html",
             license_type=Gtk.License.GPL_3_0
         )
         about.present(self)
