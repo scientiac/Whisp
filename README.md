@@ -22,7 +22,7 @@
 </div>
 
 
-Whisp is a minimalist, lightning-fast note-taking application built strictly for the GNOME desktop environment. It abandons traditional complex file hierarchies in favor of a spatial, swipeable canvas. Inspired by the "anti-note" philosophy, it is designed to act as a seamless desktop scratchpad offering distraction-free Markdown editing while blending perfectly with modern GNOME aesthetics using GTK4 and Libadwaita.
+Whisp is a fast note-taking application built for the GNOME desktop environment. It replaces traditional file hierarchies with a spatial, swipeable canvas. Inspired by the "anti-note" philosophy, it acts as a quick desktop scratchpad with Markdown editing, built natively with GTK4 and Libadwaita.
 
 ## Why Whisp?
 
@@ -40,35 +40,8 @@ Most note-taking apps force you into a heavy workflow of creating files, managin
 - **Keyboard-Centric Workflow**: 
   - `Ctrl+N` to instantly create a new note.
   - `Ctrl+B`, `Ctrl+I`, `Ctrl+U` for quick text formatting.
-- **Performance Focused**: Maintains a lightweight footprint by rendering only the most recently active notes, ensuring instant startup times.
-- **Robust Management**: Search, filter by tags, and safely manage deleted files within a hidden `.trash` directory.
-
-## Roadmap
-
-Here are the features we are planning to add, ordered by priority:
-
-- [ ] **Math Engine**
-- [ ] **Reactive variables**
-- [ ] **Auto Paste** with paste module
-- [ ] **Image to text**
-- [ ] **Themes**
-  - [ ] Adding normal themes like gruvbox to variables
-  - [x] Large Grid
-- [x] **Search**
-- [ ] **Find and Replace**
-- [ ] **Generate Random numbers**
-- [ ] **Roll Dice**
-- [ ] **Generate Random Strings**
-- [ ] **Modules** (like `today` etc)
-- [ ] **Reminders** (e.g. `// Reminder: "complete x on 2 aug 3am"`)
-- [ ] **Pinning notes** (stays at the start, moves to the top like a stack, cannot be deleted until unpinned)
-
-### Maybe
-- [ ] Conversions
-- [ ] Export
-
-### Very maybe
-- [ ] Templates
+- **Performance Focused**: Renders only the most recently active notes to keep startup times fast.
+- **File Management**: Search, filter by tags, and recover deleted files from a hidden `.trash` directory.
 
 
 ## Installation
@@ -98,8 +71,14 @@ This script creates a separate "Whisp (Development)" entry in your GNOME app gri
 
 ## Architecture
 
-Whisp adheres strictly to the GNOME Human Interface Guidelines (HIG). It leverages `Adw.Carousel` for its swipeable interface and uses a highly optimized `Gtk.TextView` wrapper to instantly parse and decorate Markdown text dynamically.
+Whisp follows the GNOME Human Interface Guidelines (HIG). It uses `Adw.Carousel` for its swipeable interface and uses a custom `Gtk.TextView` wrapper to parse and format Markdown text.
 
 ## License
 
 Whisp is free and open-source software licensed under the **GNU General Public License v3.0** (GPL-3.0). See the [LICENSE](LICENSE) file for more details.
+
+## Stargazers
+
+Thank you to everyone who has starred the repository and supported the project!
+
+[![Stargazers repo roster for @tanaybhomia/Whisp](https://reporoster.com/stars/tanaybhomia/Whisp)](https://github.com/tanaybhomia/Whisp/stargazers)
