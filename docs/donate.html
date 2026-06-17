@@ -39,7 +39,7 @@
                 <!-- UPI Card -->
                 <div class="bento-card reveal delay-1" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 4rem 2rem;">
                     <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">🇮🇳 Local UPI</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 320px; height: 3rem; display: flex; align-items: center; justify-content: center;">Scan with any UPI app to send money directly with zero platform fees.</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 320px; height: 3rem; display: flex; align-items: center; justify-content: center;">Scan with any UPI app to buy me a coffee (₹200) directly with zero platform fees.</p>
                     
                     <div style="background: white; padding: 1.5rem; border-radius: 16px; border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; width: 260px; height: 260px; margin-bottom: 2.5rem; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" id="qr-trigger" title="Click to enlarge">
                         <img src="assets/upi-qr.png" alt="Whisp UPI QR Code" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;">
@@ -69,8 +69,25 @@
 
     <!-- QR Code Lightbox Modal -->
     <div id="qr-modal" style="opacity: 0; pointer-events: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); cursor: zoom-out; transition: opacity 0.3s ease;">
-        <img id="qr-modal-img" src="assets/upi-qr.png" style="max-width: 90vw; max-height: 90vh; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); object-fit: contain; transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
-        <p style="position: absolute; bottom: 2rem; color: rgba(255,255,255,0.7); font-size: 1.2rem; font-family: var(--font-mono);">Press ESC or click anywhere to close</p>
+        <div id="qr-modal-card" style="background: #f4f7fb; border-radius: 24px; padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); width: 400px; max-width: 90vw; cursor: default;" onclick="event.stopPropagation()">
+            
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <img src="https://github.com/tanaybhomia.png" alt="Tanay Bhomia" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <h2 style="color: #333; font-size: 1.8rem; margin: 0; font-family: sans-serif; font-weight: normal;">Tanay Bhomia</h2>
+            </div>
+            
+            <div style="background: white; padding: 1.5rem; border-radius: 20px; margin-bottom: 1rem; width: 260px; height: 260px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <img src="assets/upi-qr.png" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            
+            <p style="color: #555; font-size: 1.1rem; margin-bottom: 3rem; font-family: sans-serif;">UPI ID: bhomia123456789@okhdfcbank</p>
+            
+            <p style="color: #777; font-size: 1.1rem; margin: 0; font-family: sans-serif;">Scan to pay ₹200 with any UPI app</p>
+
+        </div>
+        <p style="position: absolute; bottom: 2rem; color: rgba(255,255,255,0.7); font-size: 1.2rem; font-family: var(--font-mono);">Press ESC or click outside to close</p>
     </div>
 
     <script>
@@ -82,13 +99,13 @@
         qrTrigger.addEventListener('click', () => {
             qrModal.style.opacity = '1';
             qrModal.style.pointerEvents = 'all';
-            qrModalImg.style.transform = 'scale(1)';
+            document.getElementById('qr-modal-card').style.transform = 'scale(1)';
         });
 
         const closeModal = () => {
             qrModal.style.opacity = '0';
             qrModal.style.pointerEvents = 'none';
-            qrModalImg.style.transform = 'scale(0.9)';
+            document.getElementById('qr-modal-card').style.transform = 'scale(0.9)';
         };
 
         // Close modal on click
