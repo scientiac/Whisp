@@ -115,11 +115,11 @@ class WhispApp(Adw.Application):
         win = self.props.active_window
         if not win:
             win = WhispWindow(application=self)
-            win.load_notes()
+            win.load_notes(skip_restore=True)
             
         for file in files:
             path = file.get_path()
-            if path and path.endswith('.md'):
+            if path:
                 # Check if it's already in the carousel
                 found = False
                 n_pages = win.carousel.get_n_pages()
@@ -132,7 +132,16 @@ class WhispApp(Adw.Application):
                 
                 # If not, add it
                 if not found:
-                    win.add_note(path)
+                    insert_idx = None
+                    if n_pages > 0:
+                        last_editor = win.carousel.get_nth_page(n_pages - 1)
+                        if last_editor.is_empty():
+                            insert_idx = n_pages - 1
+                            
+                    if insert_idx is not None:
+                        win.add_note(path, index=insert_idx)
+                    else:
+                        win.add_note(path)
                     
         win.present()
 

@@ -746,7 +746,7 @@ class WhispWindow(Adw.ApplicationWindow):
     def on_pin_note(self, action=None, param=None):
         self.pin_btn.set_active(not self.pin_btn.get_active())
 
-    def load_notes(self):
+    def load_notes(self, skip_restore=False):
         is_first_run = config.get("first_run", True)
         if is_first_run:
             config.set("first_run", False)
@@ -849,10 +849,11 @@ class WhispWindow(Adw.ApplicationWindow):
                         
                 return False
             
-            GLib.idle_add(restore_session)
-            GLib.timeout_add(50, restore_session)
-            GLib.timeout_add(200, restore_session)
-            GLib.timeout_add(500, restore_session)
+            if not skip_restore:
+                GLib.idle_add(restore_session)
+                GLib.timeout_add(50, restore_session)
+                GLib.timeout_add(200, restore_session)
+                GLib.timeout_add(500, restore_session)
 
     def add_note(self, file_path=None, grab_focus=True, index=None):
         editor = NoteEditor(file_path=file_path, on_title_changed=self.on_editor_title_changed)
