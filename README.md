@@ -7,6 +7,9 @@
   <a href="https://flathub.org/apps/io.github.tanaybhomia.Whisp">
     <img src="https://flathub.org/api/badge?svg&locale=en" alt="Download on Flathub" height="50">
   </a>
+  <a href="https://ko-fi.com/tanaybhomia">
+    <img src="docs/assets/support_me_on_kofi_badge_red.png" alt="Support me on Ko-fi" height="50">
+  </a>
   <br><br>
   
   <a href="#"><img src="https://img.shields.io/badge/Platform-GNOME-4A86CF?style=flat-square" alt="Platform: GNOME"></a>
