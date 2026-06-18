@@ -36,25 +36,29 @@
         <section class="bento-section" style="margin-top: 0;">
             <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 1000px; margin: 0 auto; gap: 2rem;">
                 
-                <!-- UPI Card -->
                 <div class="bento-card reveal delay-1" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 4rem 2rem;">
                     <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">🇮🇳 Local UPI</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 320px; height: 3rem; display: flex; align-items: center; justify-content: center;">Scan with any UPI app to buy me a coffee (₹200) directly with zero platform fees.</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; max-width: 320px; display: flex; align-items: center; justify-content: center;">Scan with any UPI app to support Whisp directly with zero platform fees.</p>
+                    
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+                        <button class="amount-btn" data-amount="100" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--card-border); background: transparent; color: var(--text-primary); cursor: pointer; font-weight: bold; transition: all 0.2s;">₹100</button>
+                        <button class="amount-btn active" data-amount="200" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--accent-color); background: var(--accent-color); color: white; cursor: pointer; font-weight: bold; transition: all 0.2s;">₹200</button>
+                        <button class="amount-btn" data-amount="300" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--card-border); background: transparent; color: var(--text-primary); cursor: pointer; font-weight: bold; transition: all 0.2s;">₹300</button>
+                        <button class="amount-btn" data-amount="500" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--card-border); background: transparent; color: var(--text-primary); cursor: pointer; font-weight: bold; transition: all 0.2s;">₹500</button>
+                    </div>
                     
                     <div style="background: white; padding: 1.5rem; border-radius: 16px; border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; width: 260px; height: 260px; margin-bottom: 2.5rem; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" id="qr-trigger" title="Click to enlarge">
-                        <img src="assets/upi-qr.png" alt="Whisp UPI QR Code" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;">
+                        <img id="main-qr-img" src="assets/upi-qr-200.png" alt="Whisp UPI QR Code" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;">
                     </div>
                     <div style="background: var(--card-hover); padding: 1rem; border-radius: 8px; border: 1px solid var(--card-border); width: 320px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; text-align: center;">
                         <code style="font-size: 1.05rem; font-weight: bold; color: var(--text-primary); white-space: nowrap;">bhomia123456789@okhdfcbank</code>
                     </div>
                 </div>
 
-                <!-- Ko-fi Card -->
                 <div class="bento-card teal-card reveal delay-2" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 4rem 2rem; position: relative;">
                     <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">🌍 International</h3>
                     <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 320px; height: 3rem; display: flex; align-items: center; justify-content: center;">Support the project via Ko-fi using PayPal, Credit Cards, or Google Pay.</p>
                     
-                    <!-- Spacing icon to visually balance with the QR code on the left -->
                     <div style="display: flex; align-items: center; justify-content: center; width: 260px; height: 260px; margin-bottom: 2.5rem;">
                         <img src="assets/kofi_symbol.svg" alt="Ko-fi" style="width: 200px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));">
                     </div>
@@ -66,7 +70,6 @@
         </section>
     </main>
 
-    <!-- QR Code Lightbox Modal -->
     <div id="qr-modal" style="opacity: 0; pointer-events: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); cursor: zoom-out; transition: opacity 0.3s ease;">
         <div id="qr-modal-card" style="background: #f4f7fb; border-radius: 24px; padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); width: 400px; max-width: 90vw; cursor: default;" onclick="event.stopPropagation()">
             
@@ -78,12 +81,12 @@
             </div>
             
             <div style="background: white; padding: 1.5rem; border-radius: 20px; margin-bottom: 1rem; width: 260px; height: 260px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                <img src="assets/upi-qr.png" style="width: 100%; height: 100%; object-fit: contain;">
+                <img id="modal-qr-img" src="assets/upi-qr-200.png" style="width: 100%; height: 100%; object-fit: contain;">
             </div>
             
             <p style="color: #555; font-size: 1.1rem; margin-bottom: 3rem; font-family: sans-serif;">UPI ID: bhomia123456789@okhdfcbank</p>
             
-            <p style="color: #777; font-size: 1.1rem; margin: 0; font-family: sans-serif;">Scan to pay ₹200 with any UPI app</p>
+            <p id="modal-qr-text" style="color: #777; font-size: 1.1rem; margin: 0; font-family: sans-serif;">Scan to pay ₹200 with any UPI app</p>
 
         </div>
         <p style="position: absolute; bottom: 2rem; color: rgba(255,255,255,0.7); font-size: 1.2rem; font-family: var(--font-mono);">Press ESC or click outside to close</p>
@@ -92,9 +95,32 @@
     <script>
         const qrTrigger = document.getElementById('qr-trigger');
         const qrModal = document.getElementById('qr-modal');
-        const qrModalImg = document.getElementById('qr-modal-img');
+        const amountBtns = document.querySelectorAll('.amount-btn');
+        const mainQrImg = document.getElementById('main-qr-img');
+        const modalQrImg = document.getElementById('modal-qr-img');
+        const modalQrText = document.getElementById('modal-qr-text');
 
-        // Open modal
+        amountBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                amountBtns.forEach(b => {
+                    b.style.background = 'transparent';
+                    b.style.color = 'var(--text-primary)';
+                    b.style.borderColor = 'var(--card-border)';
+                    b.classList.remove('active');
+                });
+                
+                btn.style.background = 'var(--accent-color)';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'var(--accent-color)';
+                btn.classList.add('active');
+                
+                const amount = btn.getAttribute('data-amount');
+                mainQrImg.src = `assets/upi-qr-${amount}.png`;
+                modalQrImg.src = `assets/upi-qr-${amount}.png`;
+                modalQrText.textContent = `Scan to pay ₹${amount} with any UPI app`;
+            });
+        });
+
         qrTrigger.addEventListener('click', () => {
             qrModal.style.opacity = '1';
             qrModal.style.pointerEvents = 'all';
