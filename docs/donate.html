@@ -36,30 +36,37 @@
         <section class="bento-section" style="margin-top: 0;">
             <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 1000px; margin: 0 auto; gap: 2rem;">
                 
-                <div class="bento-card reveal delay-1" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 4rem 2rem;">
-                    <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">🇮🇳 Local UPI</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; max-width: 320px; display: flex; align-items: center; justify-content: center;">Scan with any UPI app to support Whisp directly with zero platform fees.</p>
-                    
-                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
-                        <button class="amount-btn" data-amount="100" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--card-border); background: transparent; color: var(--text-primary); cursor: pointer; font-weight: bold; transition: all 0.2s;">₹100</button>
-                        <button class="amount-btn active" data-amount="200" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--accent-color); background: var(--accent-color); color: white; cursor: pointer; font-weight: bold; transition: all 0.2s;">₹200</button>
-                        <button class="amount-btn" data-amount="300" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--card-border); background: transparent; color: var(--text-primary); cursor: pointer; font-weight: bold; transition: all 0.2s;">₹300</button>
-                        <button class="amount-btn" data-amount="500" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--card-border); background: transparent; color: var(--text-primary); cursor: pointer; font-weight: bold; transition: all 0.2s;">₹500</button>
+                <div class="bento-card reveal delay-1" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 4rem 2rem; min-height: 42rem; gap: 2rem;">
+                    <div>
+                        <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">🇮🇳 Local UPI</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 0; max-width: 320px; min-height: 3rem; display: flex; align-items: center; justify-content: center;">Scan with any UPI app to support Whisp directly with zero platform fees.</p>
                     </div>
                     
-                    <div style="background: white; padding: 1.5rem; border-radius: 16px; border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; width: 260px; height: 260px; margin-bottom: 2.5rem; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" id="qr-trigger" title="Click to enlarge">
-                        <img id="main-qr-img" src="assets/upi-qr-200.png" alt="Whisp UPI QR Code" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;">
+                    <div style="margin: auto 0; display: flex; flex-direction: column; align-items: center;">
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+                            <button class="amount-btn" data-amount="100" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--card-border); background: transparent; color: var(--text-primary); cursor: pointer; font-weight: bold; transition: all 0.2s;">₹100</button>
+                            <button class="amount-btn active" data-amount="200" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--accent-color); background: var(--accent-color); color: white; cursor: pointer; font-weight: bold; transition: all 0.2s;">₹200</button>
+                            <button class="amount-btn" data-amount="300" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--card-border); background: transparent; color: var(--text-primary); cursor: pointer; font-weight: bold; transition: all 0.2s;">₹300</button>
+                            <button class="amount-btn" data-amount="500" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--card-border); background: transparent; color: var(--text-primary); cursor: pointer; font-weight: bold; transition: all 0.2s;">₹500</button>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 16px; border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; width: 260px; height: 260px; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" id="qr-trigger" title="Click to enlarge">
+                            <img id="main-qr-img" src="assets/upi-qr-200.png" alt="Whisp UPI QR Code" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;">
+                        </div>
                     </div>
+
                     <div style="background: var(--card-hover); padding: 1rem; border-radius: 8px; border: 1px solid var(--card-border); width: 320px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; text-align: center;">
                         <code style="font-size: 1.05rem; font-weight: bold; color: var(--text-primary); white-space: nowrap;">bhomia123456789@okhdfcbank</code>
                     </div>
                 </div>
 
-                <div class="bento-card teal-card reveal delay-2" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 4rem 2rem; position: relative;">
-                    <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">🌍 International</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 320px; height: 3rem; display: flex; align-items: center; justify-content: center;">Support the project via Ko-fi using PayPal, Credit Cards, or Google Pay.</p>
+                <div class="bento-card teal-card reveal delay-2" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 4rem 2rem; min-height: 42rem; gap: 2rem; position: relative;">
+                    <div>
+                        <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">🌍 International</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 0; max-width: 320px; min-height: 3rem; display: flex; align-items: center; justify-content: center;">Support the project via Ko-fi using PayPal, Credit Cards, or Google Pay.</p>
+                    </div>
                     
-                    <div style="display: flex; align-items: center; justify-content: center; width: 260px; height: 260px; margin-bottom: 2.5rem;">
+                    <div style="margin: auto 0; display: flex; align-items: center; justify-content: center; width: 260px;">
                         <img src="assets/kofi_symbol.svg" alt="Ko-fi" style="width: 200px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));">
                     </div>
                     
@@ -91,6 +98,147 @@
         </div>
         <p style="position: absolute; bottom: 2rem; color: rgba(255,255,255,0.7); font-size: 1.2rem; font-family: var(--font-mono);">Press ESC or click outside to close</p>
     </div>
+     <style>
+        /* Footer Styling */
+            .site-footer-wrapper {
+                background-color: var(--card-bg); /* Solid off-white */
+                margin-top: 12rem;
+                position: relative;
+                overflow: hidden;
+                border-top: 1px dashed var(--card-border);
+            }
+            .site-footer-wrapper::before {
+                content: '';
+                position: absolute;
+                top: -1px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 300px;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+                box-shadow: 0 0 15px var(--accent-color);
+                z-index: 5;
+            }
+            .site-footer {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 3rem 2rem 5rem 2rem; /* reduced padding, enough room for waves */
+                position: relative;
+                z-index: 10;
+            }
+            .waves-container {
+                position: absolute;
+                bottom: -5px; /* Slight offset */
+                left: 0;
+                width: 100%;
+                height: 80px; /* Reduced height */
+                z-index: 1;
+            }
+            .waves {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                min-height: 80px;
+                max-height: 100px;
+                filter: drop-shadow(0 -5px 12px rgba(0, 166, 166, 0.5)); /* Glow effect */
+            }
+            .parallax > use {
+                animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
+            }
+            .parallax > use:nth-child(1) { animation-delay: -2s; animation-duration: 7s; fill: rgba(0, 166, 166, 0.2); }
+            .parallax > use:nth-child(2) { animation-delay: -3s; animation-duration: 10s; fill: rgba(0, 166, 166, 0.4); }
+            .parallax > use:nth-child(3) { animation-delay: -4s; animation-duration: 13s; fill: rgba(0, 166, 166, 0.6); }
+            .parallax > use:nth-child(4) { animation-delay: -5s; animation-duration: 20s; fill: var(--accent-color); }
+            
+            @keyframes move-forever {
+                0% { transform: translate3d(-90px,0,0); }
+                100% { transform: translate3d(85px,0,0); }
+            }
+            .footer-container {
+                display: grid;
+                grid-template-columns: 2fr 1fr 1fr;
+                gap: 3rem;
+                margin-bottom: 2rem;
+            }
+            .footer-col h4 {
+                font-size: 1.1rem;
+                font-weight: 800;
+                margin-bottom: 1.5rem;
+                color: var(--text-primary);
+                letter-spacing: -0.5px;
+            }
+            .footer-links {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            .footer-links li {
+                margin-bottom: 0.8rem;
+            }
+            .footer-links a {
+                color: var(--text-secondary);
+                text-decoration: none;
+                font-size: 1rem;
+                transition: color 0.2s ease;
+                display: inline-block;
+            }
+            .footer-links a:hover {
+                color: var(--accent-color);
+            }
+            .footer-bottom {
+                text-align: center;
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+                border-top: 1px dashed var(--card-border);
+                padding-top: 1rem;
+                margin-top: 1rem;
+                padding-bottom: 0;
+            }
+    </style>
+
+    <div class="site-footer-wrapper">
+        <footer class="site-footer reveal">
+            <div class="footer-container">
+                <div class="footer-col brand-col">
+                    <a href="#" class="brand" style="text-decoration: none; color: inherit;">
+                        <img src="assets/icon.svg" alt="Whisp Logo" class="brand-icon">
+                        <span class="brand-name" style="font-size: 1.5rem;">Whisp</span>
+                    </a>
+                </div>
+                <div class="footer-col reveal delay-1">
+                    <h4>Connect</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/tanaybhomia" target="_blank">GitHub</a></li>
+                        <li><a href="https://matrix.to/#/@tanaybhomia:matrix.org" target="_blank">Matrix</a></li>
+                        <li><a href="https://instagram.com/tanaybhomia" target="_blank">Instagram</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col reveal delay-2">
+                    <h4>Project</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/tanaybhomia/Whisp" target="_blank">Source Code</a></li>
+                        <li><a href="https://github.com/tanaybhomia/Whisp/issues" target="_blank">Report a Bug</a></li>
+                        <li><a href="https://ko-fi.com/tanaybhomia" target="_blank">Donate (Ko-Fi)</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Whisp &copy; 2026. Built natively with GTK4 and Libadwaita.</p>
+            </div>
+        </footer>
+        <div class="waves-container">
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" />
+                </g>
+            </svg>
+        </div>
 
     <script>
         const qrTrigger = document.getElementById('qr-trigger');
@@ -163,9 +311,5 @@
             revealObserver.observe(el);
         });
     </script>
-
-    <footer style="margin-top: 4rem;">
-        <p>Whisp &copy; 2026. Built natively for GNOME with GTK4 and Libadwaita.</p>
-    </footer>
 </body>
 </html>
