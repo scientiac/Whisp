@@ -282,8 +282,8 @@
             .power-grid {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
-                gap: 4rem 3rem;
-                margin-top: 4rem;
+                gap: 6rem 4rem; /* Increased vertical and horizontal gap */
+                margin-top: 6rem; /* Increased top margin */
             }
             .power-item p {
                 font-size: 1.1rem;
@@ -452,6 +452,10 @@
                     grid-template-columns: 1fr;
                     gap: 2rem;
                 }
+                .why-whisp-grid {
+                    grid-template-columns: 1fr !important;
+                    gap: 2rem;
+                }
                 .reviews-grid {
                     grid-template-columns: 1fr;
                 }
@@ -465,6 +469,29 @@
                 }
             }
         </style>
+
+        <!-- Why Whisp Section -->
+        <section class="why-whisp-section reveal" style="max-width: 1000px; margin: 8rem auto; padding: 0 2rem; text-align: center;">
+            <h2 class="section-title" style="margin-bottom: 2rem;">Why Whisp?</h2>
+            <p style="font-size: 1.3rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 4rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                Most apps like Notion or Buffer force heavy workflows of managing files, folders, and saving. <strong style="color: var(--text-primary);">Whisp is different.</strong>
+            </p>
+            
+            <div class="why-whisp-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; text-align: left;">
+                <div class="reveal-bottom delay-1" style="background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--card-border);">
+                    <h3 style="color: var(--accent-color); font-size: 1.3rem; margin-bottom: 1rem;">Zero Friction</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6; font-size: 1.05rem; margin: 0;">No titles to type, no files to name, and no folders to manage. Just open the app and start typing instantly.</p>
+                </div>
+                <div class="reveal-bottom delay-2" style="background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--card-border);">
+                    <h3 style="color: var(--accent-color); font-size: 1.3rem; margin-bottom: 1rem;">Spatial Navigation</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6; font-size: 1.05rem; margin: 0;">Instead of a messy sidebar, your notes exist in a swipeable carousel. A quick swipe glides you to your next thought.</p>
+                </div>
+                <div class="reveal-bottom delay-3" style="background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--card-border);">
+                    <h3 style="color: var(--accent-color); font-size: 1.3rem; margin-bottom: 1rem;">The "Anti-Note"</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6; font-size: 1.05rem; margin: 0;">Use it as a true scratchpad. Paste temporary links, jot down quick thoughts, and when done, hit <code>Ctrl+D</code> to delete it forever.</p>
+                </div>
+            </div>
+        </section>
 
         <section class="bento-section">
             <h2 class="section-title reveal" style="margin-bottom: 1rem;">Core Features</h2>
