@@ -186,24 +186,30 @@
                 color: var(--accent-color);
             }
             .footer-bottom {
-                text-align: center;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 1rem;
                 color: var(--text-secondary);
                 font-size: 0.9rem;
                 border-top: 1px dashed var(--card-border);
-                padding-top: 1rem;
+                padding-top: 1.5rem;
                 margin-top: 1rem;
                 padding-bottom: 0;
             }
     </style>
 
+    
     <div class="site-footer-wrapper">
         <footer class="site-footer reveal">
             <div class="footer-container">
-                <div class="footer-col brand-col">
-                    <a href="#" class="brand" style="text-decoration: none; color: inherit;">
-                        <img src="assets/icon.svg" alt="Whisp Logo" class="brand-icon">
-                        <span class="brand-name" style="font-size: 1.5rem;">Whisp</span>
+                <div class="footer-col brand-col" style="text-align: left;">
+                    <a href="#" class="brand" style="text-decoration: none; color: inherit; display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <img src="assets/icon.svg" alt="Whisp Logo" class="brand-icon" style="width: 32px; height: 32px;">
+                        <span class="brand-name" style="font-size: 1.5rem; font-weight: 700;">Whisp</span>
                     </a>
+                    <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5; max-width: 280px;">The anti-note for GNOME.</p>
                 </div>
                 <div class="footer-col reveal delay-1">
                     <h4>Connect</h4>
@@ -223,7 +229,8 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>Whisp &copy; 2026. Built natively with GTK4 and Libadwaita.</p>
+                <span>&copy; 2026 Whisp. Made with ❤️ in India.</span>
+                <span>Released under the GPL-3.0 License</span>
             </div>
         </footer>
         <div class="waves-container">
@@ -239,6 +246,7 @@
                 </g>
             </svg>
         </div>
+    </div>
 
     <script>
         const qrTrigger = document.getElementById('qr-trigger');

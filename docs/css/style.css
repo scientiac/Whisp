@@ -78,9 +78,10 @@ h1, h2, h3 {
 }
 
 .hero-app-icon {
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    height: 160px;
     object-fit: contain;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
     transition: transform 0.1s ease-out;
     will-change: transform;
 }
@@ -209,13 +210,14 @@ h1, h2, h3 {
 
 /* Hero Image */
 .hero-image-wrapper {
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto;
     text-align: center;
     perspective: 1000px; /* For 3D Parallax Tilt */
 }
 
 .hero-image {
+    zoom: 1.1;
     max-width: 100%;
     height: auto;
     display: inline-block;

@@ -73,8 +73,22 @@
                 <img src="assets/icon.svg" alt="Whisp App Icon" class="hero-app-icon">
             </div>
             <h1 class="reveal delay-1">The Anti-Note for GNOME.</h1>
-            <p class="subtitle reveal delay-2">A fluid, gesture-driven scratchpad designed for absolute speed.</p>
+            <p class="subtitle reveal delay-2" style="margin-bottom: 1.5rem;">A fluid, gesture-driven scratchpad designed for absolute speed.</p>
             
+            <div class="hero-badges reveal delay-2" style="display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 2.5rem; flex-wrap: wrap;">
+                <a href="https://github.com/tanaybhomia/Whisp" target="_blank" class="badge" style="text-decoration: none; display: flex; align-items: center; gap: 0.4rem; background: var(--card-bg); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; color: var(--text-secondary); border: 1px solid var(--card-border); cursor: pointer; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    <span id="github-stars" style="font-weight: 600;">-- stars</span>
+                </a>
+                <div class="badge" style="display: flex; align-items: center; gap: 0.4rem; background: var(--card-bg); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; color: var(--text-secondary); border: 1px solid var(--card-border);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span id="flathub-downloads" style="font-weight: 600;">3K+ downloads</span>
+                </div>
+                <div class="badge" style="display: flex; align-items: center; gap: 0.4rem; background: rgba(35, 165, 89, 0.15); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; color: #2ea043; border: 1px solid rgba(35, 165, 89, 1);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span style="font-weight: 600;">100% Free & Open Source</span>
+                </div>
+            </div>
             <div class="hero-actions reveal delay-3" style="display: flex; justify-content: center; gap: 1rem;">
                 <a href="https://flathub.org/apps/io.github.tanaybhomia.Whisp" target="_blank" class="btn btn-primary btn-large">Download on Flathub</a>
                 <a href="donate.html" class="btn btn-secondary btn-donate btn-large">Support the project</a>
@@ -109,6 +123,10 @@
                 flex-direction: column;
                 position: relative;
                 overflow: hidden;
+            }
+            .bento-box.teal-card {
+                background: linear-gradient(135deg, rgba(10, 179, 187, 0.1) 0%, rgba(36, 36, 36, 0) 100%) !important;
+                border-color: rgba(10, 179, 187, 0.3) !important;
             }
             .bento-box h3 {
                 font-size: 1.5rem;
@@ -428,11 +446,15 @@
                 color: var(--accent-color);
             }
             .footer-bottom {
-                text-align: center;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 1rem;
                 color: var(--text-secondary);
                 font-size: 0.9rem;
                 border-top: 1px dashed var(--card-border);
-                padding-top: 1rem;
+                padding-top: 1.5rem;
                 margin-top: 1rem;
                 padding-bottom: 0;
             }
@@ -469,6 +491,22 @@
                 }
             }
         </style>
+        <script>
+            // Fetch Dynamic Badge Data
+            function formatNumber(num) {
+                if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+                if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+                return num;
+            }
+
+            fetch('https://api.github.com/repos/tanaybhomia/Whisp')
+                .then(r => r.json())
+                .then(data => {
+                    if (data.stargazers_count !== undefined) {
+                        document.getElementById('github-stars').innerText = formatNumber(data.stargazers_count) + ' stars';
+                    }
+                }).catch(e => console.error('Failed to fetch GitHub stats:', e));
+        </script>
 
         <!-- Why Whisp Section -->
         <section class="why-whisp-section reveal" style="max-width: 1000px; margin: 8rem auto; padding: 0 2rem; text-align: center;">
@@ -514,7 +552,7 @@
                         <img src="assets/WebsiteImages/wysiwygmode.png" class="box-wysiwyg-img" alt="WYSIWYG Mode">
                     </div>
 
-                    <div class="bento-box box-simple reveal delay-3">
+                    <div class="bento-box box-simple teal-card reveal delay-3">
                         <h3>Intentionally simple</h3>
                         <p>Whisp is an anti-note. We reject infinite databases and complex tagging. Some thoughts are meant to be fleeting and messy. A perfect temporary scratchpad.</p>
                     </div>
@@ -665,11 +703,12 @@
     <div class="site-footer-wrapper">
         <footer class="site-footer reveal">
             <div class="footer-container">
-                <div class="footer-col brand-col">
-                    <a href="#" class="brand" style="text-decoration: none; color: inherit;">
-                        <img src="assets/icon.svg" alt="Whisp Logo" class="brand-icon">
-                        <span class="brand-name" style="font-size: 1.5rem;">Whisp</span>
+                <div class="footer-col brand-col" style="text-align: left;">
+                    <a href="#" class="brand" style="text-decoration: none; color: inherit; display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <img src="assets/icon.svg" alt="Whisp Logo" class="brand-icon" style="width: 32px; height: 32px;">
+                        <span class="brand-name" style="font-size: 1.5rem; font-weight: 700;">Whisp</span>
                     </a>
+                    <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5; max-width: 280px;">The anti-note for GNOME.</p>
                 </div>
                 <div class="footer-col reveal delay-1">
                     <h4>Connect</h4>
@@ -689,7 +728,8 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>Whisp &copy; 2026. Built natively with GTK4 and Libadwaita.</p>
+                <span>&copy; 2026 Whisp. Made with ❤️ in India.</span>
+                <span>Released under the GPL-3.0 License</span>
             </div>
         </footer>
         <div class="waves-container">
