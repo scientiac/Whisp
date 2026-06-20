@@ -84,4 +84,4 @@ Whisp is free and open-source software licensed under the **GNU General Public L
 
 Thank you to everyone who has starred the repository and supported the project!
 
-[![Stargazers repo roster for @tanaybhomia/Whisp](https://reporoster.com/stars/tanaybhomia/Whisp)](https://github.com/tanaybhomia/Whisp/stargazers)
+[![Star History Chart](https://api.star-history.com/svg?repos=tanaybhomia/Whisp&type=Date)](https://star-history.com/#tanaybhomia/Whisp&Date)
