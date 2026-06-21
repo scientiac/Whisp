@@ -72,15 +72,43 @@ class NoteEditor(Gtk.Overlay):
         self.textview.add_controller(self.motion_controller)
         # Autocomplete Hint Overlay
         self.autocomplete_list = Gtk.ListBox()
-        self.autocomplete_list.set_selection_mode(Gtk.SelectionMode.NONE)
+        self.autocomplete_list.set_selection_mode(Gtk.SelectionMode.SINGLE)
+        self.autocomplete_list.connect("row-activated", self.on_autocomplete_row_activated)
+        self.autocomplete_list.connect("row-selected", self.on_autocomplete_row_selected)
+        
+        self.autocomplete_scroll = Gtk.ScrolledWindow()
+        self.autocomplete_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        self.autocomplete_scroll.set_max_content_height(250)
+        self.autocomplete_scroll.set_propagate_natural_height(True)
+        self.autocomplete_scroll.set_margin_top(6)
+        self.autocomplete_scroll.set_margin_bottom(6)
+        self.autocomplete_scroll.set_margin_start(6)
+        self.autocomplete_scroll.set_margin_end(6)
+        self.autocomplete_scroll.set_child(self.autocomplete_list)
         
         self.autocomplete_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.autocomplete_box.add_css_class("card")
+        self.autocomplete_box.add_css_class("autocomplete-overlay")
         self.autocomplete_box.set_halign(Gtk.Align.START)
         self.autocomplete_box.set_valign(Gtk.Align.START)
-        self.autocomplete_box.append(self.autocomplete_list)
+        self.autocomplete_box.append(self.autocomplete_scroll)
         self.autocomplete_box.set_visible(False)
         self.add_overlay(self.autocomplete_box)
+
+    def on_autocomplete_row_activated(self, listbox, row):
+        if hasattr(row, 'cmd_match'):
+            self.apply_autocomplete(row.cmd_match, " ")
+            self.textview.grab_focus()
+
+    def on_autocomplete_row_selected(self, listbox, row):
+        if row and hasattr(row, 'cmd_match'):
+            self.current_top_match = row.cmd_match
+            # Ensure the row is visible
+            alloc = row.get_allocation()
+            adj = self.autocomplete_scroll.get_vadjustment()
+            if alloc.y < adj.get_value():
+                adj.set_value(alloc.y)
+            elif alloc.y + alloc.height > adj.get_value() + adj.get_page_size():
+                adj.set_value(alloc.y + alloc.height - adj.get_page_size())
 
     def on_click_pressed(self, gesture, n_press, x, y):
         state = gesture.get_current_event_state()
@@ -178,7 +206,7 @@ class NoteEditor(Gtk.Overlay):
                 
         word = self.buffer.get_text(word_start, cursor_iter, False)
         
-        if word.startswith(":") and len(word) >= 2: # Show after typing at least ":s"
+        if word.startswith("::") and len(word) >= 2: # Show after typing at least "::"
             # get cursor coords
             rect = self.textview.get_iter_location(cursor_iter)
             win_x, win_y = self.textview.buffer_to_window_coords(Gtk.TextWindowType.WIDGET, rect.x, rect.y + rect.height)
@@ -196,31 +224,32 @@ class NoteEditor(Gtk.Overlay):
                 self.autocomplete_list.remove(child)
                 
             suggestions = [
-                (":today", "Current date"),
-                (":today(5)", "Date offset (+/- days)"),
-                (":tomorrow", "Tomorrow's date"),
-                (":yesterday", "Yesterday's date"),
-                (":date", "Current date"),
-                (":date(5)", "Date offset (+/- days)"),
-                (":now", "Current time"),
-                (":time", "Current time"),
-                (":random(int,20)", "Random numbers"),
-                (":random(str,20)", "Random letters"),
-                (":random(alnum,20)", "Random alphanumeric"),
-                (":roll(20)", "Roll a 20-sided die"),
-                (":roll(d20)", "Roll a d20 die"),
-                (":roll(4d6)", "Roll 4 d6 dice")
+                ("::today", "Current date"),
+                ("::today(5)", "Date offset (+/- days)"),
+                ("::tomorrow", "Tomorrow's date"),
+                ("::yesterday", "Yesterday's date"),
+                ("::date", "Current date"),
+                ("::date(5)", "Date offset (+/- days)"),
+                ("::now", "Current time"),
+                ("::time", "Current time"),
+                ("::random(int,20)", "Random numbers"),
+                ("::random(str,20)", "Random letters"),
+                ("::random(alnum,20)", "Random alphanumeric"),
+                ("::roll(20)", "Roll a 20-sided die"),
+                ("::roll(d20)", "Roll a d20 die"),
+                ("::roll(4d6)", "Roll 4 d6 dice")
             ]
             
             matches = [s for s in suggestions if s[0].startswith(word)]
             if matches:
                 self.current_top_match = matches[0][0]
+                first_row = None
                 for cmd, desc in matches:
-                    row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
-                    row.set_margin_start(12)
-                    row.set_margin_end(12)
-                    row.set_margin_top(6)
-                    row.set_margin_bottom(6)
+                    row_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+                    row_box.set_margin_start(12)
+                    row_box.set_margin_end(12)
+                    row_box.set_margin_top(6)
+                    row_box.set_margin_bottom(6)
                     
                     cmd_lbl = Gtk.Label(label=f"<b>{cmd}</b>")
                     cmd_lbl.set_use_markup(True)
@@ -228,9 +257,19 @@ class NoteEditor(Gtk.Overlay):
                     desc_lbl.set_use_markup(True)
                     desc_lbl.add_css_class("dim-label")
                     
-                    row.append(cmd_lbl)
-                    row.append(desc_lbl)
+                    row_box.append(cmd_lbl)
+                    row_box.append(desc_lbl)
+                    
+                    row = Gtk.ListBoxRow()
+                    row.set_child(row_box)
+                    row.cmd_match = cmd
                     self.autocomplete_list.append(row)
+                    
+                    if first_row is None:
+                        first_row = row
+                        
+                if first_row:
+                    self.autocomplete_list.select_row(first_row)
                     
                 self.autocomplete_box.set_visible(True)
             else:
@@ -485,11 +524,28 @@ class NoteEditor(Gtk.Overlay):
                 self.autocomplete_box.set_visible(False)
                 return True
                 
+        if keyval == Gdk.KEY_Down and self.autocomplete_box.get_visible():
+            row = self.autocomplete_list.get_selected_row()
+            if row:
+                next_row = self.autocomplete_list.get_row_at_index(row.get_index() + 1)
+                if next_row:
+                    self.autocomplete_list.select_row(next_row)
+            return True
+            
+        if keyval == Gdk.KEY_Up and self.autocomplete_box.get_visible():
+            row = self.autocomplete_list.get_selected_row()
+            if row and row.get_index() > 0:
+                prev_row = self.autocomplete_list.get_row_at_index(row.get_index() - 1)
+                if prev_row:
+                    self.autocomplete_list.select_row(prev_row)
+            return True
+                
         if keyval == Gdk.KEY_Return or keyval == Gdk.KEY_KP_Enter:
             if not (state & Gdk.ModifierType.SHIFT_MASK):
                 if self.autocomplete_box.get_visible() and getattr(self, 'current_top_match', None):
                     self.apply_autocomplete(self.current_top_match, " ")
                     return True
+                        
                 if self.handle_expansion("\n"):
                     return True
                 return self.handle_return()
@@ -502,8 +558,21 @@ class NoteEditor(Gtk.Overlay):
                 
         if keyval == Gdk.KEY_space and not (state & Gdk.ModifierType.SHIFT_MASK):
             if self.autocomplete_box.get_visible() and getattr(self, 'current_top_match', None):
-                self.apply_autocomplete(self.current_top_match, " ")
-                return True
+                insert_mark = self.buffer.get_insert()
+                cursor_iter = self.buffer.get_iter_at_mark(insert_mark)
+                word_start = cursor_iter.copy()
+                while word_start.backward_char():
+                    if word_start.get_char() in (' ', '\n', '\t'):
+                        word_start.forward_char()
+                        break
+                word = self.buffer.get_text(word_start, cursor_iter, False)
+                
+                if word != "::":
+                    self.apply_autocomplete(self.current_top_match, " ")
+                    return True
+                else:
+                    self.autocomplete_box.set_visible(False)
+                    
             if self.handle_expansion(" "):
                 return True
             
@@ -561,8 +630,8 @@ class NoteEditor(Gtk.Overlay):
                 
         word = self.buffer.get_text(word_start, word_end, False)
         
-        # Check for :today(offset) or :date(offset)
-        m_date = re.match(r'^:(today|date|tomorrow|yesterday)(?:\(([-+]*\d+)\))?$', word)
+        # Check for ::today(offset) or ::date(offset)
+        m_date = re.match(r'^::(today|date|tomorrow|yesterday)(?:\(([-+]*\d+)\))?$', word)
         if m_date:
             from datetime import datetime, timedelta
             base = m_date.group(1)
@@ -580,7 +649,7 @@ class NoteEditor(Gtk.Overlay):
             self.autocomplete_box.set_visible(False)
             return True
             
-        m_time = re.match(r'^:(time|now)$', word)
+        m_time = re.match(r'^::(time|now)$', word)
         if m_time:
             from datetime import datetime
             now = datetime.now().strftime("%I:%M %p").lstrip("0")
@@ -589,8 +658,8 @@ class NoteEditor(Gtk.Overlay):
             self.autocomplete_box.set_visible(False)
             return True
             
-        # Check for :roll()
-        m_roll = re.match(r'^:roll\((.+)\)$', word)
+        # Check for ::roll()
+        m_roll = re.match(r'^::roll\((.+)\)$', word)
         if m_roll:
             import random
             roll_expr = m_roll.group(1).lower()
@@ -615,8 +684,8 @@ class NoteEditor(Gtk.Overlay):
             except:
                 pass # Ignore invalid roll syntax and let it remain as text
                 
-        # Check for :random(type, length)
-        m_random = re.match(r'^:random\((int|alnum|str),\s*(\d+)\)$', word)
+        # Check for ::random(type, length)
+        m_random = re.match(r'^::random\((int|alnum|str),\s*(\d+)\)$', word)
         if m_random:
             import string
             import random

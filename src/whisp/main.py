@@ -97,6 +97,16 @@ class WhispApp(Adw.Application):
                 background-color: alpha(currentColor, 0.3);
                 border-radius: 2px;
             }
+            .autocomplete-overlay {
+                border-radius: 16px;
+                overflow: hidden;
+                border: 1px solid alpha(currentColor, 0.1);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                background-color: @view_bg_color;
+            }
+            .autocomplete-overlay row {
+                border-radius: 8px;
+            }
         """)
         Gtk.StyleContext.add_provider_for_display(
             Gdk.Display.get_default(),
