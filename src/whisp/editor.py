@@ -70,6 +70,17 @@ class NoteEditor(Gtk.Overlay):
         self.motion_controller.connect("motion", self.on_mouse_motion)
         self.motion_controller.connect("leave", self.on_mouse_leave)
         self.textview.add_controller(self.motion_controller)
+        # Autocomplete Hint Overlay
+        self.autocomplete_list = Gtk.ListBox()
+        self.autocomplete_list.set_selection_mode(Gtk.SelectionMode.NONE)
+        
+        self.autocomplete_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.autocomplete_box.add_css_class("card")
+        self.autocomplete_box.set_halign(Gtk.Align.START)
+        self.autocomplete_box.set_valign(Gtk.Align.START)
+        self.autocomplete_box.append(self.autocomplete_list)
+        self.autocomplete_box.set_visible(False)
+        self.add_overlay(self.autocomplete_box)
 
     def on_click_pressed(self, gesture, n_press, x, y):
         state = gesture.get_current_event_state()
@@ -152,6 +163,80 @@ class NoteEditor(Gtk.Overlay):
         
         if self.on_title_changed:
             self.on_title_changed(self)
+            
+        self.check_autocomplete()
+
+    def check_autocomplete(self):
+        insert_mark = self.buffer.get_insert()
+        cursor_iter = self.buffer.get_iter_at_mark(insert_mark)
+        
+        word_start = cursor_iter.copy()
+        while word_start.backward_char():
+            if word_start.get_char() in (' ', '\n', '\t'):
+                word_start.forward_char()
+                break
+                
+        word = self.buffer.get_text(word_start, cursor_iter, False)
+        
+        if word.startswith(":") and len(word) >= 2: # Show after typing at least ":s"
+            # get cursor coords
+            rect = self.textview.get_iter_location(cursor_iter)
+            win_x, win_y = self.textview.buffer_to_window_coords(Gtk.TextWindowType.WIDGET, rect.x, rect.y + rect.height)
+            
+            trans = self.textview.translate_coordinates(self, win_x, win_y)
+            if trans:
+                trans_x, trans_y = trans
+                self.autocomplete_box.set_margin_start(int(trans_x))
+                self.autocomplete_box.set_margin_top(int(trans_y) + 4)
+            else:
+                self.autocomplete_box.set_margin_start(int(win_x))
+                self.autocomplete_box.set_margin_top(int(win_y) + 4)
+            
+            while child := self.autocomplete_list.get_first_child():
+                self.autocomplete_list.remove(child)
+                
+            suggestions = [
+                (":today", "Current date"),
+                (":today(5)", "Date offset (+/- days)"),
+                (":tomorrow", "Tomorrow's date"),
+                (":yesterday", "Yesterday's date"),
+                (":date", "Current date"),
+                (":date(5)", "Date offset (+/- days)"),
+                (":now", "Current time"),
+                (":time", "Current time"),
+                (":random(int,20)", "Random numbers"),
+                (":random(str,20)", "Random letters"),
+                (":random(alnum,20)", "Random alphanumeric"),
+                (":roll(20)", "Roll a 20-sided die"),
+                (":roll(d20)", "Roll a d20 die"),
+                (":roll(4d6)", "Roll 4 d6 dice")
+            ]
+            
+            matches = [s for s in suggestions if s[0].startswith(word)]
+            if matches:
+                self.current_top_match = matches[0][0]
+                for cmd, desc in matches:
+                    row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+                    row.set_margin_start(12)
+                    row.set_margin_end(12)
+                    row.set_margin_top(6)
+                    row.set_margin_bottom(6)
+                    
+                    cmd_lbl = Gtk.Label(label=f"<b>{cmd}</b>")
+                    cmd_lbl.set_use_markup(True)
+                    desc_lbl = Gtk.Label(label=f"<small>{desc}</small>")
+                    desc_lbl.set_use_markup(True)
+                    desc_lbl.add_css_class("dim-label")
+                    
+                    row.append(cmd_lbl)
+                    row.append(desc_lbl)
+                    self.autocomplete_list.append(row)
+                    
+                self.autocomplete_box.set_visible(True)
+            else:
+                self.autocomplete_box.set_visible(False)
+        else:
+            self.autocomplete_box.set_visible(False)
 
     def on_key_pressed_capture(self, controller, keyval, keycode, state):
         if not self.buffer.get_has_selection():
@@ -395,8 +480,18 @@ class NoteEditor(Gtk.Overlay):
                 self.toggle_checkbox()
                 return True
                 
+        if keyval == Gdk.KEY_Escape:
+            if self.autocomplete_box.get_visible():
+                self.autocomplete_box.set_visible(False)
+                return True
+                
         if keyval == Gdk.KEY_Return or keyval == Gdk.KEY_KP_Enter:
             if not (state & Gdk.ModifierType.SHIFT_MASK):
+                if self.autocomplete_box.get_visible() and getattr(self, 'current_top_match', None):
+                    self.apply_autocomplete(self.current_top_match, " ")
+                    return True
+                if self.handle_expansion("\n"):
+                    return True
                 return self.handle_return()
             
         if keyval in (Gdk.KEY_Tab, Gdk.KEY_KP_Tab, Gdk.KEY_ISO_Left_Tab):
@@ -404,6 +499,142 @@ class NoteEditor(Gtk.Overlay):
                 return self.handle_shift_tab()
             else:
                 return self.handle_tab()
+                
+        if keyval == Gdk.KEY_space and not (state & Gdk.ModifierType.SHIFT_MASK):
+            if self.autocomplete_box.get_visible() and getattr(self, 'current_top_match', None):
+                self.apply_autocomplete(self.current_top_match, " ")
+                return True
+            if self.handle_expansion(" "):
+                return True
+            
+        return False
+
+    def apply_autocomplete(self, match_str, insert_char):
+        insert_mark = self.buffer.get_insert()
+        cursor_iter = self.buffer.get_iter_at_mark(insert_mark)
+        
+        word_start = cursor_iter.copy()
+        while word_start.backward_char():
+            if word_start.get_char() in (' ', '\n', '\t'):
+                word_start.forward_char()
+                break
+                
+        self.buffer.delete(word_start, cursor_iter)
+        
+        if "(" in match_str:
+            self.buffer.insert_at_cursor(match_str)
+            
+            insert_mark = self.buffer.get_insert()
+            cursor_iter = self.buffer.get_iter_at_mark(insert_mark)
+            cursor_iter.backward_char()
+            
+            open_paren = cursor_iter.copy()
+            while open_paren.backward_char():
+                if open_paren.get_char() == '(':
+                    open_paren.forward_char()
+                    break
+            
+            self.buffer.select_range(open_paren, cursor_iter)
+            self.autocomplete_box.set_visible(False)
+        else:
+            self.buffer.insert_at_cursor(match_str)
+            if not self.handle_expansion(insert_char):
+                self.buffer.insert_at_cursor(insert_char)
+                self.autocomplete_box.set_visible(False)
+
+    def handle_expansion(self, insert_char):
+        insert_mark = self.buffer.get_insert()
+        cursor_iter = self.buffer.get_iter_at_mark(insert_mark)
+        
+        word_start = cursor_iter.copy()
+        while word_start.backward_char():
+            if word_start.get_char() in (' ', '\n', '\t'):
+                word_start.forward_char()
+                break
+                
+        word_end = cursor_iter.copy()
+        while not word_end.is_end():
+            char = word_end.get_char()
+            if char in (' ', '\n', '\t'):
+                break
+            word_end.forward_char()
+                
+        word = self.buffer.get_text(word_start, word_end, False)
+        
+        # Check for :today(offset) or :date(offset)
+        m_date = re.match(r'^:(today|date|tomorrow|yesterday)(?:\(([-+]*\d+)\))?$', word)
+        if m_date:
+            from datetime import datetime, timedelta
+            base = m_date.group(1)
+            offset_days = int(m_date.group(2)) if m_date.group(2) else 0
+            
+            if base == "tomorrow":
+                offset_days += 1
+            elif base == "yesterday":
+                offset_days -= 1
+                
+            now = datetime.now() + timedelta(days=offset_days)
+            date_str = now.strftime("%B %d, %Y")
+            self.buffer.delete(word_start, word_end)
+            self.buffer.insert_at_cursor(date_str + insert_char)
+            self.autocomplete_box.set_visible(False)
+            return True
+            
+        m_time = re.match(r'^:(time|now)$', word)
+        if m_time:
+            from datetime import datetime
+            now = datetime.now().strftime("%I:%M %p").lstrip("0")
+            self.buffer.delete(word_start, word_end)
+            self.buffer.insert_at_cursor(now + insert_char)
+            self.autocomplete_box.set_visible(False)
+            return True
+            
+        # Check for :roll()
+        m_roll = re.match(r'^:roll\((.+)\)$', word)
+        if m_roll:
+            import random
+            roll_expr = m_roll.group(1).lower()
+            try:
+                if 'd' in roll_expr:
+                    parts = roll_expr.split('d')
+                    num_dice = int(parts[0]) if parts[0] else 1
+                    sides = int(parts[1])
+                else:
+                    num_dice = 1
+                    sides = int(roll_expr)
+                    
+                if sides < 1 or num_dice < 1 or num_dice > 100:
+                    raise ValueError
+                    
+                total = sum(random.randint(1, sides) for _ in range(num_dice))
+                res = str(total)
+                self.buffer.delete(word_start, word_end)
+                self.buffer.insert_at_cursor(res + insert_char)
+                self.autocomplete_box.set_visible(False)
+                return True
+            except:
+                pass # Ignore invalid roll syntax and let it remain as text
+                
+        # Check for :random(type, length)
+        m_random = re.match(r'^:random\((int|alnum|str),\s*(\d+)\)$', word)
+        if m_random:
+            import string
+            import random
+            rtype = m_random.group(1)
+            length = min(int(m_random.group(2)), 1000) # Cap length to avoid freezing
+            
+            if rtype == "int":
+                chars = string.digits
+            elif rtype == "str":
+                chars = string.ascii_letters
+            else: # alnum
+                chars = string.ascii_letters + string.digits
+                
+            res = ''.join(random.choices(chars, k=length))
+            self.buffer.delete(word_start, word_end)
+            self.buffer.insert_at_cursor(res + insert_char)
+            self.autocomplete_box.set_visible(False)
+            return True
             
         return False
 
