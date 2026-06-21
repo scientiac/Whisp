@@ -60,9 +60,9 @@
         <p>Donations are now live! Whisp is passionately designed and developed by a single university student. If this app improves your daily workflow, please consider supporting its continued development through GitHub Sponsors, Ko-fi, or directly via Google Pay on the project website. Your support means the world!</p>
         <p><strong>New Features</strong></p>
         <ul>
-          <li>Smart Text Expansions: Type `:` to open a native autocomplete dropdown and instantly insert dates (`:today`, `:tomorrow`), or times (`:now`).</li>
-          <li>Data Generators: Added built-in generators to roll dice (`:roll(d20)`, `:roll(4d6)`) or insert random strings and numbers (`:random(str, 20)`).</li>
-          <li>Smart Argument Filling: Selecting complex commands like `:roll(20)` from the dropdown will automatically highlight the arguments so you can instantly overwrite them.</li>
+          <li>Smart Text Expansions: Type `::` to open a native autocomplete dropdown and instantly insert dates (`::today`, `::tomorrow`), or times (`::now`).</li>
+          <li>Data Generators: Added built-in generators to roll dice (`::roll(d20)`, `::roll(4d6)`) or insert random strings and numbers (`::random(str, 20)`).</li>
+          <li>Smart Argument Filling: Selecting complex commands like `::roll(20)` from the dropdown will automatically highlight the arguments so you can instantly overwrite them.</li>
           <li>Added background running permission and start-on-startup capability to pave the way for future features (This is completely opt-in and toggled off by default).</li>
         </ul>
         <p><strong>Fixed</strong></p>
