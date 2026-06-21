@@ -600,8 +600,8 @@ footer {
 }
 
 .intent-banner {
-    background: linear-gradient(135deg, rgba(192, 97, 203, 0.1) 0%, rgba(36, 36, 36, 0.02) 100%);
-    border: 1px solid rgba(192, 97, 203, 0.3);
+    background: linear-gradient(135deg, rgba(10, 179, 187, 0.1) 0%, rgba(36, 36, 36, 0.02) 100%);
+    border: 1px solid rgba(10, 179, 187, 0.3);
     padding: 1.5rem;
     border-radius: 12px;
     color: var(--text-primary);
@@ -631,9 +631,9 @@ footer {
     margin-bottom: 0.5rem;
 }
 
-.manual-section hr {
+.manual-content hr {
     border: 0;
-    border-top: 1px solid var(--card-border);
+    border-top: 2px dashed var(--card-border);
     margin: 3rem 0;
 }
 
@@ -647,6 +647,18 @@ footer {
     align-items: center;
     gap: 1rem;
     color: var(--text-secondary);
+}
+
+.tip-box {
+    background: linear-gradient(135deg, rgba(10, 179, 187, 0.1) 0%, rgba(36, 36, 36, 0) 100%);
+    border: 1px solid rgba(10, 179, 187, 0.3);
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-primary);
 }
 
 kbd {

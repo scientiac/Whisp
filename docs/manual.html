@@ -48,6 +48,12 @@
             </div>
 
             <div class="nav-group">
+                <h3>Smart Functions</h3>
+                <a href="#nav-date-time">Date & Time</a>
+                <a href="#nav-generators">Random & Dice</a>
+            </div>
+
+            <div class="nav-group">
                 <h3>Customization</h3>
                 <a href="#nav-themes">Paper Themes</a>
                 <a href="#nav-darkmode">Dark Mode</a>
@@ -193,6 +199,34 @@
                 </ul>
                 <div class="shortcut-box">
                     <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> Plain text paste
+                </div>
+            </section>
+
+            <hr>
+
+            <section id="nav-date-time" class="manual-section reveal">
+                <h2>Date & Time Expansions</h2>
+                <ul>
+                    <li>Whisp includes a smart text expansion engine. Type a command starting with a colon (<code>:</code>) and hit Enter or Space to instantly expand it.</li>
+                    <li><code>:today</code> or <code>:date</code> inserts the current date.</li>
+                    <li><code>:tomorrow</code> inserts tomorrow's date, and <code>:yesterday</code> inserts yesterday's date.</li>
+                    <li><code>:today(n)</code> allows you to specify a date offset. E.g., <code>:today(5)</code> inserts the date 5 days from now.</li>
+                    <li><code>:now</code> or <code>:time</code> inserts the current local time.</li>
+                </ul>
+            </section>
+
+            <section id="nav-generators" class="manual-section reveal">
+                <h2>Random & Dice Generators</h2>
+                <ul>
+                    <li>Need a quick random number or string? Use the built-in generator functions.</li>
+                    <li><strong>Dice Rolls:</strong> Type <code>:roll(20)</code> or <code>:roll(d20)</code> to roll a 20-sided die.</li>
+                    <li><strong>Multi-Dice Rolls:</strong> Type <code>:roll(4d6)</code> to roll four 6-sided dice and automatically insert their sum.</li>
+                    <li><strong>Random Strings:</strong> Type <code>:random(str, 20)</code> to generate a 20-character random alphabetical string.</li>
+                    <li><strong>Random Numbers:</strong> Type <code>:random(int, 10)</code> to generate a 10-digit random number.</li>
+                    <li><strong>Alphanumeric:</strong> Type <code>:random(alnum, 16)</code> for a secure 16-character alphanumeric string.</li>
+                </ul>
+                <div class="tip-box">
+                    <strong>Tip:</strong> You don't need to memorize these! A smart autocomplete dropdown appears when you type <code>:</code>.
                 </div>
             </section>
 
