@@ -269,6 +269,10 @@ class WhispWindow(Adw.ApplicationWindow):
         self.set_title(title)
         self.connect("close-request", self.on_close_request)
         
+        app = self.get_application()
+        if config.get("run_in_background", False):
+            app.hold()
+        
         # Font and Theme styling
         self.css_provider = Gtk.CssProvider()
         Gtk.StyleContext.add_provider_for_display(
@@ -1454,6 +1458,48 @@ class WhispWindow(Adw.ApplicationWindow):
         behavior_group.add(confirm_row)
 
         behavior_page.add(behavior_group)
+
+        # --- Running Group ---
+        running_group = Adw.PreferencesGroup(title="Running")
+
+        self.bg_row = Adw.ActionRow(
+            title="Keep Running in Background",
+            subtitle="Hides the application when closed instead of terminating",
+        )
+        self.bg_switch = Gtk.Switch()
+        self.bg_switch.set_valign(Gtk.Align.CENTER)
+        self.bg_switch.set_active(config.get("run_in_background", False))
+        self.bg_switch.connect("notify::active", self.on_bg_switch_changed)
+        self.bg_row.add_suffix(self.bg_switch)
+        self.bg_row.set_activatable_widget(self.bg_switch)
+        running_group.add(self.bg_row)
+
+        self.startup_row = Adw.ActionRow(
+            title="Run on Startup",
+            subtitle="Automatically launch the application when you log in",
+        )
+        self.startup_switch = Gtk.Switch()
+        self.startup_switch.set_valign(Gtk.Align.CENTER)
+        self.startup_switch.set_active(config.get("run_on_startup", False))
+        self.startup_switch.connect("notify::active", self.on_startup_switch_changed)
+        self.startup_row.add_suffix(self.startup_switch)
+        self.startup_row.set_activatable_widget(self.startup_switch)
+        running_group.add(self.startup_row)
+
+        self.hidden_row = Adw.ActionRow(
+            title="Start Hidden",
+            subtitle="Launch in the background without opening a window",
+        )
+        self.hidden_switch = Gtk.Switch()
+        self.hidden_switch.set_valign(Gtk.Align.CENTER)
+        self.hidden_switch.set_active(config.get("start_hidden", False))
+        self.hidden_switch.connect("notify::active", self.on_hidden_switch_changed)
+        self.hidden_row.add_suffix(self.hidden_switch)
+        self.hidden_row.set_activatable_widget(self.hidden_switch)
+        running_group.add(self.hidden_row)
+
+        self._update_hidden_switch_sensitivity()
+        behavior_page.add(running_group)
         pref_window.add(behavior_page)
 
         # --- Storage Page ---
@@ -1474,6 +1520,65 @@ class WhispWindow(Adw.ApplicationWindow):
         
         pref_window.add(storage_page)
         pref_window.present(self)
+
+    def _update_hidden_switch_sensitivity(self):
+        can_start_hidden = self.bg_switch.get_active() and self.startup_switch.get_active()
+        self.hidden_row.set_sensitive(can_start_hidden)
+        if not can_start_hidden:
+            self.hidden_switch.set_active(False)
+            config.set("start_hidden", False)
+
+    def on_bg_switch_changed(self, switch, param):
+        is_bg = switch.get_active()
+        config.set("run_in_background", is_bg)
+        self._update_hidden_switch_sensitivity()
+        app = self.get_application()
+        if is_bg:
+            app.hold()
+        else:
+            app.release()
+
+    def on_startup_switch_changed(self, switch, param):
+        is_active = switch.get_active()
+        config.set("run_on_startup", is_active)
+        self._update_hidden_switch_sensitivity()
+
+        try:
+            from gi.repository import Gio, GLib
+            bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
+            options = GLib.Variant("a{sv}", {
+                "reason": GLib.Variant("s", "Start Whisp in the background"),
+                "autostart": GLib.Variant("b", is_active),
+                "commandline": GLib.Variant("as", ["whisp", "--hidden"]) if is_active else GLib.Variant("as", [])
+            })
+            parameters = GLib.Variant.new_tuple(GLib.Variant("s", ""), options)
+            
+            def on_bg_response(conn, sender, path, iface, signame, params, ud):
+                pass
+                
+            def on_request(source, result, ud):
+                try:
+                    ret = source.call_finish(result)
+                    request_handle = ret.unpack()[0]
+                    bus.signal_subscribe(
+                        "org.freedesktop.portal.Desktop", "org.freedesktop.portal.Request",
+                        "Response", request_handle, None, Gio.DBusSignalFlags.NONE,
+                        on_bg_response, None
+                    )
+                except Exception as e:
+                    print("Background request error:", e)
+
+            bus.call(
+                "org.freedesktop.portal.Desktop", "/org/freedesktop/portal/desktop",
+                "org.freedesktop.portal.Background", "RequestBackground",
+                parameters, None, Gio.DBusCallFlags.NONE, -1, None,
+                on_request, None
+            )
+        except Exception as e:
+            print("Failed to request background portal via DBus:", e)
+
+    def on_hidden_switch_changed(self, switch, param):
+        config.set("start_hidden", switch.get_active())
 
     def on_font_changed(self, font_btn, param):
         desc = font_btn.get_font_desc()
