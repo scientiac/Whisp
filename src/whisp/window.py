@@ -567,8 +567,14 @@ class WhispWindow(Adw.ApplicationWindow):
                     desc_node = release.find("description")
                     if desc_node is not None:
                         for child in desc_node:
-                            if child.tag == "p" and child.text:
-                                description_text += f"{GLib.markup_escape_text(child.text.strip())}\n\n"
+                            if child.tag == "p":
+                                text = "".join(child.itertext()).strip()
+                                if text:
+                                    escaped = GLib.markup_escape_text(text)
+                                    if child.find("strong") is not None:
+                                        description_text += f"<b>{escaped}</b>\n\n"
+                                    else:
+                                        description_text += f"{escaped}\n\n"
                             elif child.tag == "ul":
                                 for li in child.findall("li"):
                                     if li.text:
