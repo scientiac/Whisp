@@ -571,7 +571,7 @@ class WhispWindow(Adw.ApplicationWindow):
                                 text = "".join(child.itertext()).strip()
                                 if text:
                                     escaped = GLib.markup_escape_text(text)
-                                    if child.find("strong") is not None:
+                                    if child.find("em") is not None:
                                         description_text += f"<b>{escaped}</b>\n\n"
                                     else:
                                         description_text += f"{escaped}\n\n"

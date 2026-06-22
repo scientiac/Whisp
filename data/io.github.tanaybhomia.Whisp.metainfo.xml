@@ -56,20 +56,20 @@
   <releases>
     <release version="1.3.4" date="2026-06-22">
       <description>
-        <p><strong>Donations and Bug Fixes</strong></p>
+        <p><em>Donations and Bug Fixes</em></p>
         <p>Donations are now live! Whisp is designed and developed by a single student. If this app improves your daily workflow, please consider supporting its continued development via the project website. Your support means the world!</p>
-        <p><strong>New Features</strong></p>
+        <p><em>New Features</em></p>
         <ul>
           <li>Smart Text Expansions: Type `::` to open a native autocomplete dropdown and instantly insert dates (`::today`, `::tomorrow`), or times (`::now`).</li>
           <li>Data Generators: Added built-in generators to roll dice (`::roll(d20)`, `::roll(4d6)`) or insert random strings and numbers (`::random(str, 20)`).</li>
           <li>Smart Argument Filling: Selecting complex commands like `::roll(20)` from the dropdown will automatically highlight the arguments so you can instantly overwrite them.</li>
           <li>Added background running permission and start-on-startup capability to pave the way for future features (This is completely opt-in and toggled off by default).</li>
         </ul>
-        <p><strong>Fixed</strong></p>
+        <p><em>Fixed</em></p>
         <ul>
           <li>Fixed an issue where the pin icon was not appearing correctly on some KDE devices.</li>
         </ul>
-        <p><strong>Miscellaneous</strong></p>
+        <p><em>Miscellaneous</em></p>
         <ul>
           <li>Revamped the entire website to look more professional and help users easily identify features and differences compared to similar apps.</li>
           <li>Added documentation for the new expansion functions to the user manual page.</li>
