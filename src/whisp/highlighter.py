@@ -3,9 +3,10 @@ from gi.repository import GLib, Pango
 from whisp.config import config
 
 class MarkdownHighlighter:
-    def __init__(self, buffer, textview=None):
+    def __init__(self, buffer, textview=None, editor=None):
         self.buffer = buffer
-        self.textview = textview
+        self.editor = editor
+        self.textview = textview or (editor.textview if editor else None)
         self.search_term = ""
         self.create_tags()
         self.buffer.connect("changed", self.on_changed)
@@ -117,7 +118,11 @@ class MarkdownHighlighter:
             if not (check_m.start() <= cursor_offset <= check_m.end()):
                 self.buffer.apply_tag(self.tag_invisible, start_iter, end_iter)
         
-        wysiwyg = config.get("wysiwyg_mode", False)
+        wysiwyg = False
+        if hasattr(self, 'editor') and self.editor and hasattr(self.editor, 'is_wysiwyg_enabled'):
+            wysiwyg = self.editor.is_wysiwyg_enabled()
+        else:
+            wysiwyg = config.get("wysiwyg_mode", False)
         
         # Check if it's a list note
         start_doc = self.buffer.get_start_iter()

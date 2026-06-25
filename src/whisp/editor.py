@@ -30,7 +30,7 @@ class NoteEditor(Gtk.Overlay):
         self.scrolled.set_child(self.textview)
         
         self.buffer = self.textview.get_buffer()
-        self.highlighter = MarkdownHighlighter(self.buffer, self.textview)
+        self.highlighter = MarkdownHighlighter(self.buffer, editor=self)
 
         self.load_file()
 
@@ -193,6 +193,15 @@ class NoteEditor(Gtk.Overlay):
             self.on_title_changed(self)
             
         self.check_autocomplete()
+
+    def is_wysiwyg_enabled(self):
+        scope = config.get("wysiwyg_scope", "global")
+        if scope == "global":
+            return config.get("wysiwyg_mode", False)
+        else:
+            if hasattr(self, 'window') and self.window:
+                return self.window.metadata.get(self.file_path.name, {}).get("wysiwyg", False)
+            return False
 
     def check_autocomplete(self):
         insert_mark = self.buffer.get_insert()

@@ -676,10 +676,26 @@ class WhispWindow(Adw.ApplicationWindow):
         GLib.timeout_add(50, place)
 
     def on_wysiwyg_toggled(self, btn):
-        config.set("wysiwyg_mode", btn.get_active())
-        for i in range(self.carousel.get_n_pages()):
-            editor = self.carousel.get_nth_page(i)
-            editor.highlighter.highlight()
+        if hasattr(self, '_ignore_wysiwyg_toggle') and self._ignore_wysiwyg_toggle:
+            return
+            
+        scope = config.get("wysiwyg_scope", "global")
+        active = btn.get_active()
+        
+        if scope == "global":
+            config.set("wysiwyg_mode", active)
+            for i in range(self.carousel.get_n_pages()):
+                editor = self.carousel.get_nth_page(i)
+                editor.highlighter.highlight()
+        else:
+            editor = self.get_current_editor()
+            if editor:
+                fname = editor.file_path.name
+                if fname not in self.metadata:
+                    self.metadata[fname] = {}
+                self.metadata[fname]["wysiwyg"] = active
+                self.save_metadata()
+                editor.highlighter.highlight()
             
     def on_wysiwyg_shortcut(self, action, param):
         self.wysiwyg_btn.set_active(not self.wysiwyg_btn.get_active())
@@ -873,6 +889,7 @@ class WhispWindow(Adw.ApplicationWindow):
 
     def add_note(self, file_path=None, grab_focus=True, index=None):
         editor = NoteEditor(file_path=file_path, on_title_changed=self.on_editor_title_changed)
+        editor.window = self
         if index is not None:
             self.carousel.insert(editor, index)
         else:
@@ -1076,6 +1093,13 @@ class WhispWindow(Adw.ApplicationWindow):
             self._ignore_pin_toggle = True
             self.pin_btn.set_active(is_pinned)
             self._ignore_pin_toggle = False
+            
+            scope = config.get("wysiwyg_scope", "global")
+            if scope == "per_note":
+                is_wysiwyg = self.metadata.get(fname, {}).get("wysiwyg", False)
+                self._ignore_wysiwyg_toggle = True
+                self.wysiwyg_btn.set_active(is_wysiwyg)
+                self._ignore_wysiwyg_toggle = False
             
             if self.popover.get_visible():
                 editor.set_search_highlight(self.search_entry.get_text())
@@ -1400,6 +1424,22 @@ class WhispWindow(Adw.ApplicationWindow):
         # Behavior Group
         behavior_group = Adw.PreferencesGroup(title="Workflow")
         
+        wysiwyg_scope_row = Adw.ActionRow(
+            title="WYSIWYG Scope",
+            subtitle="Apply Live Formatting globally to all notes, or remember it per note."
+        )
+        wysiwyg_scope_model = Gtk.StringList.new(["Global", "Per Note"])
+        wysiwyg_scope_dropdown = Gtk.DropDown(model=wysiwyg_scope_model)
+        wysiwyg_scope_dropdown.set_valign(Gtk.Align.CENTER)
+        
+        current_scope = config.get("wysiwyg_scope", "global")
+        idx = 1 if current_scope == "per_note" else 0
+        wysiwyg_scope_dropdown.set_selected(idx)
+        
+        wysiwyg_scope_dropdown.connect("notify::selected-item", self.on_wysiwyg_scope_changed)
+        wysiwyg_scope_row.add_suffix(wysiwyg_scope_dropdown)
+        behavior_group.add(wysiwyg_scope_row)
+        
         startup_row = Adw.ActionRow(title="Startup Behavior")
         startup_model = Gtk.StringList.new(["Restore last active note", "Start with empty note"])
         startup_dropdown = Gtk.DropDown(model=startup_model)
@@ -1625,6 +1665,29 @@ class WhispWindow(Adw.ApplicationWindow):
         selected = dropdown.get_selected()
         val = "empty_note" if selected == 1 else "last_note"
         config.set("startup_behavior", val)
+
+    def on_wysiwyg_scope_changed(self, dropdown, param):
+        idx = dropdown.get_selected()
+        scope = "per_note" if idx == 1 else "global"
+        config.set("wysiwyg_scope", scope)
+        
+        if scope == "global":
+            global_mode = config.get("wysiwyg_mode", False)
+            self._ignore_wysiwyg_toggle = True
+            self.wysiwyg_btn.set_active(global_mode)
+            self._ignore_wysiwyg_toggle = False
+        else:
+            editor = self.get_current_editor()
+            if editor:
+                fname = editor.file_path.name
+                note_mode = self.metadata.get(fname, {}).get("wysiwyg", False)
+                self._ignore_wysiwyg_toggle = True
+                self.wysiwyg_btn.set_active(note_mode)
+                self._ignore_wysiwyg_toggle = False
+                
+        for i in range(self.carousel.get_n_pages()):
+            editor = self.carousel.get_nth_page(i)
+            editor.highlighter.highlight()
 
     def on_archive_days_changed(self, dropdown, param):
         idx = dropdown.get_selected()
