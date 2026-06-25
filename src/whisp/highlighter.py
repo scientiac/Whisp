@@ -89,12 +89,12 @@ class MarkdownHighlighter:
             self.last_cursor_line = cursor_line
             if self.timeout_id:
                 GLib.source_remove(self.timeout_id)
-            self.timeout_id = GLib.timeout_add(10, self.highlight)
+            self.timeout_id = GLib.idle_add(self.highlight)
 
     def on_changed(self, buffer):
         if self.timeout_id:
             GLib.source_remove(self.timeout_id)
-        self.timeout_id = GLib.timeout_add(10, self.highlight)
+        self.timeout_id = GLib.idle_add(self.highlight)
 
     def highlight(self):
         self.timeout_id = 0
