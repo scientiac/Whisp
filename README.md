@@ -83,5 +83,10 @@ Whisp is free and open-source software licensed under the **GNU General Public L
 ## Stargazers
 
 Thank you to everyone who has starred the repository and supported the project!
-
-[![Star History Chart](https://api.star-history.com/svg?repos=tanaybhomia/Whisp&type=Date)](https://star-history.com/#tanaybhomia/Whisp&Date)
+<a href="https://www.star-history.com/?repos=tanaybhomia%2FWhisp&type=timeline&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=tanaybhomia/Whisp&type=timeline&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=tanaybhomia/Whisp&type=timeline&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=tanaybhomia/Whisp&type=timeline&legend=top-left" />
+ </picture>
+</a>
