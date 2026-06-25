@@ -41,11 +41,94 @@ class NoteEditor(Gtk.Overlay):
         self.search_scroll_timeout_id = 0
         self.scrolled.get_vadjustment().connect("value-changed", self.on_editor_scrolled)
         
-        # Add keyboard shortcuts (Capture phase for structural locks)
-        key_ctrl_capture = Gtk.EventControllerKey()
-        key_ctrl_capture.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
-        key_ctrl_capture.connect("key-pressed", self.on_key_pressed_capture)
-        self.textview.add_controller(key_ctrl_capture)
+        # Use ShortcutController for capture-phase keys to avoid breaking IMContext
+        self.shortcut_ctrl = Gtk.ShortcutController()
+        self.shortcut_ctrl.set_scope(Gtk.ShortcutScope.LOCAL)
+        self.textview.add_controller(self.shortcut_ctrl)
+
+        def add_sc(keyval, mods, cb):
+            trigger = Gtk.KeyvalTrigger.new(keyval, mods)
+            action = Gtk.CallbackAction.new(cb)
+            shortcut = Gtk.Shortcut.new(trigger, action)
+            self.shortcut_ctrl.add_shortcut(shortcut)
+            
+        def on_backspace(w, a):
+            if not self.buffer.get_has_selection():
+                insert_mark = self.buffer.get_insert()
+                cursor_iter = self.buffer.get_iter_at_mark(insert_mark)
+                line_start = cursor_iter.copy()
+                line_start.set_line_offset(0)
+                line_end = cursor_iter.copy()
+                line_end.forward_to_line_end()
+                
+                text_before = self.buffer.get_text(line_start, cursor_iter, False)
+                full_line = self.buffer.get_text(line_start, line_end, False)
+                
+                if self.is_list_note():
+                    if re.match(r'^\s*[☐☑]\s*$', text_before):
+                        if re.match(r'^\s*[☐☑]\s*$', full_line):
+                            self.buffer.delete(line_start, line_end)
+                            if line_start.backward_char() and line_start.get_char() == '\n':
+                                t = line_start.copy()
+                                t.forward_char()
+            return False
+            
+        def on_ctrl_backspace(w, a):
+            if not self.buffer.get_has_selection():
+                insert_mark = self.buffer.get_insert()
+                cursor_iter = self.buffer.get_iter_at_mark(insert_mark)
+                line_start = cursor_iter.copy()
+                line_start.set_line_offset(0)
+                text_before = self.buffer.get_text(line_start, cursor_iter, False)
+                
+                if cursor_iter.equal(line_start):
+                    return True
+                if re.match(r'^(\s*[-*+]|\s*[☐☑])\s*$', text_before):
+                    self.buffer.delete(line_start, cursor_iter)
+                    return True
+            return False
+            
+        def on_hash(w, a):
+            if not self.buffer.get_has_selection():
+                insert_mark = self.buffer.get_insert()
+                cursor_iter = self.buffer.get_iter_at_mark(insert_mark)
+                line_start = cursor_iter.copy()
+                line_start.set_line_offset(0)
+                text_before = self.buffer.get_text(line_start, cursor_iter, False)
+                
+                if self.is_list_note() and re.match(r'^\s*[☐☑]\s*$', text_before):
+                    self.buffer.delete(line_start, cursor_iter)
+            return False
+            
+        add_sc(Gdk.KEY_BackSpace, 0, on_backspace)
+        add_sc(Gdk.KEY_BackSpace, Gdk.ModifierType.CONTROL_MASK, on_ctrl_backspace)
+        add_sc(Gdk.KEY_numbersign, 0, on_hash)
+        
+        def cb_paste(w, a):
+            self.handle_smart_paste()
+            return True
+        add_sc(Gdk.KEY_v, Gdk.ModifierType.CONTROL_MASK, cb_paste)
+        add_sc(Gdk.KEY_V, Gdk.ModifierType.CONTROL_MASK, cb_paste)
+        
+        def cb_paste_plain(w, a):
+            self.paste_plain_text()
+            return True
+        add_sc(Gdk.KEY_v, Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK, cb_paste_plain)
+        add_sc(Gdk.KEY_V, Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK, cb_paste_plain)
+        
+        def cb_link(w, a):
+            self.shorten_link()
+            return True
+        add_sc(Gdk.KEY_l, Gdk.ModifierType.CONTROL_MASK, cb_link)
+        add_sc(Gdk.KEY_L, Gdk.ModifierType.CONTROL_MASK, cb_link)
+        
+        def cb_up(w, a):
+            return self.move_line(-1)
+        add_sc(Gdk.KEY_Up, Gdk.ModifierType.ALT_MASK, cb_up)
+        
+        def cb_down(w, a):
+            return self.move_line(1)
+        add_sc(Gdk.KEY_Down, Gdk.ModifierType.ALT_MASK, cb_down)
         
         # Add keyboard shortcuts (Bubble phase for normal shortcuts)
         key_ctrl_bubble = Gtk.EventControllerKey()
@@ -311,71 +394,6 @@ class NoteEditor(Gtk.Overlay):
                 self.autocomplete_box.set_visible(False)
         else:
             self.autocomplete_box.set_visible(False)
-
-    def on_key_pressed_capture(self, controller, keyval, keycode, state):
-        if not self.buffer.get_has_selection():
-            if keyval == Gdk.KEY_BackSpace:
-                insert_mark = self.buffer.get_insert()
-                cursor_iter = self.buffer.get_iter_at_mark(insert_mark)
-                line_start = cursor_iter.copy()
-                line_start.set_line_offset(0)
-                line_end = cursor_iter.copy()
-                line_end.forward_to_line_end()
-                
-                text_before = self.buffer.get_text(line_start, cursor_iter, False)
-                full_line = self.buffer.get_text(line_start, line_end, False)
-                
-                # Ctrl+Backspace safeguard
-                if state & Gdk.ModifierType.CONTROL_MASK:
-                    if cursor_iter.equal(line_start):
-                        return True # Stop Ctrl+Backspace from eating the newline and going to previous line
-                    if re.match(r'^(\s*[-*+]|\s*[☐☑])\s*$', text_before):
-                        # If deleting word backward just after a bullet, delete the bullet but don't eat the newline above
-                        self.buffer.delete(line_start, cursor_iter)
-                        return True
-                        
-                # Normal Backspace on empty checkbox in list note
-                elif not (state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK | Gdk.ModifierType.ALT_MASK)):
-                    if self.is_list_note():
-                        if re.match(r'^\s*[☐☑]\s*$', text_before):
-                            if re.match(r'^\s*[☐☑]\s*$', full_line):
-                                self.buffer.delete(line_start, line_end)
-                                if line_start.backward_char() and line_start.get_char() == '\n':
-                                    t = line_start.copy()
-                                    t.forward_char()
-            # Smart Checkbox Overwrite (# only)
-            elif keyval == Gdk.KEY_numbersign:
-                insert_mark = self.buffer.get_insert()
-                cursor_iter = self.buffer.get_iter_at_mark(insert_mark)
-                line_start = cursor_iter.copy()
-                line_start.set_line_offset(0)
-                text_before = self.buffer.get_text(line_start, cursor_iter, False)
-                
-                if self.is_list_note() and re.match(r'^\s*[☐☑]\s*$', text_before):
-                    self.buffer.delete(line_start, cursor_iter)
-                    # Return False so GTK proceeds to insert the typed character natively
-                    pass
-                                
-        if state & Gdk.ModifierType.CONTROL_MASK:
-            if state & Gdk.ModifierType.SHIFT_MASK:
-                if keyval == Gdk.KEY_v or keyval == Gdk.KEY_V:
-                    self.paste_plain_text()
-                    return True
-            elif not (state & (Gdk.ModifierType.SHIFT_MASK | Gdk.ModifierType.ALT_MASK)):
-                if keyval == Gdk.KEY_v or keyval == Gdk.KEY_V:
-                    self.handle_smart_paste()
-                    return True
-                elif keyval == Gdk.KEY_l or keyval == Gdk.KEY_L:
-                    self.shorten_link()
-                    return True
-                        
-        if state & Gdk.ModifierType.ALT_MASK:
-            if keyval == Gdk.KEY_Up:
-                return self.move_line(-1)
-            elif keyval == Gdk.KEY_Down:
-                return self.move_line(1)
-                
-        return False
 
     def get_line_text(self, line_num):
         if line_num < 0 or line_num >= self.buffer.get_line_count():
