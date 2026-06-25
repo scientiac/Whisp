@@ -79,7 +79,9 @@ class NoteEditor(Gtk.Overlay):
         self.autocomplete_scroll = Gtk.ScrolledWindow()
         self.autocomplete_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         self.autocomplete_scroll.set_max_content_height(250)
+        self.autocomplete_scroll.set_max_content_width(320)
         self.autocomplete_scroll.set_propagate_natural_height(True)
+        self.autocomplete_scroll.set_propagate_natural_width(True)
         self.autocomplete_scroll.set_margin_top(6)
         self.autocomplete_scroll.set_margin_bottom(6)
         self.autocomplete_scroll.set_margin_start(6)
@@ -222,12 +224,11 @@ class NoteEditor(Gtk.Overlay):
             
             trans = self.textview.translate_coordinates(self, win_x, win_y)
             if trans:
-                trans_x, trans_y = trans
-                self.autocomplete_box.set_margin_start(int(trans_x))
-                self.autocomplete_box.set_margin_top(int(trans_y) + 4)
+                x, y = trans
             else:
-                self.autocomplete_box.set_margin_start(int(win_x))
-                self.autocomplete_box.set_margin_top(int(win_y) + 4)
+                x, y = win_x, win_y
+                
+            x, y = int(x), int(y)
             
             while child := self.autocomplete_list.get_first_child():
                 self.autocomplete_list.remove(child)
@@ -262,9 +263,15 @@ class NoteEditor(Gtk.Overlay):
                     
                     cmd_lbl = Gtk.Label(label=f"<b>{cmd}</b>")
                     cmd_lbl.set_use_markup(True)
+                    from gi.repository import Pango
+                    cmd_lbl.set_ellipsize(Pango.EllipsizeMode.END)
+                    cmd_lbl.set_halign(Gtk.Align.START)
+                    
                     desc_lbl = Gtk.Label(label=f"<small>{desc}</small>")
                     desc_lbl.set_use_markup(True)
                     desc_lbl.add_css_class("dim-label")
+                    desc_lbl.set_ellipsize(Pango.EllipsizeMode.END)
+                    desc_lbl.set_halign(Gtk.Align.START)
                     
                     row_box.append(cmd_lbl)
                     row_box.append(desc_lbl)
@@ -279,6 +286,25 @@ class NoteEditor(Gtk.Overlay):
                         
                 if first_row:
                     self.autocomplete_list.select_row(first_row)
+                    
+                # Ensure the dropdown doesn't get cut off on the right
+                _, nat_req = self.autocomplete_box.get_preferred_size()
+                box_w = nat_req.width
+                editor_w = self.get_width()
+                
+                final_x = x
+                if editor_w > 0 and final_x + box_w > editor_w - 16:
+                    final_x = max(16, editor_w - box_w - 16)
+                    
+                self.autocomplete_box.set_margin_start(final_x)
+                
+                if editor_w > 0:
+                    available_w = max(100, editor_w - final_x - 16)
+                    self.autocomplete_scroll.set_max_content_width(min(320, available_w))
+                else:
+                    self.autocomplete_scroll.set_max_content_width(320)
+                    
+                self.autocomplete_box.set_margin_top(y + 4)
                     
                 self.autocomplete_box.set_visible(True)
             else:
