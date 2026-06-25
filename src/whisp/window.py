@@ -502,6 +502,7 @@ class WhispWindow(Adw.ApplicationWindow):
 
         # Carousel
         self.carousel = Adw.Carousel()
+        self.carousel.set_opacity(0)
         self.carousel.set_spacing(16)
         self.carousel.set_interactive(True)
         self.carousel.connect("page-changed", self.on_page_changed)
@@ -865,10 +866,18 @@ class WhispWindow(Adw.ApplicationWindow):
             target_editor = self.carousel.get_nth_page(target_idx)
             
             def restore_session():
+                if self.carousel.get_width() == 0:
+                    return False
                 self.carousel.scroll_to(target_editor, False)
                 target_editor.textview.grab_focus()
                 buffer = target_editor.buffer
                 buffer.place_cursor(buffer.get_end_iter())
+                
+                def reveal():
+                    self.carousel.set_opacity(1)
+                    return False
+                GLib.idle_add(reveal)
+                
                 self.update_title()
                 
                 last_seen = config.get("last_seen_version", "0.0.0")
