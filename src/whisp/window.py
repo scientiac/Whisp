@@ -164,7 +164,7 @@ shortcuts_xml = """
         <child>
           <object class="AdwShortcutsItem">
             <property name="title">Insert Emoji</property>
-            <property name="accelerator">&lt;Primary&gt;dotlt;Primary&lt;Primary&gt;dotgt;period</property>
+            <property name="accelerator">&lt;Primary&gt;period</property>
           </object>
         </child>
       </object>
