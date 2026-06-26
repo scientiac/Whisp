@@ -330,7 +330,16 @@ class NoteEditor(Gtk.Overlay):
                 ("::random(alnum,20)", "Random alphanumeric"),
                 ("::roll(20)", "Roll a 20-sided die"),
                 ("::roll(d20)", "Roll a d20 die"),
-                ("::roll(4d6)", "Roll 4 d6 dice")
+                ("::roll(4d6)", "Roll 4 d6 dice"),
+                ("::uppercase", "Convert document to UPPERCASE"),
+                ("::lowercase", "Convert document to lowercase"),
+                ("::sentence_case", "Convert document to Sentence case"),
+                ("::title_case", "Convert Document To Title Case"),
+                ("::capitalize_first", "Capitalize first letter"),
+                ("::remove_quotes", "Strip surrounding quotes"),
+                ("::append(text)", "Add text to the end of every line"),
+                ("::prepend(text)", "Add text to the beginning of every line"),
+                ("::replace(old,new)", "Find and replace text")
             ]
             
             matches = [s for s in suggestions if s[0].startswith(word)]
@@ -775,9 +784,85 @@ class NoteEditor(Gtk.Overlay):
             self.buffer.delete(word_start, word_end)
             self.buffer.insert_at_cursor(res + insert_char)
             self.autocomplete_box.set_visible(False)
+        m_simple = re.match(r'^::(uppercase|lowercase|sentence_case|title_case|capitalize_first|remove_quotes)$', word)
+        if m_simple:
+            self.execute_text_command(m_simple.group(1), None, word_start, word_end)
+            self.autocomplete_box.set_visible(False)
+            return True
+            
+        m_args = re.match(r'^::(append|prepend)\((.*?)\)$', word)
+        if m_args:
+            self.execute_text_command(m_args.group(1), [m_args.group(2)], word_start, word_end)
+            self.autocomplete_box.set_visible(False)
+            return True
+            
+        m_replace = re.match(r'^::replace\((.*?),(.*?)\)$', word)
+        if m_replace:
+            self.execute_text_command("replace", [m_replace.group(1), m_replace.group(2)], word_start, word_end)
+            self.autocomplete_box.set_visible(False)
             return True
             
         return False
+        
+    def execute_text_command(self, cmd, args, word_start, word_end):
+        self.buffer.begin_user_action()
+        self.buffer.delete(word_start, word_end)
+        
+        start_iter = self.buffer.get_start_iter()
+        end_iter = self.buffer.get_end_iter()
+            
+        text = self.buffer.get_text(start_iter, end_iter, False)
+        new_text = text
+        msg = ""
+        
+        try:
+            if cmd == "uppercase":
+                new_text = text.upper()
+                msg = "Converted to UPPERCASE"
+            elif cmd == "lowercase":
+                new_text = text.lower()
+                msg = "Converted to lowercase"
+            elif cmd == "title_case":
+                new_text = text.title()
+                msg = "Converted to Title Case"
+            elif cmd == "sentence_case":
+                import re
+                sentences = re.split(r'(?<=[.!?])\s+', text)
+                new_text = ' '.join(s.capitalize() for s in sentences if s)
+                if not new_text and text: new_text = text.capitalize()
+                msg = "Converted to Sentence case"
+            elif cmd == "capitalize_first":
+                import re
+                new_text = re.sub(r'[a-zA-Z]', lambda m: m.group(0).upper(), text, count=1)
+                msg = "Capitalized first letter"
+            elif cmd == "remove_quotes":
+                import re
+                new_text = re.sub(r'["\'“”‘’]', '', text)
+                msg = "Stripped quotes"
+            elif cmd == "append" and args:
+                new_text = '\n'.join(line + args[0] for line in text.split('\n'))
+                msg = f"Appended '{args[0]}'"
+            elif cmd == "prepend" and args:
+                new_text = '\n'.join(args[0] + line for line in text.split('\n'))
+                msg = f"Prepended '{args[0]}'"
+            elif cmd == "replace" and args and len(args) == 2:
+                old, new = args
+                count = text.count(old)
+                new_text = text.replace(old, new)
+                msg = f"Replaced {count} instances"
+                
+            if new_text != text:
+                self.buffer.delete(start_iter, end_iter)
+                self.buffer.insert(self.buffer.get_start_iter(), new_text)
+                    
+                if config.get("show_command_toasts", True) and hasattr(self, 'window') and self.window:
+                    from gi.repository import Adw
+                    self.window.toast_overlay.add_toast(Adw.Toast.new(msg))
+                    
+        except Exception as e:
+            print(f"Error executing text command: {e}")
+            
+        self.buffer.end_user_action()
 
     def handle_tab(self):
         insert_mark = self.buffer.get_insert()

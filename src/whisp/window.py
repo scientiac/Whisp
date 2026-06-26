@@ -1517,7 +1517,23 @@ class WhispWindow(Adw.ApplicationWindow):
         confirm_row.add_suffix(confirm_switch)
         confirm_row.set_activatable_widget(confirm_switch)
         behavior_group.add(confirm_row)
-
+        
+        toast_row = Adw.ActionRow(
+            title="Show Command Confirmations",
+            subtitle="Display a small confirmation message when you use a text manipulation command",
+        )
+        toast_switch = Gtk.Switch()
+        toast_switch.set_valign(Gtk.Align.CENTER)
+        toast_switch.set_active(config.get("show_command_toasts", True))
+        
+        def on_toast_switch_changed(switch, param):
+            config.set("show_command_toasts", switch.get_active())
+            
+        toast_switch.connect("notify::active", on_toast_switch_changed)
+        toast_row.add_suffix(toast_switch)
+        toast_row.set_activatable_widget(toast_switch)
+        behavior_group.add(toast_row)
+        
         behavior_page.add(behavior_group)
 
         # --- Running Group ---

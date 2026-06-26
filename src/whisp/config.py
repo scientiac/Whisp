@@ -22,7 +22,8 @@ class Config:
             "last_seen_version": "0.0.0",
             "run_in_background": False,
             "run_on_startup": False,
-            "start_hidden": False
+            "start_hidden": False,
+            "show_command_toasts": True
         }
         self.load()
 
