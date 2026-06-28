@@ -185,47 +185,90 @@ shortcuts_xml = """
 </interface>
 """
 
-class ChangelogWindow(Adw.Window):
-    def __init__(self, version, changelog_text, parent=None):
-        super().__init__(transient_for=parent, modal=True, title=f"What's New in Whisp")
-        self.set_default_size(400, 480)
+class ChangelogWindow(Adw.Dialog):
+    def __init__(self, version, releases_list, parent=None):
+        super().__init__(title="What's New")
+        self.set_content_width(550)
+        self.set_content_height(600)
         
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.set_content(box)
+        toolbar_view = Adw.ToolbarView()
+        self.set_child(toolbar_view)
         
         header = Adw.HeaderBar(show_end_title_buttons=False, show_start_title_buttons=False)
-        box.append(header)
+        toolbar_view.add_top_bar(header)
         
-        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
-        content_box.set_margin_top(18)
-        content_box.set_margin_bottom(24)
-        content_box.set_margin_start(32)
-        content_box.set_margin_end(32)
-        
-        icon = Gtk.Image.new_from_icon_name("io.github.tanaybhomia.Whisp")
-        icon.set_pixel_size(96)
-        icon.set_halign(Gtk.Align.CENTER)
-        content_box.append(icon)
-        
-        title_label = Gtk.Label(label=f"What's New in {version}")
-        title_label.add_css_class("title-1")
-        title_label.set_halign(Gtk.Align.CENTER)
-        content_box.append(title_label)
+        # Add close button explicitly to Adw.Dialog header if we want, or just rely on dialog close
+        close_btn = Gtk.Button(icon_name="window-close-symbolic")
+        close_btn.add_css_class("flat")
+        close_btn.connect("clicked", lambda _: self.close())
+        header.pack_end(close_btn)
         
         scrolled = Gtk.ScrolledWindow()
         scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         scrolled.set_propagate_natural_height(True)
-        scrolled.set_vexpand(True)
+        toolbar_view.set_content(scrolled)
         
-        label = Gtk.Label(wrap=True, xalign=0)
-        label.set_markup(changelog_text)
-        scrolled.set_child(label)
+        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=16)
+        content_box.set_margin_top(24)
+        content_box.set_margin_bottom(24)
+        content_box.set_margin_start(24)
+        content_box.set_margin_end(24)
+        scrolled.set_child(content_box)
         
-        content_box.append(scrolled)
-        
+        if not isinstance(releases_list, list):
+            # Fallback if text was passed somehow
+            releases_list = [{"version": version, "date": "", "description": releases_list}]
+            
+        for release in releases_list:
+            v_str = release.get("version", "Unknown")
+            date_str = release.get("date", "")
+            desc_text = release.get("description", "")
+            
+            listbox = Gtk.ListBox()
+            listbox.add_css_class("boxed-list")
+            listbox.set_selection_mode(Gtk.SelectionMode.NONE)
+            
+            card_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+            card_box.set_margin_start(20)
+            card_box.set_margin_end(20)
+            card_box.set_margin_top(20)
+            card_box.set_margin_bottom(20)
+            
+            header_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+            
+            title_lbl = Gtk.Label(label=f"<b>Whisp {v_str}</b>")
+            title_lbl.set_use_markup(True)
+            title_lbl.add_css_class("title-2")
+            title_lbl.set_halign(Gtk.Align.START)
+            title_lbl.set_hexpand(True)
+            
+            date_lbl = Gtk.Label(label=f"<small>{date_str}</small>")
+            date_lbl.set_use_markup(True)
+            date_lbl.add_css_class("dim-label")
+            date_lbl.set_halign(Gtk.Align.END)
+            
+            header_box.append(title_lbl)
+            if date_str:
+                header_box.append(date_lbl)
+            
+            desc_lbl = Gtk.Label(wrap=True, xalign=0)
+            desc_lbl.set_markup(desc_text)
+            desc_lbl.set_margin_top(16)
+            
+            card_box.append(header_box)
+            card_box.append(desc_lbl)
+            
+            row = Gtk.ListBoxRow()
+            row.set_child(card_box)
+            listbox.append(row)
+            
+            content_box.append(listbox)
+            
+        # Pin the buttons to the bottom of the ToolbarView
         btn_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
         btn_box.set_halign(Gtk.Align.CENTER)
         btn_box.set_margin_top(12)
+        btn_box.set_margin_bottom(12)
         
         donate_btn = Gtk.Button(label="Donate")
         donate_btn.add_css_class("pill")
@@ -240,13 +283,12 @@ class ChangelogWindow(Adw.Window):
         btn.connect("clicked", lambda _: self.close())
         btn_box.append(btn)
         
-        content_box.append(btn_box)
-        
-        box.append(content_box)
+        toolbar_view.add_bottom_bar(btn_box)
         
         key_ctrl = Gtk.EventControllerKey()
         key_ctrl.connect("key-pressed", self.on_key_pressed)
         self.add_controller(key_ctrl)
+
 
     def on_key_pressed(self, controller, keyval, keycode, state):
         if keyval == Gdk.KEY_Escape:
@@ -346,6 +388,10 @@ class WhispWindow(Adw.ApplicationWindow):
         about_action = Gio.SimpleAction.new("about", None)
         about_action.connect("activate", self.on_about)
         self.add_action(about_action)
+        
+        whats_new_action = Gio.SimpleAction.new("whats-new", None)
+        whats_new_action.connect("activate", self.on_whats_new)
+        self.add_action(whats_new_action)
 
         search_action = Gio.SimpleAction.new("search", None)
         search_action.connect("activate", self.on_search_shortcut)
@@ -450,6 +496,7 @@ class WhispWindow(Adw.ApplicationWindow):
         main_menu.append_item(theme_item)
         
         section = Gio.Menu()
+        section.append("What's New", "win.whats-new")
         section.append("Keyboard Shortcuts", "win.show-shortcuts")
         section.append("Preferences", "win.preferences")
         section.append("About Whisp", "win.about")
@@ -533,14 +580,12 @@ class WhispWindow(Adw.ApplicationWindow):
         else:
             manager.set_color_scheme(Adw.ColorScheme.DEFAULT)
 
-    def _get_latest_release_info(self, last_seen="0.0.0", only_latest=False):
+    def _get_latest_release_info(self, last_seen="0.0.0", only_latest=False, as_list=False):
         import xml.etree.ElementTree as ET
         from pathlib import Path
         try:
-            # Try Flatpak path first
             meta_path = Path("/app/share/metainfo/io.github.tanaybhomia.Whisp.metainfo.xml")
             if not meta_path.exists():
-                # Fallback to local source tree
                 meta_path = Path(__file__).parent.parent.parent / "data" / "io.github.tanaybhomia.Whisp.metainfo.xml"
                 
             tree = ET.parse(meta_path)
@@ -558,9 +603,11 @@ class WhispWindow(Adw.ApplicationWindow):
             if releases is not None:
                 description_text = ""
                 latest_version = "Unknown"
+                releases_list = []
                 
                 for i, release in enumerate(releases.findall("release")):
                     version = release.attrib.get("version", "Unknown")
+                    date = release.attrib.get("date", "")
                     if i == 0:
                         latest_version = version
                         
@@ -568,8 +615,9 @@ class WhispWindow(Adw.ApplicationWindow):
                     if ver_tuple <= last_seen_tuple or (only_latest and i > 0):
                         break
                         
-                    # Add a bold subheading for each version update
-                    description_text += f"<span size='large' weight='bold'>v{version}</span>\n"
+                    release_desc = ""
+                    if not as_list:
+                        description_text += f"<span size='large' weight='bold'>v{version}</span>\n"
                     
                     desc_node = release.find("description")
                     if desc_node is not None:
@@ -579,23 +627,35 @@ class WhispWindow(Adw.ApplicationWindow):
                                 if text:
                                     escaped = GLib.markup_escape_text(text)
                                     if child.find("em") is not None:
-                                        description_text += f"<b>{escaped}</b>\n\n"
+                                        release_desc += f"<b>{escaped}</b>\n\n"
                                     else:
-                                        description_text += f"{escaped}\n\n"
+                                        release_desc += f"{escaped}\n\n"
                             elif child.tag == "ul":
                                 for li in child.findall("li"):
                                     if li.text:
-                                        description_text += f"• {GLib.markup_escape_text(li.text.strip())}\n\n"
-                                description_text += "\n"
+                                        release_desc += f"• {GLib.markup_escape_text(li.text.strip())}\n\n"
+                                release_desc += "\n"
+                                
+                    releases_list.append({"version": version, "date": date, "description": release_desc.strip()})
+                    description_text += release_desc
                     
+                if as_list:
+                    return latest_version, releases_list
                 return latest_version, description_text.strip()
         except Exception:
             pass
+        if as_list:
+            return "Unknown", []
         return "Unknown", ""
 
     def _get_dynamic_version(self):
         version, _ = self._get_latest_release_info(only_latest=True)
         return version
+        
+    def on_whats_new(self, action, param):
+        latest_version, releases_list = self._get_latest_release_info(last_seen="0.0.0", only_latest=False, as_list=True)
+        if releases_list:
+            ChangelogWindow(latest_version, releases_list, parent=self).present(self)
 
     def on_about(self, action, param):
         version = self._get_dynamic_version()
@@ -880,14 +940,20 @@ class WhispWindow(Adw.ApplicationWindow):
                 
                 self.update_title()
                 
-                last_seen = config.get("last_seen_version", "0.0.0")
-                latest_version, changelog_text = self._get_latest_release_info(last_seen=last_seen)
-                
-                if latest_version != "Unknown" and latest_version != last_seen:
-                    config.set("last_seen_version", latest_version)
-                    if not is_first_run and changelog_text:
-                        ChangelogWindow(latest_version, changelog_text, parent=self).present()
+                last_seen = config.get("last_version_seen", "0.0.0")
+                if is_first_run:
+                    # Show welcome onboarding if first run
+                    WelcomeWindow(self).present(self)
+                else:
+                    # Get releases since last seen
+                    latest_version, releases_list = self._get_latest_release_info(last_seen=last_seen, as_list=True)
+                    
+                    if latest_version != last_seen:
+                        config.set("last_version_seen", latest_version)
                         
+                        if not is_first_run and releases_list:
+                            ChangelogWindow(latest_version, releases_list, parent=self).present(self)
+                            
                 return False
             
             if not skip_restore:
