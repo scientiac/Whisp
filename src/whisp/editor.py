@@ -328,6 +328,12 @@ class NoteEditor(Gtk.Overlay):
                 ("::random(int,20)", "Random numbers"),
                 ("::random(str,20)", "Random letters"),
                 ("::random(alnum,20)", "Random alphanumeric"),
+                ("::random_quote", "Insert a random inspirational quote"),
+                ("::random_wiki", "Open a random Wikipedia page"),
+                ("::magic8ball", "Ask the Magic 8-Ball"),
+                ("::lorem", "Insert standard placeholder text"),
+                ("::password", "Generate a secure 16-char password"),
+                ("::uuid", "Generate a standard developer UUID"),
                 ("::roll(20)", "Roll a 20-sided die"),
                 ("::roll(d20)", "Roll a d20 die"),
                 ("::roll(4d6)", "Roll 4 d6 dice"),
@@ -784,6 +790,55 @@ class NoteEditor(Gtk.Overlay):
             self.buffer.delete(word_start, word_end)
             self.buffer.insert_at_cursor(res + insert_char)
             self.autocomplete_box.set_visible(False)
+            return True
+            
+        m_simple_insert = re.match(r'^::(password|uuid|lorem|magic8ball|random_quote)$', word)
+        if m_simple_insert:
+            import uuid, random, string
+            cmd = m_simple_insert.group(1)
+            res = ""
+            if cmd == "password":
+                chars = string.ascii_letters + string.digits + "!@#$%^&*"
+                res = ''.join(random.choice(chars) for _ in range(16))
+            elif cmd == "uuid":
+                res = str(uuid.uuid4())
+            elif cmd == "lorem":
+                res = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            elif cmd == "magic8ball":
+                answers = ["It is certain.", "It is decidedly so.", "Without a doubt.", "Yes definitely.", "You may rely on it.", "As I see it, yes.", "Most likely.", "Outlook good.", "Yes.", "Signs point to yes.", "Reply hazy, try again.", "Ask again later.", "Better not tell you now.", "Cannot predict now.", "Concentrate and ask again.", "Don't count on it.", "My reply is no.", "My sources say no.", "Outlook not so good.", "Very doubtful."]
+                res = random.choice(answers)
+            elif cmd == "random_quote":
+                quotes = [
+                    "The only way to do great work is to love what you do. - Steve Jobs",
+                    "Simplicity is the ultimate sophistication. - Leonardo da Vinci",
+                    "Make it work, make it right, make it fast. - Kent Beck",
+                    "Talk is cheap. Show me the code. - Linus Torvalds",
+                    "Software is like sex: it's better when it's free. - Linus Torvalds",
+                    "First, solve the problem. Then, write the code. - John Johnson",
+                    "Experience is the name everyone gives to their mistakes. - Oscar Wilde",
+                    "In order to be irreplaceable, one must always be different. - Coco Chanel",
+                    "Fix the cause, not the symptom. - Steve Maguire",
+                    "Before software can be reusable it first has to be usable. - Ralph Johnson",
+                    "Truth can only be found in one place: the code. - Robert C. Martin",
+                    "It's not a bug. It's an undocumented feature! - Anonymous"
+                ]
+                res = random.choice(quotes)
+                
+            self.buffer.delete(word_start, word_end)
+            self.buffer.insert_at_cursor(res + insert_char)
+            self.autocomplete_box.set_visible(False)
+            return True
+            
+        if word == "::random_wiki":
+            from gi.repository import Gio
+            self.buffer.delete(word_start, word_end)
+            self.autocomplete_box.set_visible(False)
+            try:
+                Gio.AppInfo.launch_default_for_uri("https://en.wikipedia.org/wiki/Special:Random", None)
+            except Exception as e:
+                print(f"Failed to launch URL: {e}")
+            return True
+
         m_simple = re.match(r'^::(uppercase|lowercase|sentence_case|title_case|capitalize_first|remove_quotes)$', word)
         if m_simple:
             self.execute_text_command(m_simple.group(1), None, word_start, word_end)
