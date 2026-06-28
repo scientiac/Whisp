@@ -323,6 +323,7 @@ class NoteEditor(Gtk.Overlay):
                 ("::yesterday", "Yesterday's date"),
                 ("::date", "Current date"),
                 ("::date(5)", "Date offset (+/- days)"),
+                ("::timestamp", "Current date and time"),
                 ("::now", "Current time"),
                 ("::time", "Current time"),
                 ("::random(int,20)", "Random numbers"),
@@ -720,10 +721,10 @@ class NoteEditor(Gtk.Overlay):
                 
         word = self.buffer.get_text(word_start, word_end, False)
         
-        # Check for ::today(offset) or ::date(offset)
-        m_date = re.match(r'^::(today|date|tomorrow|yesterday)(?:\(([-+]*\d+)\))?$', word)
+        # Check for ::today(offset) or ::date(offset) or ::timestamp
+        m_date = re.match(r'^::(today|date|tomorrow|yesterday|timestamp)(?:\(([-+]*\d+)\))?$', word)
         if m_date:
-            from datetime import datetime, timedelta
+            from gi.repository import GLib
             base = m_date.group(1)
             offset_days = int(m_date.group(2)) if m_date.group(2) else 0
             
@@ -732,8 +733,17 @@ class NoteEditor(Gtk.Overlay):
             elif base == "yesterday":
                 offset_days -= 1
                 
-            now = datetime.now() + timedelta(days=offset_days)
-            date_str = now.strftime("%B %d, %Y")
+            now = GLib.DateTime.new_now_local()
+            if offset_days != 0:
+                now = now.add_days(offset_days)
+                
+            if base == "timestamp":
+                t_str = now.format("%X")
+                t_str = re.sub(r':\d{2}(?=\s|$)', '', t_str)
+                date_str = f"{now.format('%x')} {t_str}"
+            else:
+                date_str = now.format("%x")
+                
             self.buffer.delete(word_start, word_end)
             self.buffer.insert_at_cursor(date_str + insert_char)
             self.autocomplete_box.set_visible(False)
@@ -742,10 +752,11 @@ class NoteEditor(Gtk.Overlay):
             
         m_time = re.match(r'^::(time|now)$', word)
         if m_time:
-            from datetime import datetime
-            now = datetime.now().strftime("%I:%M %p").lstrip("0")
+            from gi.repository import GLib
+            time_str = GLib.DateTime.new_now_local().format("%X")
+            time_str = re.sub(r':\d{2}(?=\s|$)', '', time_str)
             self.buffer.delete(word_start, word_end)
-            self.buffer.insert_at_cursor(now + insert_char)
+            self.buffer.insert_at_cursor(time_str + insert_char)
             self.autocomplete_box.set_visible(False)
             self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
             return True
