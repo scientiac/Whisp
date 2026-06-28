@@ -25,7 +25,7 @@ class NoteEditor(Gtk.Overlay):
         self.textview.set_left_margin(32)
         self.textview.set_right_margin(32)
         self.textview.set_top_margin(32)
-        self.textview.set_bottom_margin(32)
+        self.textview.set_bottom_margin(60) # Modest overscroll padding
         self.textview.add_css_class(f"paper-{config.get('paper_theme', 'blank')}")
         self.scrolled.set_child(self.textview)
         
@@ -301,8 +301,8 @@ class NoteEditor(Gtk.Overlay):
         word = self.buffer.get_text(word_start, cursor_iter, False)
         
         if word.startswith("::") and len(word) >= 2: # Show after typing at least "::"
-            # get cursor coords
-            rect = self.textview.get_iter_location(cursor_iter)
+            # Anchor the popup to the start of the word (the '::') so it doesn't jump as you type
+            rect = self.textview.get_iter_location(word_start)
             win_x, win_y = self.textview.buffer_to_window_coords(Gtk.TextWindowType.WIDGET, rect.x, rect.y + rect.height)
             
             trans = self.textview.translate_coordinates(self, win_x, win_y)
@@ -388,16 +388,18 @@ class NoteEditor(Gtk.Overlay):
                 # Ensure the dropdown doesn't get cut off on the right or bottom
                 self.autocomplete_scroll.set_max_content_height(300)
                 _, nat_req = self.autocomplete_box.get_preferred_size()
-                box_w = nat_req.width
+                
                 # Estimate height since GTK layout is lazy and nat_req might return stale values
                 box_h = min(300, len(matches) * 40 + 12) 
                 
                 editor_w = self.get_width()
                 editor_h = self.get_height()
                 
+                # Use a stable assumed width for bounds checking to prevent X-coordinate jitter
+                assumed_box_w = 320
                 final_x = x
-                if editor_w > 0 and final_x + box_w > editor_w - 16:
-                    final_x = max(16, editor_w - box_w - 16)
+                if editor_w > 0 and final_x + assumed_box_w > editor_w - 16:
+                    final_x = max(16, editor_w - assumed_box_w - 16)
                     
                 self.autocomplete_box.set_margin_start(final_x)
                 
@@ -570,7 +572,7 @@ class NoteEditor(Gtk.Overlay):
         new_cursor_iter.set_line_offset(min(offset, len(curr_text)))
         self.buffer.place_cursor(new_cursor_iter)
         
-        self.textview.scroll_to_mark(self.buffer.get_insert(), 0.0, False, 0.0, 0.0)
+        self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
         
         return True
 
@@ -697,6 +699,7 @@ class NoteEditor(Gtk.Overlay):
             if not self.handle_expansion(insert_char):
                 self.buffer.insert_at_cursor(insert_char)
                 self.autocomplete_box.set_visible(False)
+            self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
 
     def handle_expansion(self, insert_char):
         insert_mark = self.buffer.get_insert()
@@ -734,6 +737,7 @@ class NoteEditor(Gtk.Overlay):
             self.buffer.delete(word_start, word_end)
             self.buffer.insert_at_cursor(date_str + insert_char)
             self.autocomplete_box.set_visible(False)
+            self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
             return True
             
         m_time = re.match(r'^::(time|now)$', word)
@@ -743,6 +747,7 @@ class NoteEditor(Gtk.Overlay):
             self.buffer.delete(word_start, word_end)
             self.buffer.insert_at_cursor(now + insert_char)
             self.autocomplete_box.set_visible(False)
+            self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
             return True
             
         # Check for ::roll()
@@ -767,6 +772,7 @@ class NoteEditor(Gtk.Overlay):
                 self.buffer.delete(word_start, word_end)
                 self.buffer.insert_at_cursor(res + insert_char)
                 self.autocomplete_box.set_visible(False)
+                self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
                 return True
             except:
                 pass # Ignore invalid roll syntax and let it remain as text
@@ -790,6 +796,7 @@ class NoteEditor(Gtk.Overlay):
             self.buffer.delete(word_start, word_end)
             self.buffer.insert_at_cursor(res + insert_char)
             self.autocomplete_box.set_visible(False)
+            self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
             return True
             
         m_simple_insert = re.match(r'^::(password|uuid|lorem|magic8ball|random_quote)$', word)
@@ -827,6 +834,7 @@ class NoteEditor(Gtk.Overlay):
             self.buffer.delete(word_start, word_end)
             self.buffer.insert_at_cursor(res + insert_char)
             self.autocomplete_box.set_visible(False)
+            self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
             return True
             
         if word == "::random_wiki":
@@ -913,6 +921,8 @@ class NoteEditor(Gtk.Overlay):
                 if config.get("show_command_toasts", True) and hasattr(self, 'window') and self.window:
                     from gi.repository import Adw
                     self.window.toast_overlay.add_toast(Adw.Toast.new(msg))
+                    
+                self.textview.scroll_to_mark(self.buffer.get_insert(), 0.0, False, 0.0, 0.0)
                     
         except Exception as e:
             print(f"Error executing text command: {e}")
