@@ -51,6 +51,7 @@
                 <h3>Smart Functions</h3>
                 <a href="#nav-date-time">Date & Time</a>
                 <a href="#nav-generators">Random & Dice</a>
+                <a href="#nav-text-commands">Text Commands</a>
             </div>
 
             <div class="nav-group">
@@ -206,27 +207,191 @@
 
             <section id="nav-date-time" class="manual-section reveal">
                 <h2>Date & Time Expansions</h2>
-                <ul>
-                    <li>Whisp includes a smart text expansion engine. Type a command starting with a colon (<code>::</code>) and hit Enter or Space to instantly expand it.</li>
-                    <li><code>::today</code> or <code>::date</code> inserts the current date.</li>
-                    <li><code>::tomorrow</code> inserts tomorrow's date, and <code>::yesterday</code> inserts yesterday's date.</li>
-                    <li><code>::today(n)</code> allows you to specify a date offset. E.g., <code>::today(5)</code> inserts the date 5 days from now.</li>
-                    <li><code>::now</code> or <code>::time</code> inserts the current local time.</li>
-                </ul>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Whisp includes a smart text expansion engine. Type a command starting with a colon (<code>::</code>) and hit Enter or Space to instantly expand it.</p>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::today</span>
+                        <span class="command-badge">insert</span>
+                    </div>
+                    <div class="command-desc">Inserts the current date</div>
+                    <div class="command-example">Also available as: ::date</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::tomorrow</span>
+                        <span class="command-badge">insert</span>
+                    </div>
+                    <div class="command-desc">Inserts tomorrow's date</div>
+                    <div class="command-example">Example: ::tomorrow</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::yesterday</span>
+                        <span class="command-badge">insert</span>
+                    </div>
+                    <div class="command-desc">Inserts yesterday's date</div>
+                    <div class="command-example">Example: ::yesterday</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::today(n)</span>
+                        <span class="command-badge">insert</span>
+                    </div>
+                    <div class="command-desc">Inserts a date with a specific offset in days</div>
+                    <div class="command-example">Example: ::today(5) inserts the date 5 days from now</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::now</span>
+                        <span class="command-badge">insert</span>
+                    </div>
+                    <div class="command-desc">Inserts the current local time</div>
+                    <div class="command-example">Also available as: ::time</div>
+                </div>
             </section>
 
             <section id="nav-generators" class="manual-section reveal">
                 <h2>Random & Dice Generators</h2>
-                <ul>
-                    <li>Need a quick random number or string? Use the built-in generator functions.</li>
-                    <li><strong>Dice Rolls:</strong> Type <code>::roll(20)</code> or <code>::roll(d20)</code> to roll a 20-sided die.</li>
-                    <li><strong>Multi-Dice Rolls:</strong> Type <code>::roll(4d6)</code> to roll four 6-sided dice and automatically insert their sum.</li>
-                    <li><strong>Random Strings:</strong> Type <code>::random(str, 20)</code> to generate a 20-character random alphabetical string.</li>
-                    <li><strong>Random Numbers:</strong> Type <code>::random(int, 10)</code> to generate a 10-digit random number.</li>
-                    <li><strong>Alphanumeric:</strong> Type <code>::random(alnum, 16)</code> for a secure 16-character alphanumeric string.</li>
-                </ul>
-                <div class="tip-box">
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Need a quick random number or string? Use the built-in generator functions.</p>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::roll(20)</span>
+                        <span class="command-badge">insert</span>
+                    </div>
+                    <div class="command-desc">Rolls a die with the specified number of sides</div>
+                    <div class="command-example">Also available as: ::roll(d20)</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::roll(4d6)</span>
+                        <span class="command-badge">insert</span>
+                    </div>
+                    <div class="command-desc">Rolls multiple dice and automatically inserts their sum</div>
+                    <div class="command-example">Example: ::roll(4d6) rolls four 6-sided dice</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::random(str, n)</span>
+                        <span class="command-badge">insert</span>
+                    </div>
+                    <div class="command-desc">Generates a random alphabetical string of length n</div>
+                    <div class="command-example">Example: ::random(str, 20)</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::random(int, n)</span>
+                        <span class="command-badge">insert</span>
+                    </div>
+                    <div class="command-desc">Generates an n-digit random number</div>
+                    <div class="command-example">Example: ::random(int, 10)</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::random(alnum, n)</span>
+                        <span class="command-badge">insert</span>
+                    </div>
+                    <div class="command-desc">Generates a secure n-character alphanumeric string</div>
+                    <div class="command-example">Example: ::random(alnum, 16)</div>
+                </div>
+
+                <div class="tip-box" style="margin-top: 2rem;">
                     <strong>Tip:</strong> You don't need to memorize these! A smart autocomplete dropdown appears when you type <code>::</code>.
+                </div>
+            </section>
+
+            <section id="nav-text-commands" class="manual-section reveal">
+                <h2>Text Commands</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Transform the entire document's text with various formatting options.</p>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::replace</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Find and replace text throughout the document</div>
+                    <div class="command-example">Example: ::replace(old, new)</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::append</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Add text to the end of every line in the document</div>
+                    <div class="command-example">Example: ::append(;) adds semicolon to each line</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::prepend</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Add text to the beginning of every line in the document</div>
+                    <div class="command-example">Example: ::prepend(- ) adds dash bullet to each line</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::uppercase</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Convert entire document to UPPERCASE</div>
+                    <div class="command-example">Example: ::uppercase</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::lowercase</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Convert entire document to lowercase</div>
+                    <div class="command-example">Example: ::lowercase</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::sentence_case</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Convert document to Sentence case</div>
+                    <div class="command-example">Example: ::sentence_case</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::title_case</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Convert Document To Title Case</div>
+                    <div class="command-example">Example: ::title_case</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::capitalize_first</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Capitalize the first letter of the document</div>
+                    <div class="command-example">Example: ::capitalize_first</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::remove_quotes</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Strip surrounding quotes from the entire document</div>
+                    <div class="command-example">Example: ::remove_quotes</div>
                 </div>
             </section>
 

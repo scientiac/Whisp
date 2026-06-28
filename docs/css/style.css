@@ -649,6 +649,50 @@ footer {
     color: var(--text-secondary);
 }
 
+.command-box {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 1.2rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.command-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.2rem;
+}
+
+.command-name {
+    color: var(--accent-color);
+    font-family: var(--font-mono);
+    font-weight: 700;
+}
+
+.command-badge {
+    background: var(--card-hover);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.command-desc {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.command-example {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+}
+
 .tip-box {
     background: linear-gradient(135deg, rgba(10, 179, 187, 0.1) 0%, rgba(36, 36, 36, 0) 100%);
     border: 1px solid rgba(10, 179, 187, 0.3);
