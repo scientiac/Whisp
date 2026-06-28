@@ -940,20 +940,14 @@ class WhispWindow(Adw.ApplicationWindow):
                 
                 self.update_title()
                 
-                last_seen = config.get("last_version_seen", "0.0.0")
-                if is_first_run:
-                    # Show welcome onboarding if first run
-                    WelcomeWindow(self).present(self)
-                else:
-                    # Get releases since last seen
-                    latest_version, releases_list = self._get_latest_release_info(last_seen=last_seen, as_list=True)
-                    
-                    if latest_version != last_seen:
-                        config.set("last_version_seen", latest_version)
+                last_seen = config.get("last_seen_version", "0.0.0")
+                latest_version, releases_list = self._get_latest_release_info(last_seen=last_seen, as_list=True)
+                
+                if latest_version != "Unknown" and latest_version != last_seen:
+                    config.set("last_seen_version", latest_version)
+                    if not is_first_run and releases_list:
+                        ChangelogWindow(latest_version, releases_list, parent=self).present(self)
                         
-                        if not is_first_run and releases_list:
-                            ChangelogWindow(latest_version, releases_list, parent=self).present(self)
-                            
                 return False
             
             if not skip_restore:
