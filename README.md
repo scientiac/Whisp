@@ -76,13 +76,14 @@ This script creates a separate "Whisp (Development)" entry in your GNOME app gri
 
 Whisp follows the GNOME Human Interface Guidelines (HIG). It uses `Adw.Carousel` for its swipeable interface and uses a custom `Gtk.TextView` wrapper to parse and format Markdown text.
 
-## Inspiration
-
-Whisp was heavily inspired by the core workflow and design philosophy of **Antinote on macOS**. I loved the concept of a distraction-free, "anti-folder" scratchpad, but since it wasn't available on Linux, I built Whisp to bring that exact experience natively to the GNOME ecosystem!
 
 ## License
 
 Whisp is free and open-source software licensed under the **GNU General Public License v3.0** (GPL-3.0). See the [LICENSE](LICENSE) file for more details.
+
+## Inspiration
+
+Whisp was heavily inspired by the core workflow and design philosophy of **[Anti Note on macos](https://antinote.io/)**. I loved the concept of a distraction-free, "anti-folder" scratchpad, but since it wasn't available on Linux, I built Whisp to bring that exact experience natively to the GNOME ecosystem!
 
 ## Stargazers
 
@@ -94,3 +95,5 @@ Thank you to everyone who has starred the repository and supported the project!
    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=tanaybhomia/Whisp&type=timeline&legend=top-left" />
  </picture>
 </a>
+
+
