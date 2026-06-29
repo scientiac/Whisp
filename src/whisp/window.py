@@ -273,7 +273,7 @@ class ChangelogWindow(Adw.Dialog):
         donate_btn = Gtk.Button(label="Donate")
         donate_btn.add_css_class("pill")
         donate_btn.set_size_request(120, -1)
-        donate_btn.connect("clicked", lambda _: Gtk.show_uri(self, "https://tanaybhomia.github.io/Whisp/donate.html", Gdk.CURRENT_TIME))
+        donate_btn.connect("clicked", lambda _: Gio.AppInfo.launch_default_for_uri("https://tanaybhomia.github.io/Whisp/donate.html", None))
         btn_box.append(donate_btn)
 
         btn = Gtk.Button(label="Awesome! Continue")
