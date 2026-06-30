@@ -115,14 +115,22 @@ class WhispApp(Adw.Application):
         )
 
     def do_activate(self):
-        win = self.props.active_window
+        windows = self.get_windows()
+        win = windows[0] if windows else None
+        
         if not win:
             win = WhispWindow(application=self)
             win.load_notes()
-        win.present()
+            
+        if hasattr(self, 'start_hidden') and self.start_hidden:
+            self.start_hidden = False
+        else:
+            win.present()
 
     def do_open(self, files, n_files, hint):
-        win = self.props.active_window
+        windows = self.get_windows()
+        win = windows[0] if windows else None
+        
         if not win:
             win = WhispWindow(application=self)
             win.load_notes(skip_restore=True)
@@ -158,7 +166,14 @@ class WhispApp(Adw.Application):
 def main():
     if '--dev' in sys.argv:
         sys.argv.remove('--dev')
+        
+    start_hidden = False
+    if '--hidden' in sys.argv:
+        start_hidden = True
+        sys.argv.remove('--hidden')
+        
     app = WhispApp()
+    app.start_hidden = start_hidden
     return app.run(sys.argv)
 
 if __name__ == '__main__':

@@ -319,7 +319,7 @@ class WhispWindow(Adw.ApplicationWindow):
         
         app = self.get_application()
         if config.get("run_in_background", False):
-            app.hold()
+            self.set_hide_on_close(True)
         
         # Font and Theme styling
         self.css_provider = Gtk.CssProvider()
@@ -370,7 +370,7 @@ class WhispWindow(Adw.ApplicationWindow):
         self.add_action(pref_action)
 
         quit_action = Gio.SimpleAction.new("quit", None)
-        quit_action.connect("activate", lambda *_: self.close())
+        quit_action.connect("activate", lambda *_: self.get_application().quit())
         self.add_action(quit_action)
         
         nav_next_action = Gio.SimpleAction.new("nav-next", None)
@@ -1659,7 +1659,7 @@ class WhispWindow(Adw.ApplicationWindow):
         pref_window.present(self)
 
     def _update_hidden_switch_sensitivity(self):
-        can_start_hidden = self.bg_switch.get_active() and self.startup_switch.get_active()
+        can_start_hidden = self.startup_switch.get_active()
         self.hidden_row.set_sensitive(can_start_hidden)
         if not can_start_hidden:
             self.hidden_switch.set_active(False)
@@ -1668,26 +1668,38 @@ class WhispWindow(Adw.ApplicationWindow):
     def on_bg_switch_changed(self, switch, param):
         is_bg = switch.get_active()
         config.set("run_in_background", is_bg)
-        self._update_hidden_switch_sensitivity()
-        app = self.get_application()
-        if is_bg:
-            app.hold()
-        else:
-            app.release()
+        self.set_hide_on_close(is_bg)
 
     def on_startup_switch_changed(self, switch, param):
         is_active = switch.get_active()
         config.set("run_on_startup", is_active)
         self._update_hidden_switch_sensitivity()
+        self._update_background_portal()
 
+    def on_hidden_switch_changed(self, switch, param):
+        config.set("start_hidden", switch.get_active())
+        self._update_background_portal()
+
+    def _update_background_portal(self):
+        is_startup = self.startup_switch.get_active()
+        is_hidden = self.hidden_switch.get_active()
+        
         try:
             from gi.repository import Gio, GLib
             bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
-            options = GLib.Variant("a{sv}", {
+            
+            command = ["whisp"]
+            if is_hidden:
+                command.append("--hidden")
+                
+            opts_dict = {
                 "reason": GLib.Variant("s", "Start Whisp in the background"),
-                "autostart": GLib.Variant("b", is_active),
-                "commandline": GLib.Variant("as", ["whisp", "--hidden"]) if is_active else GLib.Variant("as", [])
-            })
+                "autostart": GLib.Variant("b", is_startup)
+            }
+            if is_startup:
+                opts_dict["commandline"] = GLib.Variant("as", command)
+                
+            options = GLib.Variant("a{sv}", opts_dict)
             parameters = GLib.Variant.new_tuple(GLib.Variant("s", ""), options)
             
             def on_bg_response(conn, sender, path, iface, signame, params, ud):
@@ -1713,9 +1725,6 @@ class WhispWindow(Adw.ApplicationWindow):
             )
         except Exception as e:
             print("Failed to request background portal via DBus:", e)
-
-    def on_hidden_switch_changed(self, switch, param):
-        config.set("start_hidden", switch.get_active())
 
     def on_font_changed(self, font_btn, param):
         desc = font_btn.get_font_desc()
@@ -1845,6 +1854,9 @@ class WhispWindow(Adw.ApplicationWindow):
         if current_page_idx < self.carousel.get_n_pages():
             editor = self.carousel.get_nth_page(current_page_idx)
             config.set("last_active_note", str(editor.file_path))
+            
+        if not config.get("run_in_background", False):
+            self.get_application().quit()
             
         return False
 
