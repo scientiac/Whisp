@@ -7,8 +7,8 @@
     --card-border: rgba(0, 0, 0, 0.05); /* Softer borders */
     --text-primary: #1e1e1e;
     --text-secondary: #77767b;
-    --accent-color: #3584e4; /* GNOME Blue */
-    --accent-hover: #1c71d8;
+    --accent-color: #0ab3bb; /* Whisp Teal */
+    --accent-hover: #089b9b;
     --font-primary: "Adwaita Sans", Cantarell, Inter, sans-serif;
 }
 
@@ -179,50 +179,188 @@ h1, h2, h3 {
     cursor: not-allowed;
 }
 
-/* Centered Hero */
-.hero-centered {
+/* GNOME-style Navbar */
+.gnome-navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 2rem;
+    z-index: 100;
+}
+
+.gnome-nav-container {
     max-width: 1200px;
-    margin: 6rem auto 4rem;
-    padding: 0 2rem;
-    text-align: center;
-}
-
-.hero-centered h1 {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, #1e1e1e 0%, #666666 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.subtitle {
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    max-width: 600px;
-    margin: 0 auto 3rem;
-}
-
-.hero-actions {
-    margin-bottom: 4rem;
-}
-
-/* Hero Image */
-.hero-image-wrapper {
-    max-width: 1100px;
     margin: 0 auto;
-    text-align: center;
-    perspective: 1000px; /* For 3D Parallax Tilt */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.hero-image {
-    zoom: 1.1;
-    max-width: 100%;
-    height: auto;
-    display: inline-block;
-    transition: transform 0.1s ease-out;
-    will-change: transform;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: high-quality;
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-decoration: none;
+    color: #1e1e1e;
+}
+
+.nav-brand-icon {
+    width: 28px;
+    height: 28px;
+}
+
+.nav-brand-text {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.nav-links-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #1e1e1e;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: opacity 0.2s ease;
+}
+
+.nav-link:hover {
+    opacity: 0.7;
+}
+
+.nav-btn-donate {
+    text-decoration: none;
+    color: #1e1e1e;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 9999px;
+    box-shadow: inset 0 0 0 2px #1e1e1e; /* Using box-shadow to prevent layout shift on hover */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.nav-btn-donate:hover {
+    background-color: rgba(30, 30, 30, 0.15); /* Subtle dark tint */
+    box-shadow: inset 0 0 0 4px #1e1e1e; /* Thicker border */
+    transform: scale(1.05); /* Enlarge */
+}
+
+/* Turntable-style Centered Hero Section */
+.hero-section {
+    padding: 6rem 2rem 4rem 2rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-teal {
+    background-color: var(--accent-color);
+    color: #ffffff; /* For high contrast on teal */
+}
+
+.hero-container-centered {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Brand Header */
+.hero-brand-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.hero-app-icon-small {
+    width: 144px;
+    height: 144px;
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.3)); /* Stronger shadow */
+    transform-origin: center left; /* Keep origin consistent for transition */
+    transition: transform 0.5s ease-out; /* Smoothly tween back to 0 when hover animation stops */
+}
+
+.hero-titles-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.hero-title-centered {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: #1e1e1e; /* Dark text */
+}
+
+.hero-subtitle-centered {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: rgba(30, 30, 30, 0.8); /* Dark text */
+    margin-top: 0.2rem;
+}
+
+.squiggly {
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: #1e1e1e;
+    text-decoration-thickness: 2px;
+}
+
+/* Master Image */
+.hero-image-centered {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem; /* Reduced to pull Flathub badge up */
+}
+
+.hero-screenshot-centered {
+    width: 100%;
+    max-width: 800px;
+    /* No borders or box shadow, raw image floats naturally */
+}
+
+/* Flathub Badge */
+.hero-actions-centered {
+    display: flex;
+    justify-content: center;
+}
+
+.flathub-badge-img {
+    height: 80px; /* Large Flathub Badge */
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.flathub-badge-link:hover .flathub-badge-img {
+    transform: translateY(-2px);
+    opacity: 0.95;
+}
+
+/* --- Micro-Interactions --- */
+
+/* Use the :has() pseudo-class to trigger animation on the icon when the Flathub badge is hovered */
+.hero-container-centered:has(.flathub-badge-link:hover) .hero-app-icon-small {
+    /* IDEA 4: 3D Page Turn */
+    animation: pageTurn 2s ease-in-out infinite;
+    transform-origin: center left;
+}
+
+@keyframes pageTurn {
+    0%, 100% { transform: perspective(1000px) rotateY(0deg) translateY(0); }
+    50% { transform: perspective(1000px) rotateY(-15deg) translateY(-4px); }
 }
 
 /* Bento Grid */
