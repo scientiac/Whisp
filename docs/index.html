@@ -6,8 +6,7 @@
     <title>Whisp - The Anti-Note for GNOME</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
     <link rel="shortcut icon" href="assets/icon.svg">
     <link rel="icon" href="assets/icon.ico" type="image/x-icon">
@@ -34,20 +33,8 @@
 
         <!-- Structured data: SoftwareApplication -->
         <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "Whisp",
-            "url": "https://flathub.org/apps/io.github.tanaybhomia.Whisp",
-            "applicationCategory": "DesktopApplication",
-            "operatingSystem": "Linux",
-            "author": {
-                "@type": "Person",
-                "name": "tanaybhomia",
-                "url": "https://github.com/tanaybhomia"
-            },
-            "description": "A fluid, gesture-driven scratchpad designed for absolute speed.",
-            "image": "assets/og-image.jpg"
+        {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Whisp","url":"https://flathub.org/apps/io.github.tanaybhomia.Whisp","applicationCategory":"DesktopApplication","operatingSystem":"Linux","author": {"@type":"Person","name":"tanaybhomia","url":"https://github.com/tanaybhomia"
+            },"description":"A fluid, gesture-driven scratchpad designed for absolute speed.","image":"assets/og-image.jpg"
         }
         </script>
 </head>
@@ -69,13 +56,13 @@
 
     <main>
         <section class="hero-centered">
-            <div class="hero-icon-wrapper reveal">
+            <div class="hero-icon-wrapper">
                 <img src="assets/icon.svg" alt="Whisp App Icon" class="hero-app-icon">
             </div>
-            <h1 class="reveal delay-1">The Anti-Note for GNOME.</h1>
-            <p class="subtitle reveal delay-2" style="margin-bottom: 1.5rem;">A fluid, gesture-driven scratchpad designed for absolute speed.</p>
+            <h1 class="">The Anti-Note for GNOME.</h1>
+            <p class="subtitle" style="margin-bottom: 1.5rem;">A fluid, gesture-driven scratchpad designed for absolute speed.</p>
             
-            <div class="hero-badges reveal delay-2" style="display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 2.5rem; flex-wrap: wrap;">
+            <div class="hero-badges" style="display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 2.5rem; flex-wrap: wrap;">
                 <a href="https://github.com/tanaybhomia/Whisp" target="_blank" class="badge" style="text-decoration: none; display: flex; align-items: center; gap: 0.4rem; background: var(--card-bg); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; color: var(--text-secondary); border: 1px solid var(--card-border); cursor: pointer; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                     <span id="github-stars" style="font-weight: 600;">-- stars</span>
@@ -89,13 +76,13 @@
                     <span style="font-weight: 600;">100% Free & Open Source</span>
                 </div>
             </div>
-            <div class="hero-actions reveal delay-3" style="display: flex; justify-content: center; gap: 1rem;">
+            <div class="hero-actions" style="display: flex; justify-content: center; gap: 1rem;">
                 <a href="https://flathub.org/apps/io.github.tanaybhomia.Whisp" target="_blank" class="btn btn-primary btn-large">Download on Flathub</a>
                 <a href="donate.html" class="btn btn-secondary btn-donate btn-large">Support the project</a>
             </div>
             
             <!-- Centered Master Image -->
-            <div class="hero-image-wrapper reveal delay-4">
+            <div class="hero-image-wrapper">
                 <img src="assets/1-hero.png" alt="Whisp Interface" class="hero-image">
             </div>
         </section>
@@ -509,50 +496,50 @@
         </script>
 
         <!-- Why Whisp Section -->
-        <section class="why-whisp-section reveal" style="max-width: 1000px; margin: 8rem auto; padding: 0 2rem; text-align: center;">
+        <section class="why-whisp-section" style="max-width: 1000px; margin: 8rem auto; padding: 0 2rem; text-align: center;">
             <h2 class="section-title" style="margin-bottom: 2rem;">Why Whisp?</h2>
             <p style="font-size: 1.3rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 4rem; max-width: 800px; margin-left: auto; margin-right: auto;">
                 Most apps like <i>Notion</i> or <i>Obsidian</i> force heavy workflows of managing files, folders, and saving. <strong style="color: var(--text-primary);">Whisp is different.</strong>
             </p>
             
             <div class="why-whisp-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; text-align: left;">
-                <div class="reveal-bottom delay-1" style="background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--card-border);">
+                <div class="" style="background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--card-border);">
                     <h3 style="color: var(--accent-color); font-size: 1.3rem; margin-bottom: 1rem;">Zero Friction</h3>
                     <p style="color: var(--text-secondary); line-height: 1.6; font-size: 1.05rem; margin: 0;">No titles to type, no files to name, and no folders to manage. Just open the app and start typing instantly.</p>
                 </div>
-                <div class="reveal-bottom delay-2" style="background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--card-border);">
+                <div class="" style="background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--card-border);">
                     <h3 style="color: var(--accent-color); font-size: 1.3rem; margin-bottom: 1rem;">Spatial Navigation</h3>
                     <p style="color: var(--text-secondary); line-height: 1.6; font-size: 1.05rem; margin: 0;">Instead of a messy sidebar, your notes exist in a swipeable carousel. A quick swipe glides you to your next thought.</p>
                 </div>
-                <div class="reveal-bottom delay-3" style="background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--card-border);">
-                    <h3 style="color: var(--accent-color); font-size: 1.3rem; margin-bottom: 1rem;">The "Anti-Note"</h3>
+                <div class="" style="background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--card-border);">
+                    <h3 style="color: var(--accent-color); font-size: 1.3rem; margin-bottom: 1rem;">The"Anti-Note"</h3>
                     <p style="color: var(--text-secondary); line-height: 1.6; font-size: 1.05rem; margin: 0;">Use it as a true scratchpad. Paste temporary links, jot down quick thoughts, and when done, hit <code>Ctrl+D</code> to delete it forever.</p>
                 </div>
             </div>
         </section>
 
         <section class="bento-section">
-            <h2 class="section-title reveal" style="margin-bottom: 1rem;">Core Features</h2>
+            <h2 class="section-title" style="margin-bottom: 1rem;">Core Features</h2>
             
             <div class="bento-container">
                 
                 <!-- Left Column -->
                 <div class="bento-col">
-                    <div class="bento-box box-native reveal-left delay-1">
+                    <div class="bento-box box-native">
                         <div class="text-content">
                             <h3>Native by Design</h3>
                         </div>
                         <img src="assets/WebsiteImages/1antinoteisfortemporary.png" class="box-native-img" alt="Native Design">
                     </div>
                     
-                    <div class="bento-box box-wysiwyg reveal-left delay-2">
+                    <div class="bento-box box-wysiwyg">
                         <h3>WYSIWYG Mode</h3>
                         <p>Toggle WYSIWYG mode to instantly render your markdown beautifully.</p>
 
                         <img src="assets/WebsiteImages/wysiwygmode.png" class="box-wysiwyg-img" alt="WYSIWYG Mode">
                     </div>
 
-                    <div class="bento-box box-simple teal-card reveal delay-3">
+                    <div class="bento-box box-simple teal-card">
                         <h3>Intentionally simple</h3>
                         <p>Whisp is an anti-note. We reject infinite databases and complex tagging. Some thoughts are meant to be fleeting and messy. A perfect temporary scratchpad.</p>
                     </div>
@@ -560,7 +547,7 @@
 
                 <!-- Right Column -->
                 <div class="bento-col">
-                    <div class="bento-box box-nav reveal-right delay-1">
+                    <div class="bento-box box-nav">
                         <h3>Friction Less Navigation</h3>
                         <p>Swipe horizontally to instantly switch between notes. Fluid and friction-less.</p>
                         <div class="swipe-demo-container">
@@ -578,7 +565,7 @@
                         </div>
                     </div>
 
-                    <div class="bento-box box-checklists reveal-right delay-2">
+                    <div class="bento-box box-checklists">
                         <h3>Checklists</h3>
                         <p>Type <code>List :</code> to automatically transform your note into a seamless checklist. Perfect for quick tasks, daily routines, and rapid mental dumps.</p>
                         <img src="assets/WebsiteImages/2antinoteisforlists.png" class="box-checklists-img" alt="Checklists">
@@ -588,49 +575,49 @@
             </div>
             
             <!-- Footer Text Below Bento Grid -->
-            <div class="large-footer-text reveal delay-2">
+            <div class="large-footer-text">
                 More <span class="highlight-marker">fun</span> things coming
             </div>
         </section>
 
         <!-- Power Users Grid -->
-        <section class="power-users-section reveal">
+        <section class="power-users-section">
             <h2 class="section-title">Built for power users.</h2>
             <div class="power-grid">
-                <div class="power-item reveal delay-1">
+                <div class="power-item">
                     <p><strong>Custom Font.</strong> Write in your preferred style with complete typeface customization.</p>
                 </div>
-                <div class="power-item reveal delay-2">
+                <div class="power-item">
                     <p><strong>Custom Line Spacing.</strong> Adjust line heights for perfect readability and visual density.</p>
                 </div>
-                <div class="power-item reveal delay-3">
+                <div class="power-item">
                     <p><strong>Paper themes.</strong> Switch seamlessly between grid, lined, or blank paper backgrounds.</p>
                 </div>
                 
-                <div class="power-item reveal delay-1">
+                <div class="power-item">
                     <p><strong>Startup behaviour.</strong> Choose whether to start fresh with a blank note or restore your previous session.</p>
                 </div>
-                <div class="power-item reveal delay-2">
+                <div class="power-item">
                     <p><strong>Quick launch shortcut.</strong> Summon Whisp instantly from anywhere using a customizable global hotkey.</p>
                 </div>
-                <div class="power-item reveal delay-3">
+                <div class="power-item">
                     <p><strong>Auto Archiving.</strong> Automatically clean up inactive notes after 1 month, 1 year, or never.</p>
                 </div>
                 
-                <div class="power-item reveal delay-1">
+                <div class="power-item">
                     <p><strong>Custom carousel Size.</strong> Adjust the physical width of your note carousel to fit your exact workflow.</p>
                 </div>
-                <div class="power-item reveal delay-2">
+                <div class="power-item">
                     <p><strong>Pin important notes.</strong> Pin your most crucial notes so they always stay visible at the front.</p>
                 </div>
-                <div class="power-item reveal delay-3">
+                <div class="power-item">
                     <p><strong>Keyboard Shortcuts.</strong> Keep your hands on the keys with dedicated shortcuts for pinning and navigating.</p>
                 </div>
             </div>
         </section>
 
         <!-- Wall of Love Section -->
-        <section class="reviews-section reveal">
+        <section class="reviews-section">
             <h2 class="section-title" style="margin-bottom: 1rem;">Loved on <i>Linux.</i></h2>
             <div class="reviews-subtitle">
                 Reached <span class="highlight-marker">4500+</span> Downloads in the first <span class="highlight-marker">month</span> on Flathub.
@@ -638,7 +625,7 @@
 
             <div class="reviews-grid">
                 <!-- Review Card 1 -->
-                <div class="review-card reveal-bottom delay-1">
+                <div class="review-card">
                     <h4>One of my favorite apps</h4>
                     <p>man, I've been using the app since the day you posted this, now is one of my favorite and most used apps. do you have ko-fi profile? i would like to support your effort</p>
                     <div class="review-meta">
@@ -648,7 +635,7 @@
                 </div>
                 
                 <!-- Review Card 2 -->
-                <div class="review-card reveal-bottom delay-2">
+                <div class="review-card">
                     <h4>Exactly what I was looking for</h4>
                     <p>I just downloaded it. Discovered it through the flathub frontpage. It's exactly what I was looking for. It looks super cool and works perfectly.</p>
                     <div class="review-meta">
@@ -658,7 +645,7 @@
                 </div>
 
                 <!-- Review Card 3 -->
-                <div class="review-card reveal-bottom delay-3">
+                <div class="review-card">
                     <h4>Absolutely amazing!</h4>
                     <p>This is absolutely amazing! Antinote has been one of my favorite mac apps, thank you so much!</p>
                     <div class="review-meta">
@@ -668,7 +655,7 @@
                 </div>
 
                 <!-- Review Card 4 -->
-                <div class="review-card reveal-bottom delay-1">
+                <div class="review-card">
                     <h4>Way more useful</h4>
                     <p>This is way more useful than Buffer is to me! Thank you. Just installed on 3 of my machines.</p>
                     <div class="review-meta">
@@ -678,7 +665,7 @@
                 </div>
 
                 <!-- Review Card 5 -->
-                <div class="review-card reveal-bottom delay-2">
+                <div class="review-card">
                     <h4>Perfection for my workflow</h4>
                     <p>Whisp + Planify is just perfection for my workflow</p>
                     <div class="review-meta">
@@ -688,7 +675,7 @@
                 </div>
 
                 <!-- Review Card 6 -->
-                <div class="review-card reveal-bottom delay-3">
+                <div class="review-card">
                     <h4>Very fast and easy to understand</h4>
                     <p>Love this! Very fast and easy to understand. Congratulations Baajji !!!</p>
                     <div class="review-meta">
@@ -701,7 +688,7 @@
     </main>
 
     <div class="site-footer-wrapper">
-        <footer class="site-footer reveal">
+        <footer class="site-footer">
             <div class="footer-container">
                 <div class="footer-col brand-col" style="text-align: left;">
                     <a href="#" class="brand" style="text-decoration: none; color: inherit; display: inline-flex; align-items: center; gap: 0.5rem;">
@@ -710,7 +697,7 @@
                     </a>
                     <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5; max-width: 280px;">The anti-note for GNOME.</p>
                 </div>
-                <div class="footer-col reveal delay-1">
+                <div class="footer-col">
                     <h4>Connect</h4>
                     <ul class="footer-links">
                         <li><a href="https://github.com/tanaybhomia" target="_blank">GitHub</a></li>
@@ -718,7 +705,7 @@
                         <li><a href="https://instagram.com/tanaybhomia" target="_blank">Instagram</a></li>
                     </ul>
                 </div>
-                <div class="footer-col reveal delay-2">
+                <div class="footer-col">
                     <h4>Project</h4>
                     <ul class="footer-links">
                         <li><a href="https://github.com/tanaybhomia/Whisp" target="_blank">Source Code</a></li>
@@ -786,7 +773,7 @@
             threshold: 0.1
         };
 
-        const revealObserver = new IntersectionObserver((entries, observer) => {
+        const Observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
@@ -795,8 +782,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
-            revealObserver.observe(el);
+        document.querySelectorAll('. , . , . ').forEach(el => { Observer.observe(el);
         });
     </script>
 </body>

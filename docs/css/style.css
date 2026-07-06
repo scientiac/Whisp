@@ -1,15 +1,15 @@
 :root {
-    /* GNOME Libadwaita Light Mode Palette */
+    /* GNOME Adwaita Light Mode Palette */
     --window-bg: #fafafa;
     --view-bg: #ffffff;
     --card-bg: #ffffff;
     --card-hover: #f5f5f5;
-    --card-border: rgba(0, 0, 0, 0.1);
+    --card-border: rgba(0, 0, 0, 0.05); /* Softer borders */
     --text-primary: #1e1e1e;
-    --text-secondary: rgba(0, 0, 0, 0.6);
-    --accent-color: #0ab3bb;
-    --accent-hover: #00cccc;
-    --font-mono: 'JetBrains Mono', monospace;
+    --text-secondary: #77767b;
+    --accent-color: #3584e4; /* GNOME Blue */
+    --accent-hover: #1c71d8;
+    --font-primary: "Adwaita Sans", Cantarell, Inter, sans-serif;
 }
 
 html {
@@ -24,10 +24,8 @@ html {
 
 body {
     background-color: var(--window-bg);
-    background-image: radial-gradient(var(--card-border) 1.5px, transparent 1.5px);
-    background-size: 24px 24px;
     color: var(--text-primary);
-    font-family: var(--font-mono);
+    font-family: var(--font-primary);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
 }
@@ -793,36 +791,17 @@ kbd {
 /* System Dark Mode (GNOME Libadwaita) */
 @media (prefers-color-scheme: dark) {
     :root {
-        --window-bg: #242424;
-        --view-bg: #1e1e1e;
-        --card-bg: #303030;
-        --card-hover: #383838;
-        --card-border: rgba(255, 255, 255, 0.1);
-        --text-primary: #ffffff;
-        --text-secondary: rgba(255, 255, 255, 0.7);
-        --accent-color: #00cccc;
-        --accent-hover: #0ab3bb;
-    }
-    
-    .hero-centered h1 {
-        background: linear-gradient(135deg, #ffffff 0%, #aaaaaa 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    
-    kbd {
-        background: linear-gradient(180deg, #444 0%, #333 100%);
-        border: 1px solid #222;
-        color: #eee;
-    }
-
-    .manual-sidebar {
-        background: rgba(36, 36, 36, 0.8);
-    }
-    
-    .manual-page {
-        --dot-color: rgba(255, 255, 255, 0.15);
-    }
+    /* GNOME Adwaita Light Mode Palette */
+    --window-bg: #fafafa;
+    --view-bg: #ffffff;
+    --card-bg: #ffffff;
+    --card-hover: #f5f5f5;
+    --card-border: rgba(0, 0, 0, 0.05); /* Softer borders */
+    --text-primary: #1e1e1e;
+    --text-secondary: #77767b;
+    --accent-color: #3584e4; /* GNOME Blue */
+    --accent-hover: #1c71d8;
+    --font-primary: "Adwaita Sans", Cantarell, Inter, sans-serif;
 }
 
 /* Scroll Reveal Animations */
