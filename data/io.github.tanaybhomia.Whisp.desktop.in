@@ -2,10 +2,9 @@
 Name=Whisp
 GenericName=Note Taker
 Comment=A minimalist note taking widget application
-Exec=@bindir@/whisp %F
+Exec=@bindir@/whisp
 Icon=io.github.tanaybhomia.Whisp
 Terminal=false
 Type=Application
 Categories=Utility;TextEditor;
 StartupNotify=true
-MimeType=text/markdown;text/plain;
