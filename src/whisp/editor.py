@@ -1245,9 +1245,18 @@ class NoteEditor(Gtk.Overlay):
                     if len(display_url) > 25:
                         display_url = display_url[:25] + "..."
                     markdown_link = f"[{display_url}]({url})"
-                    GLib.idle_add(lambda: self.buffer.insert_at_cursor(markdown_link) or False)
+                    
+                    def do_insert():
+                        self.buffer.delete_selection(True, self.textview.get_editable())
+                        self.buffer.insert_at_cursor(markdown_link)
+                        return False
+                    GLib.idle_add(do_insert)
                 else:
-                    GLib.idle_add(lambda: self.buffer.insert_at_cursor(text) or False)
+                    def do_insert():
+                        self.buffer.delete_selection(True, self.textview.get_editable())
+                        self.buffer.insert_at_cursor(text)
+                        return False
+                    GLib.idle_add(do_insert)
         except GLib.Error:
             pass
 
@@ -1272,7 +1281,11 @@ class NoteEditor(Gtk.Overlay):
                 text = re.sub(r'^\s*\d+\.\s+', '', text, flags=re.MULTILINE)
                 text = re.sub(r'^\s*[☐☑]\s*', '', text, flags=re.MULTILINE)
                 
-                GLib.idle_add(lambda: self.buffer.insert_at_cursor(text) or False)
+                def do_insert():
+                    self.buffer.delete_selection(True, self.textview.get_editable())
+                    self.buffer.insert_at_cursor(text)
+                    return False
+                GLib.idle_add(do_insert)
         except GLib.Error:
             pass
 
