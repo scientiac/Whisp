@@ -25,3 +25,19 @@ install_data('icons/io.github.tanaybhomia.Whisp-symbolic.svg',
 install_data('icons/io.github.tanaybhomia.Whisp-pin-symbolic.svg',
   install_dir: get_option('datadir') / 'icons/hicolor/symbolic/apps'
 )
+
+# Desktop file validation
+desktop_utils = find_program('desktop-file-validate', required: false)
+if desktop_utils.found()
+  test('Validate desktop file', desktop_utils,
+    args: [join_paths(meson.current_build_dir(), 'io.github.tanaybhomia.Whisp.desktop')]
+  )
+endif
+
+# Appstream validation
+appstream_utils = find_program('appstreamcli', required: false)
+if appstream_utils.found()
+  test('Validate appstream file', appstream_utils,
+    args: ['validate', '--no-net', '--explain', join_paths(meson.current_source_dir(), 'io.github.tanaybhomia.Whisp.metainfo.xml')]
+  )
+endif
