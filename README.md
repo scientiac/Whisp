@@ -9,9 +9,9 @@
   </a>
   <br><br>
   
-  <a href="CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/CODE%20OF%20CONDUCT-GNOME-E8B715?labelColor=F9E870&style=flat-square&logoColor=000" alt="Code of Conduct"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/LICENSE-GPL--3.0-E8B715?labelColor=F9E870&style=flat-square" alt="License: GPLv3"></a>
-  <a href="#"><img src="https://img.shields.io/badge/BUILD-PASSING-3CB32A?labelColor=F9E870&style=flat-square" alt="Build Status"></a>
+  <a href="CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/CODE%20OF%20CONDUCT-GNOME-0AB3BB?labelColor=242424&style=flat-square" alt="Code of Conduct"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/LICENSE-GPL--3.0-0AB3BB?labelColor=242424&style=flat-square" alt="License: GPLv3"></a>
+  <a href="#"><img src="https://img.shields.io/badge/BUILD-PASSING-3CB32A?labelColor=242424&style=flat-square" alt="Build Status"></a>
   <a href="https://stopthemingmy.app"><img src="https://stopthemingmy.app/badge.svg" alt="Please Don't Theme"></a>
   <br><br>
 </div>
