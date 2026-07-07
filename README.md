@@ -12,7 +12,7 @@
   <a href="CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/CODE%20OF%20CONDUCT-GNOME-0AB3BB?labelColor=242424&style=flat-square" alt="Code of Conduct"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/LICENSE-GPL--3.0-0AB3BB?labelColor=242424&style=flat-square" alt="License: GPLv3"></a>
   <a href="#"><img src="https://img.shields.io/badge/BUILD-PASSING-3CB32A?labelColor=242424&style=flat-square" alt="Build Status"></a>
-  <a href="https://stopthemingmy.app"><img src="https://stopthemingmy.app/badge.svg" alt="Please Don't Theme"></a>
+  <a href="https://flathub.org/apps/io.github.tanaybhomia.Whisp"><img src="https://img.shields.io/flathub/downloads/io.github.tanaybhomia.Whisp?style=flat-square&logo=flathub&labelColor=242424&color=0AB3BB" alt="Flathub Downloads"></a>
   <br><br>
 </div>
 
@@ -53,7 +53,10 @@ flatpak install flathub io.github.tanaybhomia.Whisp
 
 ## Contribution & Development
 
-If you'd like to contribute to Whisp or build your own version, we have set up scripts to make local development frictionless.
+If you'd like to contribute to Whisp or build your own version, we have set up scripts to make local development frictionless. We kindly ask that all contributors adhere to our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+### Translations
+Want to help translate Whisp into your native language? We use standard GNU gettext `.po` files. Please read our [Translations Guide](TRANSLATIONS.md) for simple instructions on how to submit a translation pull request!
 
 ### Local Testing
 You do not need to install the app or compile it with Meson just to test Python code changes. Run the following command in the project root to instantly launch the app from the source code:
