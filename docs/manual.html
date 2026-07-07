@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=2">
+    <link rel="stylesheet" href="css/style.css?v=8">
     <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
     <link rel="shortcut icon" href="assets/icon.svg">
     <link rel="icon" href="assets/icon.ico" type="image/x-icon">
@@ -23,47 +23,70 @@
 
     <div class="manual-layout">
         <aside class="manual-sidebar">
-            <a href="index.html" class="back-link">← Back to Whisp</a>
+            <div class="sidebar-header">
+                <a href="index.html" class="back-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                </a>
+                <div class="sidebar-title">
+                    <img src="assets/icon.svg" alt="Whisp Logo" width="32" height="32" style="margin-bottom: 0 !important;">
+                </div>
+            </div>
+
+            <div class="sidebar-search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="search" id="manual-search-input" placeholder="Search..." class="manual-search-input">
+            </div>
             
-            <div class="nav-group">
-                <h3>Basics</h3>
-                <a href="#nav-navigation">Navigation</a>
-                <a href="#nav-create">Creating Notes</a>
-                <a href="#nav-delete">Deleting Notes</a>
-                <a href="#nav-search">Search</a>
-            </div>
+            <details class="nav-group" open>
+                <summary>Basics</summary>
+                <div class="nav-links">
+                    <a href="#nav-navigation">Navigation</a>
+                    <a href="#nav-create">Creating Notes</a>
+                    <a href="#nav-delete">Deleting Notes</a>
+                    <a href="#nav-search">Search</a>
+                </div>
+            </details>
 
-            <div class="nav-group">
-                <h3>Editor</h3>
-                <a href="#nav-markdown">Markdown Formatting</a>
-                <a href="#nav-wysiwyg">WYSIWYG Mode</a>
-                <a href="#nav-lists">Smart Lists</a>
-                <a href="#nav-checkbox">Checkboxes</a>
-            </div>
+            <details class="nav-group" open>
+                <summary>Editor</summary>
+                <div class="nav-links">
+                    <a href="#nav-markdown">Markdown Formatting</a>
+                    <a href="#nav-wysiwyg">WYSIWYG Mode</a>
+                    <a href="#nav-lists">Smart Lists</a>
+                    <a href="#nav-checkbox">Checkboxes</a>
+                </div>
+            </details>
 
-            <div class="nav-group">
-                <h3>Advanced</h3>
-                <a href="#nav-smartpaste">Smart Paste (URL)</a>
-                <a href="#nav-plainpaste">Plain Text Paste</a>
-            </div>
+            <details class="nav-group" open>
+                <summary>Advanced</summary>
+                <div class="nav-links">
+                    <a href="#nav-smartpaste">Smart Paste (URL)</a>
+                    <a href="#nav-plainpaste">Plain Text Paste</a>
+                </div>
+            </details>
 
-            <div class="nav-group">
-                <h3>Smart Functions</h3>
-                <a href="#nav-date-time">Date & Time</a>
-                <a href="#nav-generators">Random & Dice</a>
-                <a href="#nav-text-commands">Text Commands</a>
-            </div>
+            <details class="nav-group" open>
+                <summary>Smart Functions</summary>
+                <div class="nav-links">
+                    <a href="#nav-date-time">Date & Time</a>
+                    <a href="#nav-generators">Random & Dice</a>
+                    <a href="#nav-text-commands">Text Commands</a>
+                </div>
+            </details>
 
-            <div class="nav-group">
-                <h3>Customization</h3>
-                <a href="#nav-themes">Paper Themes</a>
-                <a href="#nav-darkmode">Dark Mode</a>
-                <a href="#nav-typography">Typography</a>
-            </div>
+            <details class="nav-group" open>
+                <summary>Customization</summary>
+                <div class="nav-links">
+                    <a href="#nav-themes">Paper Themes</a>
+                    <a href="#nav-darkmode">Dark Mode</a>
+                    <a href="#nav-typography">Typography</a>
+                </div>
+            </details>
         </aside>
 
         <main class="manual-content">
-            <header class="manual-header reveal">
+            <div class="manual-inner">
+            <header class="manual-header">
                 <span class="version-badge">Updated for v1.3.3</span>
                 <h1>User Manual</h1>
                 <div class="intent-banner">
@@ -71,7 +94,7 @@
                 </div>
             </header>
 
-            <section id="nav-navigation" class="manual-section reveal">
+            <section id="nav-navigation" class="manual-section">
                 <h2>Navigation</h2>
                 <ul>
                     <li>Two-finger swipe left or right on your touchpad to smoothly transition between notes.</li>
@@ -85,7 +108,7 @@
                 </div>
             </section>
 
-            <section id="nav-create" class="manual-section reveal">
+            <section id="nav-create" class="manual-section">
                 <h2>Creating Notes</h2>
                 <ul>
                     <li>Swiping past the latest (right-most) note will automatically spawn a fresh, blank note.</li>
@@ -96,7 +119,7 @@
                 </div>
             </section>
 
-            <section id="nav-delete" class="manual-section reveal">
+            <section id="nav-delete" class="manual-section">
                 <h2>Deleting Notes</h2>
                 <ul>
                     <li>Deleting a note removes it from the main view and moves it to a hidden <code>.trash</code> directory.</li>
@@ -110,7 +133,7 @@
                 </div>
             </section>
 
-            <section id="nav-search" class="manual-section reveal">
+            <section id="nav-search" class="manual-section">
                 <h2>Search</h2>
                 <ul>
                     <li>Instantly search through all your notes. Clicking a search result immediately jumps you to that note.</li>
@@ -122,7 +145,7 @@
 
             <hr>
 
-            <section id="nav-markdown" class="manual-section reveal">
+            <section id="nav-markdown" class="manual-section">
                 <h2>Markdown Formatting</h2>
                 <ul>
                     <li>Whisp supports standard Markdown for fast formatting, but powers it up with smart keyboard toggles.</li>
@@ -139,7 +162,7 @@
                 </div>
             </section>
 
-            <section id="nav-wysiwyg" class="manual-section reveal">
+            <section id="nav-wysiwyg" class="manual-section">
                 <h2>WYSIWYG Mode</h2>
                 <ul>
                     <li>Tired of looking at Markdown syntax? Toggle the live formatting view (the eye icon).</li>
@@ -150,7 +173,7 @@
                 </div>
             </section>
 
-            <section id="nav-lists" class="manual-section reveal">
+            <section id="nav-lists" class="manual-section">
                 <h2>Smart Lists</h2>
                 <ul>
                     <li>Type <code>list</code> or <code>list: Custom Title</code> at the top of your note to activate List Mode.</li>
@@ -166,7 +189,7 @@
                 </div>
             </section>
 
-            <section id="nav-checkbox" class="manual-section reveal">
+            <section id="nav-checkbox" class="manual-section">
                 <h2>Checkboxes</h2>
                 <ul>
                     <li>Whisp uses native unicode checkboxes (<code>☐</code> and <code>☑</code>) to keep your lists minimal and portable.</li>
@@ -179,7 +202,7 @@
 
             <hr>
 
-            <section id="nav-smartpaste" class="manual-section reveal">
+            <section id="nav-smartpaste" class="manual-section">
                 <h2>Smart Paste (URL)</h2>
                 <ul>
                     <li>Dropping massive tracking URLs ruins the visual flow of a note.</li>
@@ -192,7 +215,7 @@
                 </div>
             </section>
 
-            <section id="nav-plainpaste" class="manual-section reveal">
+            <section id="nav-plainpaste" class="manual-section">
                 <h2>Plain Text Paste</h2>
                 <ul>
                     <li>Pasting text from the web often brings along unwanted markdown syntax.</li>
@@ -205,7 +228,7 @@
 
             <hr>
 
-            <section id="nav-date-time" class="manual-section reveal">
+            <section id="nav-date-time" class="manual-section">
                 <h2>Date & Time Expansions</h2>
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Whisp includes a smart text expansion engine. Type a command starting with a colon (<code>::</code>) and hit Enter or Space to instantly expand it.</p>
 
@@ -255,7 +278,7 @@
                 </div>
             </section>
 
-            <section id="nav-generators" class="manual-section reveal">
+            <section id="nav-generators" class="manual-section">
                 <h2>Random & Fun Generators</h2>
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Need a quick random string, a password, or a fun classic kaomoji? Use the built-in offline generator functions.</p>
 
@@ -363,7 +386,7 @@
                 </div>
             </section>
 
-            <section id="nav-text-commands" class="manual-section reveal">
+            <section id="nav-text-commands" class="manual-section">
                 <h2>Text Commands</h2>
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Transform the entire document's text with various formatting options.</p>
 
@@ -451,7 +474,7 @@
 
             <hr>
 
-            <section id="nav-themes" class="manual-section reveal">
+            <section id="nav-themes" class="manual-section">
                 <h2>Paper Themes</h2>
                 <ul>
                     <li>Customize the aesthetic of your notes by opening Preferences.</li>
@@ -459,7 +482,7 @@
                 </ul>
             </section>
 
-            <section id="nav-darkmode" class="manual-section reveal">
+            <section id="nav-darkmode" class="manual-section">
                 <h2>Dark Mode</h2>
                 <ul>
                     <li>Whisp is built natively for GNOME and will automatically adapt its UI, editor, and paper themes to match your system's global Dark Mode setting.</li>
@@ -467,7 +490,7 @@
                 </ul>
             </section>
 
-            <section id="nav-typography" class="manual-section reveal">
+            <section id="nav-typography" class="manual-section">
                 <h2>Typography</h2>
                 <ul>
                     <li>You have complete control over the editor font through the Preferences menu.</li>
@@ -477,6 +500,7 @@
                     <kbd>Ctrl</kbd> + <kbd>,</kbd> Open Preferences
                 </div>
             </section>
+            </div>
         </main>
     </div>
 
@@ -490,6 +514,7 @@
                 if (entry.isIntersecting) {
                     navLinks.forEach(link => {
                         link.classList.remove('active');
+                        // Also remove active styling for sidebar titles if we want, but let's just use exact hash match
                         if (link.getAttribute('href') === '#' + entry.target.id) {
                             link.classList.add('active');
                         }
@@ -500,34 +525,48 @@
 
         sections.forEach(section => observer.observe(section));
         
-        // Reveal Animations Observer
-        const revealOptions = {
-            root: null,
-            rootMargin: '0px 0px -20px 0px',
-            threshold: 0.1
-        };
-
-        const revealObserver = new IntersectionObserver((entries, revealObs) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    revealObs.unobserve(entry.target);
-                }
-            });
-        }, revealOptions);
-
-        document.querySelectorAll('.reveal').forEach(el => {
-            revealObserver.observe(el);
-        });
-
         // Smooth scrolling
         navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
-                e.preventDefault();
+                // If it's just a category link without an ID, maybe don't smooth scroll?
+                // Actually our sidebar-link tags have `#basics`, etc., which aren't real sections.
                 const targetId = this.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
-                targetSection.scrollIntoView({ behavior: 'smooth' });
-                history.pushState(null, null, targetId);
+                if(targetId.startsWith('#')) {
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        e.preventDefault();
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                        history.pushState(null, null, targetId);
+                    }
+                }
+            });
+        });
+        // Search Functionality
+        const searchInput = document.getElementById('manual-search-input');
+        const navGroups = document.querySelectorAll('details.nav-group');
+
+        searchInput.addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            
+            navGroups.forEach(group => {
+                const links = group.querySelectorAll('.nav-links a');
+                let hasVisibleLink = false;
+                
+                links.forEach(link => {
+                    if (link.textContent.toLowerCase().includes(term)) {
+                        link.style.display = 'block';
+                        hasVisibleLink = true;
+                    } else {
+                        link.style.display = 'none';
+                    }
+                });
+                
+                if (hasVisibleLink) {
+                    group.style.display = 'block';
+                    group.open = true; // Auto-open groups that have matches
+                } else {
+                    group.style.display = 'none';
+                }
             });
         });
     </script>

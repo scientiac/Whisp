@@ -11,79 +11,91 @@
     <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-content">
-            <div class="brand">
-                <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px;">
-                    <img src="assets/icon.svg" alt="Whisp App Icon" class="brand-icon" style="width: 24px; height: 24px;">
-                    <span class="brand-name">Whisp</span>
-                </a>
-            </div>
-            
-            <div class="nav-links" style="display: flex; gap: 1.5rem; align-items: center;">
-                <a href="manual.html" style="color: var(--text-primary); text-decoration: none; font-weight: 600;">User Manual</a>
-                <a href="https://github.com/tanaybhomia/Whisp" target="_blank" class="btn btn-secondary">View on GitHub</a>
-            </div>
-        </div>
-    </nav>
-
     <main>
-        <section class="hero-centered reveal" style="margin-top: 4rem; margin-bottom: 3rem;">
-            <h1 class="reveal delay-1">Support Development</h1>
-            <p class="subtitle reveal delay-2">Whisp is developed and maintained by a single student. If it brings value to your daily workflow, please consider sponsoring to support its future development!</p>
+        <section class="hero-section bg-teal" style="position: relative; min-height: auto; padding-bottom: 4rem; background: var(--accent-color) !important;">
+            <!-- GNOME-style Navbar -->
+            <nav class="gnome-navbar">
+                <div class="gnome-nav-container">
+                    <a href="index.html" class="nav-brand">
+                        <span class="nav-brand-text">Whisp</span>
+                    </a>
+                    <div class="nav-links-right">
+                        <a href="manual.html" class="nav-link">Manual</a>
+                        <a href="https://github.com/tanaybhomia/Whisp" target="_blank" class="nav-link">GitHub</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="hero-container-side">
+                <div class="hero-left-col">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-primary);">Support Whisp Development</h1>
+                    <p style="font-size: 1.15rem; max-width: 700px; line-height: 1.6; opacity: 0.9; color: var(--text-primary);">Whisp is developed and maintained by a single student. If it brings value to your daily workflow, please consider sponsoring to support its future development and open source ecosystem.</p>
+                </div>
+            </div>
         </section>
 
-        <section class="bento-section" style="margin-top: 0;">
-            <div class="bento-grid" style="grid-template-columns: repeat(3, 1fr); max-width: 1200px; margin: 0 auto; gap: 2rem;">
+    <main id="sponsor-options">
+
+        <section class="sponsor-section">
+            <div style="text-align: center; margin-bottom: 4rem;">
+                <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;">Donate to Whisp</h2>
+                <p style="font-size: 1.15rem; max-width: 600px; margin: 0 auto; opacity: 0.9;">Support the development of Whisp! Every individual who sponsors the project helps sustain open source development.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); max-width: 1200px; margin: 0 auto; gap: 2rem; padding: 0 2rem;">
                 
-                <div class="bento-card reveal delay-1" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 4rem 2rem; min-height: 42rem; gap: 2rem;">
+                <!-- UPI Card -->
+                <div style="background: rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; min-height: 42rem; gap: 2rem;">
                     <div>
-                        <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">🇮🇳 Local UPI</h3>
-                        <p style="color: var(--text-secondary); margin-bottom: 0; max-width: 320px; min-height: 3rem; display: flex; align-items: center; justify-content: center;">Scan with any UPI app to support Whisp directly with zero platform fees.</p>
+                        <h3 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.8rem;">Local UPI</h3>
+                        <p style="opacity: 0.8; line-height: 1.5; min-height: 3rem; margin-bottom: 1.5rem;">Scan with any UPI app to support Whisp directly with zero platform fees.</p>
+                        <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                            <button class="amount-btn" data-amount="100" style="padding: 0.5rem 1rem; border-radius: 20px; border: none; background: rgba(255,255,255,0.2); color: white; cursor: pointer; font-weight: bold; transition: all 0.2s;">₹100</button>
+                            <button class="amount-btn active" data-amount="200" style="padding: 0.5rem 1rem; border-radius: 20px; border: none; background: #3584e4; color: white; cursor: pointer; font-weight: bold; transition: all 0.2s;">₹200</button>
+                            <button class="amount-btn" data-amount="300" style="padding: 0.5rem 1rem; border-radius: 20px; border: none; background: rgba(255,255,255,0.2); color: white; cursor: pointer; font-weight: bold; transition: all 0.2s;">₹300</button>
+                            <button class="amount-btn" data-amount="500" style="padding: 0.5rem 1rem; border-radius: 20px; border: none; background: rgba(255,255,255,0.2); color: white; cursor: pointer; font-weight: bold; transition: all 0.2s;">₹500</button>
+                        </div>
                     </div>
                     
-                    <div style="margin: auto 0; display: flex; flex-direction: column; align-items: center;">
-                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
-                            <button class="amount-btn" data-amount="100" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--card-border); background: transparent; color: var(--text-primary); cursor: pointer; font-weight: bold; transition: all 0.2s;">₹100</button>
-                            <button class="amount-btn active" data-amount="200" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--accent-color); background: var(--accent-color); color: white; cursor: pointer; font-weight: bold; transition: all 0.2s;">₹200</button>
-                            <button class="amount-btn" data-amount="300" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--card-border); background: transparent; color: var(--text-primary); cursor: pointer; font-weight: bold; transition: all 0.2s;">₹300</button>
-                            <button class="amount-btn" data-amount="500" style="padding: 0.4rem 1rem; border-radius: 20px; border: 1px solid var(--card-border); background: transparent; color: var(--text-primary); cursor: pointer; font-weight: bold; transition: all 0.2s;">₹500</button>
-                        </div>
-                        
-                        <div style="background: white; padding: 1.5rem; border-radius: 16px; border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; width: 260px; height: 260px; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" id="qr-trigger" title="Click to enlarge">
+                    <div style="margin: auto 0; display: flex; align-items: center; justify-content: center;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 16px; display: flex; align-items: center; justify-content: center; width: 220px; height: 220px; cursor: pointer; transition: transform 0.2s; box-shadow: 0 10px 20px rgba(0,0,0,0.15);" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" id="qr-trigger" title="Click to enlarge">
                             <img id="main-qr-img" src="assets/upi-qr-200.png" alt="Whisp UPI QR Code" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;">
                         </div>
                     </div>
 
-                    <div style="background: var(--card-hover); padding: 1rem; border-radius: 8px; border: 1px solid var(--card-border); width: 320px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; text-align: center;">
-                        <code style="font-size: 1.05rem; font-weight: bold; color: var(--text-primary); white-space: nowrap;">bhomia123456789@okhdfcbank</code>
+                    <div style="background: rgba(0, 0, 0, 0.2); padding: 0.8rem 1.5rem; border-radius: 99px; width: 100%; box-sizing: border-box;">
+                        <code style="font-size: 1.05rem; font-weight: bold; color: white; white-space: nowrap;">bhomia123456789@okhdfcbank</code>
                     </div>
                 </div>
 
-                <div class="bento-card reveal delay-2" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 4rem 2rem; min-height: 42rem; gap: 2rem; position: relative;">
+                <!-- Ko-fi Card -->
+                <div style="background: rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; min-height: 42rem; gap: 2rem;">
                     <div>
-                        <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">🌍 International</h3>
-                        <p style="color: var(--text-secondary); margin-bottom: 0; max-width: 320px; min-height: 3rem; display: flex; align-items: center; justify-content: center;">Support the project via Ko-fi using PayPal, Credit Cards, or Google Pay.</p>
+                        <h3 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.8rem;">International</h3>
+                        <p style="opacity: 0.8; line-height: 1.5; min-height: 3rem;">Support the project via Ko-fi using PayPal, Credit Cards, or Google Pay.</p>
                     </div>
                     
-                    <div style="margin: auto 0; display: flex; align-items: center; justify-content: center; width: 260px;">
-                        <img src="assets/kofi_symbol.svg" alt="Ko-fi" style="width: 200px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));">
+                    <div style="margin: auto 0; display: flex; align-items: center; justify-content: center; width: 140px; height: 140px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
                     </div>
                     
-                    <a href="https://ko-fi.com/tanaybhomia" target="_blank" class="btn btn-secondary" style="padding: 1rem; border-radius: 8px; width: 320px; box-sizing: border-box; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;">Donate via Ko-fi</a>
+                    <a href="https://ko-fi.com/tanaybhomia" target="_blank" style="background: #3584e4; color: white; text-decoration: none; padding: 1rem; border-radius: 99px; width: 100%; box-sizing: border-box; font-size: 1.1rem; font-weight: bold; transition: background 0.2s;" onmouseover="this.style.background='#1c71d8'" onmouseout="this.style.background='#3584e4'">
+                        Donate via Ko-fi
+                    </a>
                 </div>
 
-                <div class="bento-card reveal delay-3" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 4rem 2rem; min-height: 42rem; gap: 2rem; position: relative;">
+                <!-- GitHub Sponsors Card -->
+                <div style="background: rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; min-height: 42rem; gap: 2rem;">
                     <div>
-                        <h3 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 0.5rem;">❤️ GitHub Sponsors</h3>
-                        <p style="color: var(--text-secondary); margin-bottom: 0; max-width: 320px; min-height: 3rem; display: flex; align-items: center; justify-content: center;">Support me directly on GitHub. Recurring tiers and one-time sponsorships available.</p>
+                        <h3 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.8rem;">GitHub Sponsors</h3>
+                        <p style="opacity: 0.8; line-height: 1.5; min-height: 3rem;">Support me directly on GitHub. Recurring tiers and one-time sponsorships available.</p>
                     </div>
                     
-                    <div style="margin: auto 0; display: flex; align-items: center; justify-content: center; width: 260px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="var(--text-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+                    <div style="margin: auto 0; display: flex; align-items: center; justify-content: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
                     </div>
                     
-                    <a href="https://github.com/sponsors/tanaybhomia" target="_blank" class="btn btn-secondary" style="padding: 1rem; border-radius: 8px; width: 320px; box-sizing: border-box; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <a href="https://github.com/sponsors/tanaybhomia" target="_blank" style="background: #3584e4; color: white; text-decoration: none; padding: 1rem; border-radius: 99px; width: 100%; box-sizing: border-box; font-size: 1.1rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: background 0.2s;" onmouseover="this.style.background='#1c71d8'" onmouseout="this.style.background='#3584e4'">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> 
                         Sponsor me
                     </a>
@@ -114,225 +126,75 @@
         </div>
         <p style="position: absolute; bottom: 2rem; color: rgba(255,255,255,0.7); font-size: 1.2rem; font-family: var(--font-mono);">Press ESC or click outside to close</p>
     </div>
-     <style>
-        /* Footer Styling */
-            .site-footer-wrapper {
-                background-color: var(--card-bg); /* Solid off-white */
-                margin-top: 12rem;
-                position: relative;
-                overflow: hidden;
-                border-top: 1px dashed var(--card-border);
-            }
-            .site-footer-wrapper::before {
-                content: '';
-                position: absolute;
-                top: -1px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 300px;
-                height: 2px;
-                background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-                box-shadow: 0 0 15px var(--accent-color);
-                z-index: 5;
-            }
-            .site-footer {
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 3rem 2rem 5rem 2rem; /* reduced padding, enough room for waves */
-                position: relative;
-                z-index: 10;
-            }
-            .waves-container {
-                position: absolute;
-                bottom: -5px; /* Slight offset */
-                left: 0;
-                width: 100%;
-                height: 80px; /* Reduced height */
-                z-index: 1;
-            }
-            .waves {
-                position: relative;
-                width: 100%;
-                height: 100%;
-                min-height: 80px;
-                max-height: 100px;
-                filter: drop-shadow(0 -5px 12px rgba(0, 166, 166, 0.5)); /* Glow effect */
-            }
-            .parallax > use {
-                animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
-            }
-            .parallax > use:nth-child(1) { animation-delay: -2s; animation-duration: 7s; fill: rgba(0, 166, 166, 0.2); }
-            .parallax > use:nth-child(2) { animation-delay: -3s; animation-duration: 10s; fill: rgba(0, 166, 166, 0.4); }
-            .parallax > use:nth-child(3) { animation-delay: -4s; animation-duration: 13s; fill: rgba(0, 166, 166, 0.6); }
-            .parallax > use:nth-child(4) { animation-delay: -5s; animation-duration: 20s; fill: var(--accent-color); }
-            
-            @keyframes move-forever {
-                0% { transform: translate3d(-90px,0,0); }
-                100% { transform: translate3d(85px,0,0); }
-            }
-            .footer-container {
-                display: grid;
-                grid-template-columns: 2fr 1fr 1fr;
-                gap: 3rem;
-                margin-bottom: 2rem;
-            }
-            .footer-col h4 {
-                font-size: 1.1rem;
-                font-weight: 800;
-                margin-bottom: 1.5rem;
-                color: var(--text-primary);
-                letter-spacing: -0.5px;
-            }
-            .footer-links {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-            }
-            .footer-links li {
-                margin-bottom: 0.8rem;
-            }
-            .footer-links a {
-                color: var(--text-secondary);
-                text-decoration: none;
-                font-size: 1rem;
-                transition: color 0.2s ease;
-                display: inline-block;
-            }
-            .footer-links a:hover {
-                color: var(--accent-color);
-            }
-            .footer-bottom {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                flex-wrap: wrap;
-                gap: 1rem;
-                color: var(--text-secondary);
-                font-size: 0.9rem;
-                border-top: 1px dashed var(--card-border);
-                padding-top: 1.5rem;
-                margin-top: 1rem;
-                padding-bottom: 0;
-            }
-    </style>
-
-    
+    <!-- Minimal Footer -->
     <div class="site-footer-wrapper">
-        <footer class="site-footer reveal">
-            <div class="footer-container">
-                <div class="footer-col brand-col" style="text-align: left;">
-                    <a href="#" class="brand" style="text-decoration: none; color: inherit; display: inline-flex; align-items: center; gap: 0.5rem;">
-                        <img src="assets/icon.svg" alt="Whisp Logo" class="brand-icon" style="width: 32px; height: 32px;">
-                        <span class="brand-name" style="font-size: 1.5rem; font-weight: 700;">Whisp</span>
-                    </a>
-                    <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5; max-width: 280px;">The anti-note for GNOME.</p>
+        <footer class="site-footer">
+            <div class="footer-grid" style="align-items: start;">
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <a href="https://matrix.to/#/@tanaybhomia:matrix.org" target="_blank">Matrix (@tanaybhomia)</a>
+                    <a href="https://github.com/tanaybhomia" target="_blank">GitHub Profile</a>
+                    <a href="mailto:tanaybhomia@gmail.com">Email (Gmail)</a>
                 </div>
-                <div class="footer-col reveal delay-1">
-                    <h4>Connect</h4>
-                    <ul class="footer-links">
-                        <li><a href="https://github.com/tanaybhomia" target="_blank">GitHub</a></li>
-                        <li><a href="https://matrix.to/#/@tanaybhomia:matrix.org" target="_blank">Matrix</a></li>
-                        <li><a href="https://instagram.com/tanaybhomia" target="_blank">Instagram</a></li>
-                    </ul>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="manual.html">User Manual</a>
                 </div>
-                <div class="footer-col reveal delay-2">
-                    <h4>Project</h4>
-                    <ul class="footer-links">
-                        <li><a href="https://github.com/tanaybhomia/Whisp" target="_blank">Source Code</a></li>
-                        <li><a href="https://github.com/tanaybhomia/Whisp/issues" target="_blank">Report a Bug</a></li>
-                        <li><a href="https://ko-fi.com/tanaybhomia" target="_blank">Donate (Ko-Fi)</a></li>
-                    </ul>
+                <div class="footer-col">
+                    <h4>Contribute</h4>
+                    <a href="https://github.com/tanaybhomia/Whisp/issues" target="_blank">Issue Tracker</a>
+                    <a href="https://github.com/tanaybhomia/Whisp" target="_blank">Source Code</a>
+                    <a href="donate.html">Donate</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <span>&copy; 2026 Whisp. Made with ❤️ in India.</span>
-                <span>Released under the GPL-3.0 License</span>
+                &copy; 2026 Whisp. Released under the GPL-3.0 License.
             </div>
         </footer>
-        <div class="waves-container">
-            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-                <defs>
-                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-                </defs>
-                <g class="parallax">
-                    <use xlink:href="#gentle-wave" x="48" y="0" />
-                    <use xlink:href="#gentle-wave" x="48" y="3" />
-                    <use xlink:href="#gentle-wave" x="48" y="5" />
-                    <use xlink:href="#gentle-wave" x="48" y="7" />
-                </g>
-            </svg>
-        </div>
     </div>
 
     <script>
         const qrTrigger = document.getElementById('qr-trigger');
         const qrModal = document.getElementById('qr-modal');
-        const amountBtns = document.querySelectorAll('.amount-btn');
-        const mainQrImg = document.getElementById('main-qr-img');
-        const modalQrImg = document.getElementById('modal-qr-img');
-        const modalQrText = document.getElementById('modal-qr-text');
-
-        amountBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                amountBtns.forEach(b => {
-                    b.style.background = 'transparent';
-                    b.style.color = 'var(--text-primary)';
-                    b.style.borderColor = 'var(--card-border)';
-                    b.classList.remove('active');
-                });
-                
-                btn.style.background = 'var(--accent-color)';
-                btn.style.color = 'white';
-                btn.style.borderColor = 'var(--accent-color)';
-                btn.classList.add('active');
-                
-                const amount = btn.getAttribute('data-amount');
-                mainQrImg.src = `assets/upi-qr-${amount}.png`;
-                modalQrImg.src = `assets/upi-qr-${amount}.png`;
-                modalQrText.textContent = `Scan to pay ₹${amount} with any UPI app`;
-            });
-        });
+        const modalCard = document.getElementById('qr-modal-card');
 
         qrTrigger.addEventListener('click', () => {
             qrModal.style.opacity = '1';
-            qrModal.style.pointerEvents = 'all';
-            document.getElementById('qr-modal-card').style.transform = 'scale(1)';
+            qrModal.style.pointerEvents = 'auto';
+            modalCard.style.transform = 'scale(1)';
         });
 
         const closeModal = () => {
             qrModal.style.opacity = '0';
             qrModal.style.pointerEvents = 'none';
-            document.getElementById('qr-modal-card').style.transform = 'scale(0.9)';
+            modalCard.style.transform = 'scale(0.9)';
         };
 
-        // Close modal on click
         qrModal.addEventListener('click', closeModal);
 
-        // Close modal on escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeModal();
             }
         });
 
-        // Reveal Animations Observer
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px 0px -50px 0px',
-            threshold: 0.1
-        };
+        const amountBtns = document.querySelectorAll('.amount-btn');
+        const mainQr = document.getElementById('main-qr-img');
+        const modalQr = document.getElementById('modal-qr-img');
 
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target);
-                }
+        amountBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                amountBtns.forEach(b => {
+                    b.classList.remove('active');
+                    b.style.background = 'rgba(255,255,255,0.2)';
+                });
+                btn.classList.add('active');
+                btn.style.background = '#3584e4'; // GNOME Blue
+                
+                const amt = btn.dataset.amount;
+                mainQr.src = `assets/upi-qr-${amt}.png`;
+                modalQr.src = `assets/upi-qr-${amt}.png`;
             });
-        }, observerOptions);
-
-        document.querySelectorAll('.reveal').forEach(el => {
-            revealObserver.observe(el);
         });
     </script>
 </body>
