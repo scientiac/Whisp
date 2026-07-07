@@ -38,3 +38,17 @@ jobs:
           bundle: whisp.flatpak
           manifest-path: io.github.tanaybhomia.Whisp.yml
           cache-key: flatpak-builder-${{ github.sha }}
+
+  meson-tests:
+    name: Run Unit & Validation Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y meson ninja-build gettext desktop-file-utils appstream
+      - name: Setup Meson
+        run: meson setup builddir
+      - name: Run Tests
+        run: meson test -C builddir
