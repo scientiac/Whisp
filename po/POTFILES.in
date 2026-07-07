@@ -1,0 +1,3 @@
+data/io.github.tanaybhomia.Whisp.desktop.in
+src/whisp/main.py
+src/whisp/editor.py
