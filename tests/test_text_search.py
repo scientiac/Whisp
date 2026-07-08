@@ -1,4 +1,10 @@
+import sys
+import os
 import unittest
+
+# Ensure the 'src' directory is in the Python path so the IDE can find 'whisp'
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+
 from whisp.text_search import body_match_offsets
 
 class TestTextSearch(unittest.TestCase):

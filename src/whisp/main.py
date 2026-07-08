@@ -99,7 +99,6 @@ class WhispApp(Adw.Application):
             }
             .autocomplete-overlay {
                 border-radius: 16px;
-                overflow: hidden;
                 border: 1px solid alpha(currentColor, 0.1);
                 box-shadow: 0 4px 12px rgba(0,0,0,0.1);
                 background-color: @view_bg_color;
