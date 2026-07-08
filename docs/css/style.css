@@ -275,6 +275,15 @@ h1, h2, h3 {
     z-index: 1;
 }
 
+.donate-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
 .bg-teal {
     background-color: var(--accent-color);
     color: #ffffff; /* For high contrast on teal */
@@ -747,6 +756,43 @@ footer {
     
     .hero-centered h1 {
         font-size: 2.5rem;
+    }
+    
+    .hero-container-side {
+        flex-direction: column;
+        text-align: center;
+        gap: 3rem;
+    }
+
+    .hero-brand-side {
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .hero-titles-side {
+        align-items: center;
+    }
+
+    .hero-actions-side {
+        justify-content: center;
+    }
+
+    .why-whisp-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .donate-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .features-scroll-container {
+        gap: 2rem;
+        padding: 2rem 1rem;
+    }
+    
+    .feature-item-img {
+        max-width: 90vw;
     }
 }
 
