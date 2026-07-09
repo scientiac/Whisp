@@ -3,7 +3,9 @@
   <id>io.github.tanaybhomia.Whisp</id>
   <name>Whisp</name>
   <summary>Minimalist note taking widget</summary>
-  <developer_name>Tanay Bhomia</developer_name>
+  <developer id="io.github.tanaybhomia">
+    <name>Tanay Bhomia</name>
+  </developer>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <url type="homepage">https://tanaybhomia.github.io/Whisp</url>
