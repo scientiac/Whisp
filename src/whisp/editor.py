@@ -371,11 +371,11 @@ class NoteEditor(Gtk.Overlay):
                 self.current_top_match = matches[0][0]
                 first_row = None
                 for cmd, desc in matches:
-                    row_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+                    row_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
                     row_box.set_margin_start(12)
                     row_box.set_margin_end(12)
-                    row_box.set_margin_top(6)
-                    row_box.set_margin_bottom(6)
+                    row_box.set_margin_top(8)
+                    row_box.set_margin_bottom(8)
                     
                     cmd_lbl = Gtk.Label(label=f"<b>{cmd}</b>")
                     cmd_lbl.set_use_markup(True)
@@ -404,11 +404,8 @@ class NoteEditor(Gtk.Overlay):
                     self.autocomplete_list.select_row(first_row)
                     
                 # Ensure the dropdown doesn't get cut off on the right or bottom
-                self.autocomplete_scroll.set_max_content_height(300)
-                _, nat_req = self.autocomplete_box.get_preferred_size()
-                
                 # Estimate height since GTK layout is lazy and nat_req might return stale values
-                box_h = min(300, len(matches) * 40 + 12) 
+                box_h = min(300, len(matches) * 56 + 12) # Taller estimate for vertical layout
                 
                 editor_w = self.get_width()
                 editor_h = self.get_height()
@@ -428,18 +425,22 @@ class NoteEditor(Gtk.Overlay):
                     self.autocomplete_scroll.set_max_content_width(320)
                     
                 final_y = y + 4
-                if editor_h > 0 and final_y + box_h > editor_h - 16:
-                    space_above = y - rect.height - 4
-                    space_below = editor_h - final_y - 16
+                if editor_h > 0:
+                    # Subtract a massive 64px buffer to guarantee a visual gap at the bottom of the screen
+                    space_below = editor_h - final_y - 64
+                    space_above = y - rect.height - 4 - 64
+                    self.autocomplete_box.set_margin_bottom(32)
                     
-                    if space_above > space_below:
+                    if box_h > space_below and space_above > space_below:
                         # Drop up!
-                        actual_box_h = min(box_h, space_above - 16)
+                        actual_box_h = min(box_h, space_above)
                         final_y = max(16, y - rect.height - 4 - actual_box_h)
                         self.autocomplete_scroll.set_max_content_height(int(actual_box_h))
                     else:
-                        # Drop down but constrain
-                        self.autocomplete_scroll.set_max_content_height(int(max(50, space_below)))
+                        # Drop down but strictly constrain to space below to prevent bottom boundary touching
+                        self.autocomplete_scroll.set_max_content_height(int(min(300, max(50, space_below))))
+                else:
+                    self.autocomplete_scroll.set_max_content_height(300)
                         
                 self.autocomplete_box.set_margin_top(int(final_y))
                     
