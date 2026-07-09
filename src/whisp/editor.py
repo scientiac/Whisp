@@ -346,7 +346,24 @@ class NoteEditor(Gtk.Overlay):
                 ("::remove_quotes", "Strip surrounding quotes"),
                 ("::append(text)", "Add text to the end of every line"),
                 ("::prepend(text)", "Add text to the beginning of every line"),
-                ("::replace(old,new)", "Find and replace text")
+                ("::replace(old,new)", "Find and replace text"),
+                ("::sort_lines_alpha", "Sort lines alphabetically"),
+                ("::sort_lines_number", "Sort lines by first number"),
+                ("::sort_lines_reverse", "Reverse line order"),
+                ("::remove_lines_empty", "Remove empty lines"),
+                ("::remove_lines_with(text)", "Remove lines containing text"),
+                ("::remove_lines_without(text)", "Remove lines NOT containing text"),
+                ("::keep_lines_with(text)", "Keep only lines containing text"),
+                ("::keep_lines_without(text)", "Keep only lines NOT containing text"),
+                ("::trim_each_whitespace", "Trim whitespace from all lines"),
+                ("::dedupe_lines", "Remove duplicate lines"),
+                ("::get_dupes", "Find and group duplicate lines"),
+                ("::commas_to_list", "Convert comma-separated items to list"),
+                ("::commas_to(delim)", "Convert commas to custom delimiter"),
+                ("::lines_to_commas", "Convert lines to comma-separated"),
+                ("::lines_to(delim)", "Convert lines to custom delimiter"),
+                ("::checked_to_bottom", "Move checked items to bottom"),
+                ("::remove_checked", "Remove all checked items")
             ]
             
             matches = [s for s in suggestions if s[0].startswith(word)]
@@ -858,13 +875,13 @@ class NoteEditor(Gtk.Overlay):
                 print(f"Failed to launch URL: {e}")
             return True
 
-        m_simple = re.match(r'^::(uppercase|lowercase|sentence_case|title_case|capitalize_first|remove_quotes)$', word)
+        m_simple = re.match(r'^::(uppercase|lowercase|sentence_case|title_case|capitalize_first|remove_quotes|sort_lines_alpha|sort_lines_number|sort_lines_reverse|remove_lines_empty|trim_each_whitespace|dedupe_lines|get_dupes|commas_to_list|lines_to_commas|checked_to_bottom|remove_checked)$', word)
         if m_simple:
             self.execute_text_command(m_simple.group(1), None, word_start, word_end)
             self.autocomplete_box.set_visible(False)
             return True
             
-        m_args = re.match(r'^::(append|prepend)\((.*?)\)$', word)
+        m_args = re.match(r'^::(append|prepend|remove_lines_with|remove_lines_without|keep_lines_with|keep_lines_without|commas_to|lines_to)\((.*?)\)$', word)
         if m_args:
             self.execute_text_command(m_args.group(1), [m_args.group(2)], word_start, word_end)
             self.autocomplete_box.set_visible(False)
@@ -924,6 +941,100 @@ class NoteEditor(Gtk.Overlay):
                 count = text.count(old)
                 new_text = text.replace(old, new)
                 msg = f"Replaced {count} instances"
+            elif cmd == "sort_lines_alpha":
+                lines = text.strip('\n').split('\n')
+                new_text = '\n'.join(sorted(lines, key=lambda x: (x.strip() == "", x.lower())))
+                msg = "Sorted lines alphabetically"
+            elif cmd == "sort_lines_number":
+                import re
+                def get_num(line):
+                    m = re.search(r'\d+', line)
+                    return float(m.group()) if m else float('inf')
+                lines = text.strip('\n').split('\n')
+                new_text = '\n'.join(sorted(lines, key=lambda x: (x.strip() == "", get_num(x))))
+                msg = "Sorted lines numerically"
+            elif cmd == "sort_lines_reverse":
+                lines = text.strip('\n').split('\n')
+                new_text = '\n'.join(lines[::-1])
+                msg = "Reversed line order"
+            elif cmd == "remove_lines_empty":
+                new_text = '\n'.join(line for line in text.split('\n') if line.strip())
+                msg = "Removed empty lines"
+            elif cmd == "remove_lines_with" and args:
+                search = args[0].lower()
+                new_text = '\n'.join(line for line in text.strip('\n').split('\n') if search not in line.lower())
+                msg = f"Removed lines containing '{args[0]}'"
+            elif cmd == "remove_lines_without" and args:
+                search = args[0].lower()
+                new_text = '\n'.join(line for line in text.strip('\n').split('\n') if search in line.lower())
+                msg = f"Removed lines without '{args[0]}'"
+            elif cmd == "keep_lines_with" and args:
+                search = args[0].lower()
+                new_text = '\n'.join(line for line in text.strip('\n').split('\n') if search in line.lower())
+                msg = f"Kept lines containing '{args[0]}'"
+            elif cmd == "keep_lines_without" and args:
+                search = args[0].lower()
+                new_text = '\n'.join(line for line in text.strip('\n').split('\n') if search not in line.lower())
+                msg = f"Kept lines without '{args[0]}'"
+            elif cmd == "trim_each_whitespace":
+                new_text = '\n'.join(line.strip() for line in text.split('\n'))
+                msg = "Trimmed whitespace from all lines"
+            elif cmd == "dedupe_lines":
+                seen = set()
+                res = []
+                for line in text.split('\n'):
+                    if line not in seen:
+                        seen.add(line)
+                        res.append(line)
+                new_text = '\n'.join(res)
+                msg = "Removed duplicate lines"
+            elif cmd == "get_dupes":
+                lines = text.strip('\n').split('\n')
+                counts = {}
+                for line in lines:
+                    cleaned = line.strip()
+                    if cleaned:
+                        counts[cleaned] = counts.get(cleaned, 0) + 1
+                dupes = [f"{count}x: {line}" for line, count in counts.items() if count > 1]
+                if dupes:
+                    new_text = text + "\n\n--- Duplicates ---\n" + '\n'.join(dupes)
+                    msg = "Found duplicate lines"
+                else:
+                    msg = "No duplicates found"
+            elif cmd == "commas_to_list":
+                items = [item.strip() for item in text.replace('\n', ',').split(',')]
+                new_text = '\n'.join(f"- {item}" for item in items if item)
+                msg = "Converted commas to list"
+            elif cmd == "commas_to" and args:
+                items = [item.strip() for item in text.replace('\n', ',').split(',')]
+                new_text = args[0].join(item for item in items if item)
+                msg = f"Converted commas to {args[0]}"
+            elif cmd == "lines_to_commas":
+                items = [line.strip() for line in text.split('\n') if line.strip()]
+                new_text = ', '.join(items)
+                msg = "Converted lines to comma-separated"
+            elif cmd == "lines_to" and args:
+                items = [line.strip() for line in text.split('\n') if line.strip()]
+                new_text = args[0].join(items)
+                msg = f"Converted lines to '{args[0]}'"
+            elif cmd == "checked_to_bottom":
+                import re
+                lines = text.strip('\n').split('\n')
+                checked = []
+                unchecked = []
+                for line in lines:
+                    if re.match(r'^(\s*)☑', line) or "- [x]" in line.lower() or "- [X]" in line:
+                        checked.append(line)
+                    else:
+                        unchecked.append(line)
+                new_text = '\n'.join(unchecked + checked)
+                msg = "Moved checked items to bottom"
+            elif cmd == "remove_checked":
+                import re
+                lines = text.strip('\n').split('\n')
+                unchecked = [line for line in lines if not (re.match(r'^(\s*)☑', line) or "- [x]" in line.lower() or "- [X]" in line)]
+                new_text = '\n'.join(unchecked)
+                msg = "Removed all checked items"
                 
             if new_text != text:
                 self.buffer.delete(start_iter, end_iter)
