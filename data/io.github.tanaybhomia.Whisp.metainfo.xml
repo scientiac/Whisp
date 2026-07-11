@@ -62,14 +62,14 @@
         <p>This release focuses on heavily expanding the text macro engine and refining the app's core UI.</p>
         <p><em>New Features</em></p>
         <ul>
-          <li><strong>List &amp; Task Commands:</strong> Added macros to sort lists, remove empty lines, find duplicates, and manage checkboxes (`::checked_to_bottom`, `::remove_checked`).</li>
-          <li><strong>Data Parsing:</strong> Added commands to quickly convert between lists and commas, and advanced find-and-replace (`::replace(old,new)`).</li>
+          <li>List &amp; Task Commands: Added macros to sort lists, remove empty lines, find duplicates, and manage checkboxes (`::checked_to_bottom`, `::remove_checked`).</li>
+          <li>Data Parsing: Added commands to quickly convert between lists and commas, and advanced find-and-replace (`::replace(old,new)`).</li>
         </ul>
         <p><em>Fixes &amp; Polish</em></p>
         <ul>
-          <li><strong>Macro Engine Polish:</strong> The autocomplete popover is now case-insensitive and features rewritten spatial logic to perfectly align with your text cursor without overlapping.</li>
-          <li><strong>UI Refinements:</strong> Optimized the default launch window size (360x500) and completely modernized the "What's New" changelog dialog.</li>
-          <li><strong>Zombie Fix:</strong> Hardened the background process lifecycle to ensure Whisp fully terminates when closed.</li>
+          <li>Macro Engine Polish: The autocomplete popover is now case-insensitive and features rewritten spatial logic to perfectly align with your text cursor without overlapping.</li>
+          <li>UI Refinements: Optimized the default launch window size (360x500) and completely modernized the "What's New" changelog dialog.</li>
+          <li>Zombie Fix: Hardened the background process lifecycle to ensure Whisp fully terminates when closed.</li>
         </ul>
       </description>
     </release>
