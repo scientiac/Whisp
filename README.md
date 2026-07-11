@@ -40,7 +40,6 @@ Most note-taking apps force you into a heavy workflow of creating files, managin
   - `Ctrl+N` to instantly create a new note.
   - `Ctrl+B`, `Ctrl+I`, `Ctrl+U` for quick text formatting.
 - **Performance Focused**: Renders only the most recently active notes to keep startup times fast.
-- **File Management**: Search, filter by tags, and recover deleted files from a hidden `.trash` directory.
 
 
 ## Installation
