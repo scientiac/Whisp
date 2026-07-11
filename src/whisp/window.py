@@ -188,107 +188,138 @@ shortcuts_xml = """
 class ChangelogWindow(Adw.Dialog):
     def __init__(self, version, releases_list, parent=None):
         super().__init__(title="What's New")
-        self.set_content_width(550)
+        self.set_content_width(450)
         self.set_content_height(600)
         
-        toolbar_view = Adw.ToolbarView()
-        self.set_child(toolbar_view)
+        # We only want to show the latest release in this view
+        latest = releases_list[0] if releases_list else {}
+        v_str = latest.get("version", version)
+        date_str = latest.get("date", "Unknown Date")
+        desc_text = latest.get("description", "")
+        
+        main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.set_child(main_box)
+        
+        # Dynamically determine the exact Whisp Teal based on current theme state
+        is_dark = Adw.StyleManager.get_default().get_dark()
+        bg_color = "#004252" if is_dark else "#00cccc"
+
+        # Global CSS for the blue banner
+        css_provider = Gtk.CssProvider()
+        css = f"""
+        .support-banner {{
+            background: {bg_color};
+            color: white;
+            padding: 12px 16px;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }}
+        .support-banner label {{
+            color: white;
+        }}
+        .support-btn {{
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-weight: bold;
+            padding: 4px 12px;
+        }}
+        .support-btn:hover {{
+            background: rgba(255,255,255,0.3);
+        }}
+        """
+        css_provider.load_from_data(css.encode())
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(),
+            css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
         
         header = Adw.HeaderBar(show_end_title_buttons=False, show_start_title_buttons=False)
-        toolbar_view.add_top_bar(header)
-        
-        # Add close button explicitly to Adw.Dialog header if we want, or just rely on dialog close
         close_btn = Gtk.Button(icon_name="window-close-symbolic")
         close_btn.add_css_class("flat")
         close_btn.connect("clicked", lambda _: self.close())
         header.pack_end(close_btn)
+        main_box.append(header)
         
         scrolled = Gtk.ScrolledWindow()
         scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         scrolled.set_propagate_natural_height(True)
-        toolbar_view.set_content(scrolled)
+        scrolled.set_vexpand(True)
+        main_box.append(scrolled)
         
-        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=16)
-        content_box.set_margin_top(24)
-        content_box.set_margin_bottom(24)
+        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        content_box.set_margin_top(16)
+        content_box.set_margin_bottom(16)
         content_box.set_margin_start(24)
         content_box.set_margin_end(24)
         scrolled.set_child(content_box)
         
-        if not isinstance(releases_list, list):
-            # Fallback if text was passed somehow
-            releases_list = [{"version": version, "date": "", "description": releases_list}]
-            
-        for release in releases_list:
-            v_str = release.get("version", "Unknown")
-            date_str = release.get("date", "")
-            desc_text = release.get("description", "")
-            
-            listbox = Gtk.ListBox()
-            listbox.add_css_class("boxed-list")
-            listbox.set_selection_mode(Gtk.SelectionMode.NONE)
-            
-            card_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-            card_box.set_margin_start(20)
-            card_box.set_margin_end(20)
-            card_box.set_margin_top(20)
-            card_box.set_margin_bottom(20)
-            
-            header_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-            
-            title_lbl = Gtk.Label(label=f"<b>Whisp {v_str}</b>")
-            title_lbl.set_use_markup(True)
-            title_lbl.add_css_class("title-2")
-            title_lbl.set_halign(Gtk.Align.START)
-            title_lbl.set_hexpand(True)
-            
-            date_lbl = Gtk.Label(label=f"<small>{date_str}</small>")
-            date_lbl.set_use_markup(True)
-            date_lbl.add_css_class("dim-label")
-            date_lbl.set_halign(Gtk.Align.END)
-            
-            header_box.append(title_lbl)
-            if date_str:
-                header_box.append(date_lbl)
-            
-            desc_lbl = Gtk.Label(wrap=True, xalign=0)
-            desc_lbl.set_markup(desc_text)
-            desc_lbl.set_margin_top(16)
-            
-            card_box.append(header_box)
-            card_box.append(desc_lbl)
-            
-            row = Gtk.ListBoxRow()
-            row.set_child(card_box)
-            listbox.append(row)
-            
-            content_box.append(listbox)
-            
-        # Pin the buttons to the bottom of the ToolbarView
-        btn_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
-        btn_box.set_halign(Gtk.Align.CENTER)
-        btn_box.set_margin_top(12)
-        btn_box.set_margin_bottom(12)
+        title_lbl = Gtk.Label(label=f"<b>What's New in {v_str}?</b>")
+        title_lbl.set_use_markup(True)
+        title_lbl.add_css_class("title-2")
+        title_lbl.set_justify(Gtk.Justification.CENTER)
         
-        donate_btn = Gtk.Button(label="Donate")
+        # Convert YYYY-MM-DD to a nicer string if possible
+        import datetime
+        try:
+            d = datetime.datetime.strptime(date_str, "%Y-%m-%d")
+            nice_date = d.strftime("Released %B %d, %Y")
+        except:
+            nice_date = f"Released {date_str}"
+            
+        date_lbl = Gtk.Label(label=nice_date)
+        date_lbl.add_css_class("dim-label")
+        date_lbl.set_justify(Gtk.Justification.CENTER)
+        
+        header_vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        header_vbox.append(title_lbl)
+        header_vbox.append(date_lbl)
+        header_vbox.set_margin_bottom(8)
+        
+        content_box.append(header_vbox)
+        
+        desc_lbl = Gtk.Label(wrap=True, xalign=0)
+        desc_lbl.set_markup(desc_text)
+        content_box.append(desc_lbl)
+        
+        notes_btn = Gtk.Button(label="Read Full Release Notes →")
+        notes_btn.add_css_class("pill")
+        notes_btn.set_halign(Gtk.Align.CENTER)
+        notes_btn.set_margin_top(16)
+        notes_btn.connect("clicked", lambda _: Gio.AppInfo.launch_default_for_uri("https://github.com/tanaybhomia/Whisp/releases", None))
+        content_box.append(notes_btn)
+        
+        # Bottom Support Box
+        support_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        support_box.add_css_class("support-banner")
+        
+        support_title = Gtk.Label(label="<b>This release was made possible by users like you!</b>")
+        support_title.set_use_markup(True)
+        support_title.set_justify(Gtk.Justification.CENTER)
+        support_title.set_wrap(True)
+        
+        support_desc = Gtk.Label(label="<small>I love building Whisp, but I cannot do it alone. Help support further development by donating.</small>")
+        support_desc.set_use_markup(True)
+        support_desc.set_justify(Gtk.Justification.CENTER)
+        support_desc.set_wrap(True)
+        
+        donate_btn = Gtk.Button()
+        donate_btn.set_child(Adw.ButtonContent(label="Donate to Whisp", icon_name="emblem-favorite-symbolic"))
         donate_btn.add_css_class("pill")
-        donate_btn.set_size_request(120, -1)
+        donate_btn.add_css_class("support-btn")
+        donate_btn.set_halign(Gtk.Align.CENTER)
+        donate_btn.set_margin_top(4)
         donate_btn.connect("clicked", lambda _: Gio.AppInfo.launch_default_for_uri("https://tanaybhomia.github.io/Whisp/donate.html", None))
-        btn_box.append(donate_btn)
-
-        btn = Gtk.Button(label="Awesome! Continue")
-        btn.add_css_class("suggested-action")
-        btn.add_css_class("pill")
-        btn.set_size_request(160, -1)
-        btn.connect("clicked", lambda _: self.close())
-        btn_box.append(btn)
         
-        toolbar_view.add_bottom_bar(btn_box)
+        support_box.append(support_title)
+        support_box.append(support_desc)
+        support_box.append(donate_btn)
+        
+        main_box.append(support_box)
         
         key_ctrl = Gtk.EventControllerKey()
         key_ctrl.connect("key-pressed", self.on_key_pressed)
         self.add_controller(key_ctrl)
-
 
     def on_key_pressed(self, controller, keyval, keycode, state):
         if keyval == Gdk.KEY_Escape:
@@ -306,8 +337,8 @@ class WhispWindow(Adw.ApplicationWindow):
         width = config.get("window_width")
         height = config.get("window_height")
         if width is None or height is None:
-            width = 450
-            height = 700
+            width = 360
+            height = 500
         self.set_default_size(int(width), int(height))
         self.set_size_request(360, 400)
         if config.get("is_maximized"):
@@ -515,17 +546,20 @@ class WhispWindow(Adw.ApplicationWindow):
         self.btn_system = Gtk.ToggleButton()
         self.btn_system.add_css_class("theme-btn")
         self.btn_system.add_css_class("system")
+        self.btn_system.add_css_class("circular")
         self.btn_system.connect("toggled", self.on_theme_btn_toggled, "system")
         
         self.btn_light = Gtk.ToggleButton()
         self.btn_light.add_css_class("theme-btn")
         self.btn_light.add_css_class("light")
+        self.btn_light.add_css_class("circular")
         self.btn_light.set_group(self.btn_system)
         self.btn_light.connect("toggled", self.on_theme_btn_toggled, "light")
         
         self.btn_dark = Gtk.ToggleButton()
         self.btn_dark.add_css_class("theme-btn")
         self.btn_dark.add_css_class("dark")
+        self.btn_dark.add_css_class("circular")
         self.btn_dark.set_group(self.btn_system)
         self.btn_dark.connect("toggled", self.on_theme_btn_toggled, "dark")
         
@@ -633,8 +667,9 @@ class WhispWindow(Adw.ApplicationWindow):
                                         release_desc += f"{escaped}\n\n"
                             elif child.tag == "ul":
                                 for li in child.findall("li"):
-                                    if li.text:
-                                        release_desc += f"• {GLib.markup_escape_text(li.text.strip())}\n\n"
+                                    li_text = "".join(li.itertext()).strip()
+                                    if li_text:
+                                        release_desc += f"• {GLib.markup_escape_text(li_text)}\n\n"
                                 release_desc += "\n"
                                 
                     releases_list.append({"version": version, "date": date, "description": release_desc.strip()})
@@ -1876,10 +1911,10 @@ class WhispWindow(Adw.ApplicationWindow):
         .theme-btn {{
             min-width: 48px;
             min-height: 48px;
-            border-radius: 50%;
             border: 1px solid alpha(currentColor, 0.15);
             padding: 0;
             box-shadow: none;
+            background-clip: padding-box;
         }}
         .theme-btn.system {{
             background: linear-gradient(135deg, #ffffff 49.5%, #242424 50.5%);

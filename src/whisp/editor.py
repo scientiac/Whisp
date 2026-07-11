@@ -366,7 +366,7 @@ class NoteEditor(Gtk.Overlay):
                 ("::remove_checked", "Remove all checked items")
             ]
             
-            matches = [s for s in suggestions if s[0].startswith(word)]
+            matches = [s for s in suggestions if s[0].startswith(word.lower())]
             if matches:
                 self.current_top_match = matches[0][0]
                 first_row = None
@@ -412,9 +412,10 @@ class NoteEditor(Gtk.Overlay):
                 
                 # Use a stable assumed width for bounds checking to prevent X-coordinate jitter
                 assumed_box_w = 320
-                final_x = x
+                final_x = x - 8 # Shift left to align text inside the popover with editor text
                 if editor_w > 0 and final_x + assumed_box_w > editor_w - 16:
                     final_x = max(16, editor_w - assumed_box_w - 16)
+                final_x = max(8, final_x)
                     
                 self.autocomplete_box.set_margin_start(final_x)
                 
@@ -424,20 +425,23 @@ class NoteEditor(Gtk.Overlay):
                 else:
                     self.autocomplete_scroll.set_max_content_width(320)
                     
-                final_y = y + 4
+                final_y = y + 16 # Add 16px gap for dropdown to clear shadow
                 if editor_h > 0:
-                    # Subtract a massive 64px buffer to guarantee a visual gap at the bottom of the screen
-                    space_below = editor_h - final_y - 64
-                    space_above = y - rect.height - 4 - 64
+                    # Subtract a buffer to guarantee a visual gap at the bottom of the screen
+                    space_below = editor_h - final_y - 32
+                    space_above = y - rect.height - 16 - 32
                     self.autocomplete_box.set_margin_bottom(32)
                     
-                    if box_h > space_below and space_above > space_below:
+                    # Heavily prefer dropping DOWN. Only drop UP if space below is tiny (< 160px)
+                    if space_below < 160 and space_above > space_below and box_h > space_below:
                         # Drop up!
                         actual_box_h = min(box_h, space_above)
-                        final_y = max(16, y - rect.height - 4 - actual_box_h)
+                        # We use 32px gap here (instead of 16px) because the popup casts a 16px shadow DOWNWARDS.
+                        # This extra 16px ensures the visual gap above the text perfectly matches the dropdown!
+                        final_y = max(16, y - rect.height - 32 - actual_box_h)
                         self.autocomplete_scroll.set_max_content_height(int(actual_box_h))
                     else:
-                        # Drop down but strictly constrain to space below to prevent bottom boundary touching
+                        # Drop down but strictly constrain to space below
                         self.autocomplete_scroll.set_max_content_height(int(min(300, max(50, space_below))))
                 else:
                     self.autocomplete_scroll.set_max_content_height(300)
@@ -740,7 +744,7 @@ class NoteEditor(Gtk.Overlay):
         word = self.buffer.get_text(word_start, word_end, False)
         
         # Check for ::today(offset) or ::date(offset) or ::timestamp
-        m_date = re.match(r'^::(today|date|tomorrow|yesterday|timestamp)(?:\(([-+]*\d+)\))?$', word)
+        m_date = re.match(r'^::(today|date|tomorrow|yesterday|timestamp)(?:\(([-+]*\d+)\))?$', word, re.IGNORECASE)
         if m_date:
             from gi.repository import GLib
             base = m_date.group(1)
@@ -768,7 +772,8 @@ class NoteEditor(Gtk.Overlay):
             self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
             return True
             
-        m_time = re.match(r'^::(time|now)$', word)
+        # Check for ::time or ::now
+        m_time = re.match(r'^::(time|now)$', word, re.IGNORECASE)
         if m_time:
             from gi.repository import GLib
             time_str = GLib.DateTime.new_now_local().format("%X")
@@ -779,8 +784,8 @@ class NoteEditor(Gtk.Overlay):
             self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
             return True
             
-        # Check for ::roll()
-        m_roll = re.match(r'^::roll\((.+)\)$', word)
+        # Check for ::roll(N)
+        m_roll = re.match(r'^::roll\((.+)\)$', word, re.IGNORECASE)
         if m_roll:
             import random
             roll_expr = m_roll.group(1).lower()
@@ -807,11 +812,11 @@ class NoteEditor(Gtk.Overlay):
                 pass # Ignore invalid roll syntax and let it remain as text
                 
         # Check for ::random(type, length)
-        m_random = re.match(r'^::random\((int|alnum|str),\s*(\d+)\)$', word)
+        m_random = re.match(r'^::random\((int|alnum|str),\s*(\d+)\)$', word, re.IGNORECASE)
         if m_random:
             import string
             import random
-            rtype = m_random.group(1)
+            rtype = m_random.group(1).lower()
             length = min(int(m_random.group(2)), 1000) # Cap length to avoid freezing
             
             if rtype == "int":
@@ -828,10 +833,10 @@ class NoteEditor(Gtk.Overlay):
             self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
             return True
             
-        m_simple_insert = re.match(r'^::(password|uuid|lorem|magic8ball|random_quote)$', word)
+        m_simple_insert = re.match(r'^::(password|uuid|lorem|magic8ball|random_quote)$', word, re.IGNORECASE)
         if m_simple_insert:
             import uuid, random, string
-            cmd = m_simple_insert.group(1)
+            cmd = m_simple_insert.group(1).lower()
             res = ""
             if cmd == "password":
                 chars = string.ascii_letters + string.digits + "!@#$%^&*"
@@ -866,7 +871,7 @@ class NoteEditor(Gtk.Overlay):
             self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
             return True
             
-        if word == "::random_wiki":
+        if word.lower() == "::random_wiki":
             from gi.repository import Gio
             self.buffer.delete(word_start, word_end)
             self.autocomplete_box.set_visible(False)
@@ -876,19 +881,19 @@ class NoteEditor(Gtk.Overlay):
                 print(f"Failed to launch URL: {e}")
             return True
 
-        m_simple = re.match(r'^::(uppercase|lowercase|sentence_case|title_case|capitalize_first|remove_quotes|sort_lines_alpha|sort_lines_number|sort_lines_reverse|remove_lines_empty|trim_each_whitespace|dedupe_lines|get_dupes|commas_to_list|lines_to_commas|checked_to_bottom|remove_checked)$', word)
+        m_simple = re.match(r'^::(uppercase|lowercase|sentence_case|title_case|capitalize_first|remove_quotes|sort_lines_alpha|sort_lines_number|sort_lines_reverse|remove_lines_empty|trim_each_whitespace|dedupe_lines|get_dupes|commas_to_list|lines_to_commas|checked_to_bottom|remove_checked)$', word, re.IGNORECASE)
         if m_simple:
-            self.execute_text_command(m_simple.group(1), None, word_start, word_end)
+            self.execute_text_command(m_simple.group(1).lower(), None, word_start, word_end)
             self.autocomplete_box.set_visible(False)
             return True
             
-        m_args = re.match(r'^::(append|prepend|remove_lines_with|remove_lines_without|keep_lines_with|keep_lines_without|commas_to|lines_to)\((.*?)\)$', word)
+        m_args = re.match(r'^::(append|prepend|remove_lines_with|remove_lines_without|keep_lines_with|keep_lines_without|commas_to|lines_to)\((.*?)\)$', word, re.IGNORECASE)
         if m_args:
-            self.execute_text_command(m_args.group(1), [m_args.group(2)], word_start, word_end)
+            self.execute_text_command(m_args.group(1).lower(), [m_args.group(2)], word_start, word_end)
             self.autocomplete_box.set_visible(False)
             return True
             
-        m_replace = re.match(r'^::replace\((.*?),(.*?)\)$', word)
+        m_replace = re.match(r'^::replace\((.*?),(.*?)\)$', word, re.IGNORECASE)
         if m_replace:
             self.execute_text_command("replace", [m_replace.group(1), m_replace.group(2)], word_start, word_end)
             self.autocomplete_box.set_visible(False)

@@ -10,8 +10,8 @@ class Config:
     def __init__(self):
         self.data = {
             "data_dir": str(Path(GLib.get_user_data_dir()) / "whisp" / "notes"),
-            "window_width": 400,
-            "window_height": 400,
+            "window_width": 360,
+            "window_height": 500,
             "is_maximized": False,
             "font_name": "Monospace 11",
             "paper_theme": "blank",
