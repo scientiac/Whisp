@@ -95,9 +95,6 @@ outputs = { nixpkgs, whisp, ... } @ inputs: {
 { config, pkgs, ... }: {
   # Enable Whisp
   programs.whisp.enable = true;
-
-  # Optional: Override the package with custom modifications if needed
-  # programs.whisp.package = ...;
 }
 ```
 
