@@ -449,6 +449,16 @@ class WhispWindow(Adw.ApplicationWindow):
         bump_note_action.connect("activate", self.on_bump_note)
         self.add_action(bump_note_action)
 
+        slate_mode_action = Gio.SimpleAction.new("slate-mode", None)
+        slate_mode_action.connect("activate", self.on_slate_mode_toggle)
+        self.add_action(slate_mode_action)
+
+        # Slate Mode state and hover logic
+        self.is_slate_mode = False
+        motion_ctrl = Gtk.EventControllerMotion.new()
+        motion_ctrl.connect("motion", self.on_mouse_motion)
+        self.add_controller(motion_ctrl)
+
         # HeaderBar
         self.header_bar = Adw.HeaderBar()
         self.header_bar.add_css_class("flat")
@@ -1934,3 +1944,21 @@ class WhispWindow(Adw.ApplicationWindow):
             self.css_provider.load_from_data(custom_css.encode('utf-8'))
         except GLib.Error:
             pass
+
+    def on_slate_mode_toggle(self, action, param):
+        self.is_slate_mode = not self.is_slate_mode
+        self.toolbar_view.set_reveal_top_bars(not self.is_slate_mode)
+        
+        if hasattr(self, '_slate_toast') and self._slate_toast:
+            self._slate_toast.dismiss()
+            
+        status = "Entered Slate mode" if self.is_slate_mode else "Exited Slate mode"
+        self._slate_toast = Adw.Toast.new(status)
+        self.toast_overlay.add_toast(self._slate_toast)
+
+    def on_mouse_motion(self, controller, x, y):
+        if self.is_slate_mode:
+            if y < 45:
+                self.toolbar_view.set_reveal_top_bars(True)
+            else:
+                self.toolbar_view.set_reveal_top_bars(False)
