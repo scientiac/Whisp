@@ -20,13 +20,13 @@
   <img alt="Whisp Main Interface" src="docs/assets/1-hero.png" style="max-width: 100%; height: auto;" />
 </div>
 
-
 Whisp is a fast note-taking application built for the GNOME desktop environment. It replaces traditional file hierarchies with a spatial, swipeable canvas. Inspired by the "anti-note" philosophy, it acts as a quick desktop scratchpad with Markdown editing, built natively with GTK4 and Libadwaita.
 
 ## Why Whisp?
 
 Most note-taking apps force you into a heavy workflow of creating files, managing folders, and hitting "Save". **Whisp is different.**
-- **Zero Friction**: There are no titles to type, no files to name, and no folders to manage. Just open the app and start typing. 
+
+- **Zero Friction**: There are no titles to type, no files to name, and no folders to manage. Just open the app and start typing.
 - **Swipeable Canvas**: Instead of a sidebar of files, your notes exist in a spatial, horizontal carousel. A quick trackpad swipe instantly glides you to your next thought.
 - **The "Anti-Note"**: Use it as a scratchpad. Jot down quick thoughts, paste temporary links, and when you're done, hit `Ctrl+D` to delete it forever and keep your desk clean.
 
@@ -36,11 +36,10 @@ Most note-taking apps force you into a heavy workflow of creating files, managin
 - **WYSIWYG Markdown**: Real-time rendering of Markdown. Toggle WYSIWYG mode to instantly hide Markdown syntax symbols and view clean rich text.
 - **Paper Themes**: Native dynamic styling. Choose between Dotted, Grid, or Blank backgrounds to mimic physical engineering paper or scratchpads.
 - **Smart Paste**: Copy a URL and press `Ctrl+V` to automatically shrink it via TinyURL in the background, or use `Ctrl+Shift+V` to extract and paste pure plain text, actively stripping all source Markdown formatting.
-- **Keyboard-Centric Workflow**: 
+- **Keyboard-Centric Workflow**:
   - `Ctrl+N` to instantly create a new note.
   - `Ctrl+B`, `Ctrl+I`, `Ctrl+U` for quick text formatting.
 - **Performance Focused**: Renders only the most recently active notes to keep startup times fast.
-
 
 ## Installation
 
@@ -50,30 +49,103 @@ Whisp is officially distributed through Flathub, making it easy to install on an
 flatpak install flathub io.github.tanaybhomia.Whisp
 ```
 
+<details>
+<summary>Installation using flakes (NixOS)</summary>
+To use this package in your NixOS Flake configuration, you can import it as a flake input and either use the NixOS module or add the package directly to your configuration. Here is how you can do it:
+
+### 1. Add Whisp as a Flake Input
+
+Add this repository to the `inputs` section of your NixOS system's `flake.nix`:
+
+```nix
+inputs = {
+  nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  whisp.url = "github:tanaybhomia/Whisp";
+};
+```
+
+---
+
+### 2. Enable it in your configuration
+
+You have two options depending on how you prefer to configure your system:
+
+#### Option A: Using the NixOS Module (Recommended)
+
+Pass `inputs` to your module arguments, import the module in your `nixosSystem` modules list, and enable the program:
+
+**In `flake.nix`:**
+
+```nix
+outputs = { nixpkgs, whisp, ... } @ inputs: {
+  nixosConfigurations.yourHostname = nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux"; # Adjust system accordingly
+    specialArgs = { inherit inputs; };
+    modules = [
+      ./configuration.nix
+      whisp.nixosModules.default # Imports the programs.whisp module
+    ];
+  };
+};
+```
+
+**In `configuration.nix`:**
+
+```nix
+{ config, pkgs, ... }: {
+  # Enable Whisp
+  programs.whisp.enable = true;
+
+  # Optional: Override the package with custom modifications if needed
+  # programs.whisp.package = ...;
+}
+```
+
+#### Option B: Installing the Package Directly
+
+If you do not want to use the module, you can add the package directly to your environment packages:
+
+**In `configuration.nix`:**
+
+```nix
+{ config, pkgs, inputs, ... }: {
+  environment.systemPackages = [
+    inputs.whisp.packages.${pkgs.system}.default
+  ];
+}
+```
+
+</details>
+
 ## Contribution & Development
 
 If you'd like to contribute to Whisp or build your own version, we have set up scripts to make local development frictionless. We kindly ask that all contributors adhere to our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ### Translations
+
 Want to help translate Whisp into your native language? We use standard GNU gettext `.po` files. Please read our [Translations Guide](TRANSLATIONS.md) for simple instructions on how to submit a translation pull request!
 
 ### Local Testing
+
 You do not need to install the app or compile it with Meson just to test Python code changes. Run the following command in the project root to instantly launch the app from the source code:
+
 ```bash
 ./run.sh
 ```
 
 ### Development Environment Setup
+
 If you want to use the official Flathub release for your daily notes, but also want a separate development version of Whisp in your app launcher for testing, run:
+
 ```bash
 ./install-dev.sh
 ```
+
 This script creates a separate "Whisp (Development)" entry in your GNOME app grid. It uses a custom development icon and saves your test notes to a completely isolated folder (`~/.local/share/Whisp/`), keeping your official Flatpak notes safe. Any code changes you make in your IDE will instantly be reflected the next time you click the Development app icon.
 
 ## Architecture
 
 Whisp follows the GNOME Human Interface Guidelines (HIG). It uses `Adw.Carousel` for its swipeable interface and uses a custom `Gtk.TextView` wrapper to parse and format Markdown text.
-
 
 ## License
 
@@ -87,11 +159,10 @@ Whisp was heavily inspired by the core workflow and design philosophy of **[Anti
 
 Thank you to everyone who has starred the repository and supported the project!
 <a href="https://www.star-history.com/?repos=tanaybhomia%2FWhisp&type=timeline&legend=top-left">
- <picture>
+<picture>
+
    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=tanaybhomia/Whisp&type=timeline&theme=dark&legend=top-left" />
    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=tanaybhomia/Whisp&type=timeline&legend=top-left" />
    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=tanaybhomia/Whisp&type=timeline&legend=top-left" />
  </picture>
 </a>
-
-
