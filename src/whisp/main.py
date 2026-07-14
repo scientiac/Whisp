@@ -37,6 +37,7 @@ class WhispApp(Adw.Application):
         self.set_accels_for_action("win.nav-last", ["<Alt>l"])
         self.set_accels_for_action("win.copy-note", ["<Ctrl><Shift>c"])
         self.set_accels_for_action("win.bump-note", ["<Ctrl><Shift>m"])
+        self.set_accels_for_action("win.slate-mode", ["F11", "<Alt>s"])
         self.set_accels_for_action("win.quit", ["<Ctrl>q"])
 
         # Cohesive Background CSS
