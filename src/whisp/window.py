@@ -854,7 +854,10 @@ class WhispWindow(Adw.ApplicationWindow):
                 GLib.idle_add(animate_pin)
                 GLib.timeout_add(50, animate_pin)
                 
-                self.toast_overlay.add_toast(Adw.Toast.new("Note Pinned to front"))
+                if hasattr(self, '_pin_toast') and self._pin_toast:
+                    self._pin_toast.dismiss()
+                self._pin_toast = Adw.Toast.new("Note Pinned to front")
+                self.toast_overlay.add_toast(self._pin_toast)
             else:
                 self.carousel.remove(current_page)
                 target_pos = 0
@@ -881,7 +884,10 @@ class WhispWindow(Adw.ApplicationWindow):
                 GLib.idle_add(animate_unpin)
                 GLib.timeout_add(50, animate_unpin)
                 
-                self.toast_overlay.add_toast(Adw.Toast.new("Note Unpinned"))
+                if hasattr(self, '_pin_toast') and self._pin_toast:
+                    self._pin_toast.dismiss()
+                self._pin_toast = Adw.Toast.new("Note Unpinned")
+                self.toast_overlay.add_toast(self._pin_toast)
                 
         except Exception as e:
             print("Error toggling pin:", e)
