@@ -626,7 +626,7 @@ class NoteEditor(Gtk.Overlay):
                 self.wrap_text("*", "*", "italic")
                 return True
             elif keyval == Gdk.KEY_u or keyval == Gdk.KEY_U:
-                self.wrap_text("<u>", "</u>", "underline")
+                self.wrap_text("_", "_", "underline")
                 return True
             elif keyval == Gdk.KEY_s or keyval == Gdk.KEY_S:
                 self.toggle_checkbox()
