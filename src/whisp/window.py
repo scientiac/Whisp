@@ -454,9 +454,7 @@ class WhispWindow(Adw.ApplicationWindow):
         self.add_action(slate_mode_action)
 
         # Slate Mode state and hover logic
-        self.is_slate_mode = False
-        if config.get("remember_slate_mode", False):
-            self.is_slate_mode = config.get("slate_mode_active", False)
+        self.is_slate_mode = config.get("start_in_slate_mode", False)
             
         motion_ctrl = Gtk.EventControllerMotion.new()
         motion_ctrl.connect("motion", self.on_mouse_motion)
@@ -1648,21 +1646,21 @@ class WhispWindow(Adw.ApplicationWindow):
         toast_row.set_activatable_widget(toast_switch)
         behavior_group.add(toast_row)
         
-        remember_slate_row = Adw.ActionRow(
-            title="Restore Slate Mode on Startup",
-            subtitle="Automatically re-enter Slate Mode if it was active when you last closed Whisp"
+        start_slate_row = Adw.ActionRow(
+            title="Enable Slate Mode on Startup",
+            subtitle="Always launch Whisp directly into Slate Mode"
         )
-        remember_slate_switch = Gtk.Switch()
-        remember_slate_switch.set_valign(Gtk.Align.CENTER)
-        remember_slate_switch.set_active(config.get("remember_slate_mode", False))
+        start_slate_switch = Gtk.Switch()
+        start_slate_switch.set_valign(Gtk.Align.CENTER)
+        start_slate_switch.set_active(config.get("start_in_slate_mode", False))
         
-        def on_remember_slate_changed(switch, param):
-            config.set("remember_slate_mode", switch.get_active())
+        def on_start_slate_changed(switch, param):
+            config.set("start_in_slate_mode", switch.get_active())
             
-        remember_slate_switch.connect("notify::active", on_remember_slate_changed)
-        remember_slate_row.add_suffix(remember_slate_switch)
-        remember_slate_row.set_activatable_widget(remember_slate_switch)
-        behavior_group.add(remember_slate_row)
+        start_slate_switch.connect("notify::active", on_start_slate_changed)
+        start_slate_row.add_suffix(start_slate_switch)
+        start_slate_row.set_activatable_widget(start_slate_switch)
+        behavior_group.add(start_slate_row)
         
         behavior_page.add(behavior_group)
 
@@ -1979,10 +1977,6 @@ class WhispWindow(Adw.ApplicationWindow):
         status = "Entered Slate mode" if self.is_slate_mode else "Exited Slate mode"
         self._slate_toast = Adw.Toast.new(status)
         self.toast_overlay.add_toast(self._slate_toast)
-        
-        if config.get("remember_slate_mode", False):
-            config.set("slate_mode_active", self.is_slate_mode)
-
     def on_mouse_motion(self, controller, x, y):
         if self.is_slate_mode:
             if y < 45:

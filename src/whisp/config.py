@@ -15,8 +15,7 @@ STATE_KEYS = {
     "is_maximized",
     "first_run",
     "last_seen_version",
-    "last_active_note",
-    "slate_mode_active"
+    "last_active_note"
 }
 
 class Config:
@@ -34,7 +33,7 @@ class Config:
             "show_command_toasts": True,
             "archive_days": 0,
             "max_carousel_size": 10,
-            "remember_slate_mode": False
+            "start_in_slate_mode": False
         }
         
         self.state_data = {
@@ -43,8 +42,7 @@ class Config:
             "is_maximized": False,
             "first_run": True,
             "last_seen_version": "0.0.0",
-            "last_active_note": None,
-            "slate_mode_active": False
+            "last_active_note": None
         }
         self.load()
 
@@ -60,6 +58,10 @@ class Config:
                     if key in loaded_config:
                         self.state_data[key] = loaded_config.pop(key)
                         migrated = True
+                        
+                if "remember_slate_mode" in loaded_config:
+                    loaded_config["start_in_slate_mode"] = loaded_config.pop("remember_slate_mode")
+                    migrated = True
                         
                 self.config_data.update(loaded_config)
                 
