@@ -983,17 +983,18 @@ class WhispWindow(Adw.ApplicationWindow):
             
             def restore_session():
                 if self.carousel.get_width() == 0:
-                    return False
-                self.carousel.scroll_to(target_editor, False)
-                target_editor.textview.grab_focus()
-                buffer = target_editor.buffer
-                buffer.place_cursor(buffer.get_end_iter())
+                    restore_session.attempts = getattr(restore_session, 'attempts', 0) + 1
+                    if restore_session.attempts < 20:
+                        return True # Try again in 50ms
+                    # If we waited 1 second and still no width, just reveal it anyway
                 
-                def reveal():
-                    self.carousel.set_opacity(1)
-                    return False
-                GLib.idle_add(reveal)
+                if self.carousel.get_width() > 0:
+                    self.carousel.scroll_to(target_editor, False)
+                    target_editor.textview.grab_focus()
+                    buffer = target_editor.buffer
+                    buffer.place_cursor(buffer.get_end_iter())
                 
+                self.carousel.set_opacity(1)
                 self.update_title()
                 
                 last_seen = config.get("last_seen_version", "0.0.0")
@@ -1007,10 +1008,7 @@ class WhispWindow(Adw.ApplicationWindow):
                 return False
             
             if not skip_restore:
-                GLib.idle_add(restore_session)
                 GLib.timeout_add(50, restore_session)
-                GLib.timeout_add(200, restore_session)
-                GLib.timeout_add(500, restore_session)
 
     def add_note(self, file_path=None, grab_focus=True, index=None):
         editor = NoteEditor(file_path=file_path, on_title_changed=self.on_editor_title_changed)

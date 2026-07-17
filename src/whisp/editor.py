@@ -162,9 +162,9 @@ class NoteEditor(Gtk.Overlay):
         self.autocomplete_scroll = Gtk.ScrolledWindow()
         self.autocomplete_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         self.autocomplete_scroll.set_max_content_height(250)
-        self.autocomplete_scroll.set_max_content_width(320)
+        self.autocomplete_scroll.set_max_content_width(260)
         self.autocomplete_scroll.set_propagate_natural_height(True)
-        self.autocomplete_scroll.set_propagate_natural_width(True)
+        self.autocomplete_scroll.set_propagate_natural_width(False)
         self.autocomplete_scroll.set_margin_top(6)
         self.autocomplete_scroll.set_margin_bottom(6)
         self.autocomplete_scroll.set_margin_start(6)
@@ -411,7 +411,7 @@ class NoteEditor(Gtk.Overlay):
                 editor_h = self.get_height()
                 
                 # Use a stable assumed width for bounds checking to prevent X-coordinate jitter
-                assumed_box_w = 320
+                assumed_box_w = 260
                 final_x = x - 8 # Shift left to align text inside the popover with editor text
                 if editor_w > 0 and final_x + assumed_box_w > editor_w - 16:
                     final_x = max(16, editor_w - assumed_box_w - 16)
@@ -421,9 +421,10 @@ class NoteEditor(Gtk.Overlay):
                 
                 if editor_w > 0:
                     available_w = max(100, editor_w - final_x - 16)
-                    self.autocomplete_scroll.set_max_content_width(min(320, available_w))
+                    target_w = min(260, available_w)
+                    self.autocomplete_scroll.set_size_request(target_w, -1)
                 else:
-                    self.autocomplete_scroll.set_max_content_width(320)
+                    self.autocomplete_scroll.set_size_request(260, -1)
                     
                 final_y = y + 16 # Add 16px gap for dropdown to clear shadow
                 if editor_h > 0:
@@ -625,7 +626,7 @@ class NoteEditor(Gtk.Overlay):
                 self.wrap_text("*", "*", "italic")
                 return True
             elif keyval == Gdk.KEY_u or keyval == Gdk.KEY_U:
-                self.wrap_text("<u>", "</u>", "underline")
+                self.wrap_text("_", "_", "underline")
                 return True
             elif keyval == Gdk.KEY_s or keyval == Gdk.KEY_S:
                 self.toggle_checkbox()

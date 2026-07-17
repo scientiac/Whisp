@@ -70,6 +70,7 @@
                 <div class="nav-links">
                     <a href="#nav-date-time">Date & Time</a>
                     <a href="#nav-generators">Random & Dice</a>
+                    <a href="#nav-list-commands">List & Data</a>
                     <a href="#nav-text-commands">Text Commands</a>
                 </div>
             </details>
@@ -87,7 +88,7 @@
         <main class="manual-content">
             <div class="manual-inner">
             <header class="manual-header">
-                <span class="version-badge">Updated for v1.3.3</span>
+                <span class="version-badge">Updated for v1.3.7</span>
                 <h1>User Manual</h1>
                 <div class="intent-banner">
                     <strong>Design Intent:</strong> Prioritize the present moment above organization or recall. Navigating Whisp should feel like dancing in your short-term memory.
@@ -385,6 +386,95 @@
                     <strong>Tip:</strong> You don't need to memorize these! A smart autocomplete dropdown appears when you type <code>::</code>.
                 </div>
             </section>
+
+            <section id="nav-list-commands" class="manual-section">
+                <h2>List &amp; Data Commands</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Instantly format and organize lists and data without touching the mouse.</p>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::sort_lines_alpha</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Sorts all lines alphabetically</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::sort_lines_number</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Sorts all lines numerically based on leading numbers</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::remove_lines_empty</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Removes all empty lines from the document</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::dedupe_lines</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Removes duplicate lines while preserving order</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::checked_to_bottom</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Moves all completed [x] tasks to the bottom of the document</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::remove_checked</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Deletes all completed [x] tasks from the document</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::lines_to_commas</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Converts a vertical list into a single comma-separated line</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::commas_to_list</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Splits a comma-separated line into a vertical list</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::keep_lines_with(text)</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Deletes all lines that do not contain the specified text</div>
+                    <div class="command-example">Example: ::keep_lines_with([ERROR])</div>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-header">
+                        <span class="command-name">::remove_lines_with(text)</span>
+                        <span class="command-badge">replaceAll</span>
+                    </div>
+                    <div class="command-desc">Deletes all lines that contain the specified text</div>
+                    <div class="command-example">Example: ::remove_lines_with(TODO)</div>
+                </div>
+            </section>
+
+            <hr>
 
             <section id="nav-text-commands" class="manual-section">
                 <h2>Text Commands</h2>

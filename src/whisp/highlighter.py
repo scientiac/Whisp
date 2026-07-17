@@ -183,6 +183,15 @@ class MarkdownHighlighter:
             if wysiwyg:
                 apply_invisible(m, 1, outer_match=m)
                 apply_invisible(m, 3, outer_match=m)
+                
+        # Apply underline (_text_)
+        for m in re.finditer(r'(?<!\w)(_+)([^\n]+?)\1(?!\w)', text):
+            start_iter = self.buffer.get_iter_at_offset(m.start())
+            end_iter = self.buffer.get_iter_at_offset(m.end())
+            self.buffer.apply_tag(self.tag_underline, start_iter, end_iter)
+            if wysiwyg:
+                apply_invisible(m, 1, outer_match=m)
+                apply_invisible(m, 3, outer_match=m)
             
         # Apply strikethrough (~~text~~)
         for m in re.finditer(r'(~~)(.*?)(~~)', text):
