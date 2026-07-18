@@ -959,7 +959,6 @@ details.nav-group summary::-webkit-details-marker {
 .nav-links a:hover,
 .nav-links a.active {
     color: var(--accent-color);
-    font-weight: 600;
 }
 .manual-content {
     flex: 1;
