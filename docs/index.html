@@ -328,7 +328,7 @@
                 display: flex;
                 gap: 2rem;
                 width: max-content;
-                animation: cards-marquee-scroll 35s linear infinite;
+                animation: cards-marquee-scroll 20s linear infinite;
                 padding: 0 2rem;
             }
             
@@ -349,14 +349,8 @@
                 flex-shrink: 0; /* Prevent squishing */
                 border: 1px solid var(--card-border);
                 box-shadow: 0 12px 32px rgba(0,0,0,0.15);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
                 white-space: normal;
                 text-align: left;
-            }
-            
-            .battery-card:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 20px 48px rgba(0,0,0,0.25);
             }
             
             .battery-card-title {
@@ -441,8 +435,8 @@
                 margin: 6rem auto 6rem auto;
                 padding: 0 2rem;
                 display: grid;
-                grid-template-columns: 1fr 1.3fr; /* Slightly wider graphic side */
-                gap: 8rem; /* Even larger gap */
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
                 align-items: center;
             }
             .get-involved-content {
@@ -508,7 +502,7 @@
             /* Builder Graphic Styling */
             .builder-graphic-img {
                 width: 100%;
-                transform: scale(1.25); /* Forces visual enlargement regardless of flex constraints */
+                transform: scale(1.15); /* Gently scales up while maintaining center */
                 transform-origin: center center;
                 display: block;
             }
@@ -701,13 +695,23 @@
                     </picture>
                 </div>
 
-                <!-- Feature 2: WYSIWYG Mode -->
+                <!-- Feature 2: Text Expansion -->
                 <div class="feature-item">
-                    <h3 class="feature-item-title">WYSIWYG Mode</h3>
-                    <p class="feature-item-subtitle">Toggle WYSIWYG mode to instantly render your markdown beautifully without saving.</p>
+                    <h3 class="feature-item-title">Text Expansion</h3>
+                    <p class="feature-item-subtitle">Type special keywords like <code>::date</code> or <code>::uuid</code> to instantly expand text.</p>
                     <picture>
-                        <source srcset="assets/WebsiteImages/darkmode/wysiwygmode.png" media="(prefers-color-scheme: dark)">
-                        <img src="assets/WebsiteImages/lightmode/wysiwygmode.png" class="feature-item-img" alt="WYSIWYG Mode">
+                        <source srcset="assets/WebsiteImages/darkmode/textexpansion.png" media="(prefers-color-scheme: dark)">
+                        <img src="assets/WebsiteImages/lightmode/textexpansion.png" class="feature-item-img" alt="Text Expansion">
+                    </picture>
+                </div>
+
+                <!-- Feature 3: Slate Mode -->
+                <div class="feature-item">
+                    <h3 class="feature-item-title">Slate Mode</h3>
+                    <p class="feature-item-subtitle">Enable Slate Mode (Alt+S) for a distraction-free, ultra-minimalist text experience.</p>
+                    <picture>
+                        <source srcset="assets/WebsiteImages/darkmode/slatemode.png" media="(prefers-color-scheme: dark)">
+                        <img src="assets/WebsiteImages/lightmode/slatemode.png" class="feature-item-img" alt="Slate Mode">
                     </picture>
                 </div>
 
@@ -723,13 +727,13 @@
                     </picture>
                 </div>
 
-                <!-- Feature 5: Text Expansion -->
+                <!-- Feature 5: WYSIWYG Mode -->
                 <div class="feature-item">
-                    <h3 class="feature-item-title">Text Expansion</h3>
-                    <p class="feature-item-subtitle">Type special keywords like <code>::date</code> or <code>::uuid</code> to instantly expand text.</p>
+                    <h3 class="feature-item-title">WYSIWYG Mode</h3>
+                    <p class="feature-item-subtitle">Toggle WYSIWYG mode to instantly render your markdown beautifully without saving.</p>
                     <picture>
-                        <source srcset="assets/WebsiteImages/darkmode/textexpansion.png" media="(prefers-color-scheme: dark)">
-                        <img src="assets/WebsiteImages/lightmode/textexpansion.png" class="feature-item-img" alt="Text Expansion">
+                        <source srcset="assets/WebsiteImages/darkmode/wysiwygmode.png" media="(prefers-color-scheme: dark)">
+                        <img src="assets/WebsiteImages/lightmode/wysiwygmode.png" class="feature-item-img" alt="WYSIWYG Mode">
                     </picture>
                 </div>
 
