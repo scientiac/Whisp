@@ -69,8 +69,8 @@ class Config:
                 self.config_data.update(loaded_config)
                 
                 if migrated:
-                    self.save_config()
                     self.save_state()
+                    self.save_config()
             except:
                 pass
         else:
@@ -88,10 +88,16 @@ class Config:
             self.save_state()
 
     def save_config(self):
-        CONFIG_FILE.write_text(json.dumps(self.config_data))
+        try:
+            CONFIG_FILE.write_text(json.dumps(self.config_data, indent=4))
+        except Exception:
+            pass
         
     def save_state(self):
-        STATE_FILE.write_text(json.dumps(self.state_data))
+        try:
+            STATE_FILE.write_text(json.dumps(self.state_data, indent=4))
+        except Exception:
+            pass
 
     @property
     def data_dir(self):
