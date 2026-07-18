@@ -82,6 +82,9 @@ Pass `inputs` to your module arguments, import the module in your Home Manager c
     inputs.whisp.homeManagerModules.default
   ];
 
+  # Optional: Use the stable version from nixpkgs instead of the latest flake version
+  # package = pkgs.whisp;
+
   # Enable and configure Whisp declaratively
   programs.whisp = {
     enable = true;
