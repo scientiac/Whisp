@@ -116,7 +116,8 @@ If you do not want to use the module, you can add the package directly to your c
 { pkgs, inputs, ... }: {
   home.packages = [ # or environment.systemPackages for NixOS
     # Option 1: Use the latest flake version
-    inputs.whisp.packages.${pkgs.system}.default
+    inputs.whisp.packages.${stdenv.hostPlatform.system}.default
+
 
     # Option 2: Use the stable version from nixpkgs (if available)
     # pkgs.whisp
