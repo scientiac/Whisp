@@ -15,7 +15,8 @@ STATE_KEYS = {
     "is_maximized",
     "first_run",
     "last_seen_version",
-    "last_active_note"
+    "last_active_note",
+    "wysiwyg_mode"
 }
 
 class Config:
@@ -33,7 +34,8 @@ class Config:
             "show_command_toasts": True,
             "archive_days": 0,
             "max_carousel_size": 10,
-            "start_in_slate_mode": False
+            "start_in_slate_mode": False,
+            "wysiwyg_scope": "global"
         }
         
         self.state_data = {
@@ -42,7 +44,8 @@ class Config:
             "is_maximized": False,
             "first_run": True,
             "last_seen_version": "0.0.0",
-            "last_active_note": None
+            "last_active_note": None,
+            "wysiwyg_mode": False
         }
         self.load()
 
