@@ -19,6 +19,6 @@
       whisp = final.callPackage ./nix/default.nix {};
     };
 
-    nixosModules.default = import ./nix/module.nix inputs;
+    homeManagerModules.default = import ./nix/module.nix inputs;
   };
 }

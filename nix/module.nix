@@ -14,9 +14,24 @@ in {
       defaultText = "inputs.self.packages.\${pkgs.stdenv.hostPlatform.system}.default";
       description = "The Whisp package to install.";
     };
+
+    settings = lib.mkOption {
+      type = lib.types.attrsOf lib.types.anything;
+      default = {};
+      example = {
+        font_name = "VictorMono Nerd Font Bold 11";
+        paper_theme = "blank";
+        confirm_delete = true;
+      };
+      description = "Configuration options for Whisp.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ cfg.package ];
+    home.packages = [ cfg.package ];
+
+    xdg.configFile."whisp/config.json" = lib.mkIf (cfg.settings != {}) {
+      text = builtins.toJSON cfg.settings;
+    };
   };
 }

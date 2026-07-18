@@ -50,12 +50,12 @@ flatpak install flathub io.github.tanaybhomia.Whisp
 ```
 
 <details>
-<summary>Installation using flakes (NixOS)</summary>
-To use this package in your NixOS Flake configuration, you can import it as a flake input and either use the NixOS module or add the package directly to your configuration. Here is how you can do it:
+<summary>Installation using flakes (Home Manager)</summary>
+To use this package in your configuration, you can import it as a flake input and either use the Home Manager module or install the package directly. Here is how you can do it:
 
 ### 1. Add Whisp as a Flake Input
 
-Add this repository to the `inputs` section of your NixOS system's `flake.nix`:
+Add this repository to the `inputs` section of your `flake.nix`:
 
 ```nix
 inputs = {
@@ -70,43 +70,48 @@ inputs = {
 
 You have two options depending on how you prefer to configure your system:
 
-#### Option A: Using the NixOS Module (Recommended)
+#### Option A: Using the Home Manager Module (Recommended)
 
-Pass `inputs` to your module arguments, import the module in your `nixosSystem` modules list, and enable the program:
+Pass `inputs` to your module arguments, import the module in your Home Manager configuration, and enable/configure the program:
 
-**In `flake.nix`:**
+**In your `home.nix` or flake configuration:**
 
 ```nix
-outputs = { nixpkgs, whisp, ... } @ inputs: {
-  nixosConfigurations.yourHostname = nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux"; # Adjust system accordingly
-    specialArgs = { inherit inputs; };
-    modules = [
-      ./configuration.nix
-      whisp.nixosModules.default # Imports the programs.whisp module
-    ];
+{ inputs, pkgs, ... }: {
+  imports = [
+    inputs.whisp.homeManagerModules.default
+  ];
+
+  # Enable and configure Whisp declaratively
+  programs.whisp = {
+    enable = true;
+    settings = {
+      font_name = "VictorMono Nerd Font Bold 11";
+      paper_theme = "blank";
+      confirm_delete = true;
+      color_scheme = "light";
+      startup_behavior = "last_note";
+      run_in_background = true;
+      run_on_startup = true;
+      start_hidden = true;
+      show_command_toasts = true;
+      archive_days = 0;
+      max_carousel_size = 10;
+      remember_slate_mode = true;
+    };
   };
-};
-```
-
-**In `configuration.nix`:**
-
-```nix
-{ config, pkgs, ... }: {
-  # Enable Whisp
-  programs.whisp.enable = true;
 }
 ```
 
 #### Option B: Installing the Package Directly
 
-If you do not want to use the module, you can add the package directly to your environment packages:
+If you do not want to use the module, you can add the package directly to your configuration:
 
-**In `configuration.nix`:**
+**In your Home Manager or NixOS configuration:**
 
 ```nix
-{ config, pkgs, inputs, ... }: {
-  environment.systemPackages = [
+{ pkgs, inputs, ... }: {
+  home.packages = [ # or environment.systemPackages for NixOS
     inputs.whisp.packages.${pkgs.system}.default
   ];
 }
