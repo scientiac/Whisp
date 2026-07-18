@@ -1125,6 +1125,10 @@ class WhispWindow(Adw.ApplicationWindow):
 
         # Don't allow deleting an already empty note (prevents app locking bug)
         if editor.is_empty():
+            if hasattr(self, 'current_toast') and self.current_toast:
+                self.current_toast.dismiss()
+            self.current_toast = Adw.Toast.new("Cannot delete the default empty note")
+            self.toast_overlay.add_toast(self.current_toast)
             return
 
         # Skip confirmation if user disabled it
