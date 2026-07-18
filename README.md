@@ -105,14 +105,18 @@ Pass `inputs` to your module arguments, import the module in your Home Manager c
 
 #### Option B: Installing the Package Directly
 
-If you do not want to use the module, you can add the package directly to your configuration:
+If you do not want to use the module, you can add the package directly to your configuration. You can choose to use the stable version from `nixpkgs` or the latest version from this flake:
 
 **In your Home Manager or NixOS configuration:**
 
 ```nix
 { pkgs, inputs, ... }: {
   home.packages = [ # or environment.systemPackages for NixOS
+    # Option 1: Use the latest flake version
     inputs.whisp.packages.${pkgs.system}.default
+
+    # Option 2: Use the stable version from nixpkgs (if available)
+    # pkgs.whisp
   ];
 }
 ```
