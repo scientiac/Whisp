@@ -71,6 +71,7 @@
           <li>UX Refinements: Attempting to delete a default empty note now properly displays a helpful toast notification instead of failing silently.</li>
           <li>Refined text expansion dialogue box to make it more uniform and less jerky</li>
           <li>Fixed a race condition which used to create an empty unresponsive note</li>
+          <li>Sorting lines with functions now does not apply to headings as well</li>
         </ul>
       </description>
     </release>
