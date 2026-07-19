@@ -58,7 +58,7 @@
   <releases>
     <release version="1.3.8" date="2026-07-19">
       <description>
-        <p><em>NixOS Support and UI Polish</em></p>
+        <p><em>Slate Mode , Nix Support and UI Polish</em></p>
         <p>This release includes a new feature Slate mode and Includes official support for NixOS.</p>
         <p><em>New Features</em></p>
         <ul>
