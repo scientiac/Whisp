@@ -89,7 +89,8 @@ Pass `inputs` to your module arguments, import the module in your Home Manager c
   programs.whisp = {
     enable = true;
     settings = {
-      font_name = "VictorMono Nerd Font Bold 11";
+      data_dir = "${config.home.homeDirectory}/.local/share/whisp/notes";
+      font_name = "VictorMono Nerd Font Bold 12";
       paper_theme = "blank";
       confirm_delete = true;
       color_scheme = "light";
@@ -100,7 +101,7 @@ Pass `inputs` to your module arguments, import the module in your Home Manager c
       show_command_toasts = true;
       archive_days = 0;
       max_carousel_size = 10;
-      remember_slate_mode = true;
+      start_in_slate_mode = true;
     };
   };
 }
