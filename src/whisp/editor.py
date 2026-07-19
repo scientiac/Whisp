@@ -948,22 +948,37 @@ class NoteEditor(Gtk.Overlay):
                 count = text.count(old)
                 new_text = text.replace(old, new)
                 msg = f"Replaced {count} instances"
-            elif cmd == "sort_lines_alpha":
-                lines = text.strip('\n').split('\n')
-                new_text = '\n'.join(sorted(lines, key=lambda x: (x.strip() == "", x.lower())))
-                msg = "Sorted lines alphabetically"
-            elif cmd == "sort_lines_number":
+            elif cmd in ("sort_lines_alpha", "sort_lines_number", "sort_lines_reverse"):
                 import re
-                def get_num(line):
-                    m = re.search(r'\d+', line)
-                    return float(m.group()) if m else float('inf')
+                def sort_sections(lines, sort_fn):
+                    out = []
+                    current_chunk = []
+                    for line in lines:
+                        if re.match(r'^\s*#{1,6}\s', line):
+                            if current_chunk:
+                                out.extend(sort_fn(current_chunk))
+                                current_chunk = []
+                            out.append(line)
+                        else:
+                            current_chunk.append(line)
+                    if current_chunk:
+                        out.extend(sort_fn(current_chunk))
+                    return out
+                
                 lines = text.strip('\n').split('\n')
-                new_text = '\n'.join(sorted(lines, key=lambda x: (x.strip() == "", get_num(x))))
-                msg = "Sorted lines numerically"
-            elif cmd == "sort_lines_reverse":
-                lines = text.strip('\n').split('\n')
-                new_text = '\n'.join(lines[::-1])
-                msg = "Reversed line order"
+                if cmd == "sort_lines_alpha":
+                    new_text = '\n'.join(sort_sections(lines, lambda c: sorted(c, key=lambda x: (x.strip() == "", x.lower()))))
+                    msg = "Sorted lines alphabetically"
+                elif cmd == "sort_lines_number":
+                    import re
+                    def get_num(line):
+                        m = re.search(r'\d+', line)
+                        return float(m.group()) if m else float('inf')
+                    new_text = '\n'.join(sort_sections(lines, lambda c: sorted(c, key=lambda x: (x.strip() == "", get_num(x)))))
+                    msg = "Sorted lines numerically"
+                elif cmd == "sort_lines_reverse":
+                    new_text = '\n'.join(sort_sections(lines, lambda c: c[::-1]))
+                    msg = "Reversed line order"
             elif cmd == "remove_lines_empty":
                 new_text = '\n'.join(line for line in text.split('\n') if line.strip())
                 msg = "Removed empty lines"
