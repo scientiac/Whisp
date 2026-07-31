@@ -616,6 +616,7 @@ class WhispWindow(Adw.ApplicationWindow):
         self.carousel.set_opacity(0)
         self.carousel.set_spacing(16)
         self.carousel.set_interactive(True)
+        self.carousel.set_allow_mouse_drag(False)  # Allow mouse text selection without swiping
         self.carousel.connect("page-changed", self.on_page_changed)
         self.carousel.connect("notify::position", self.on_carousel_position_notify)
         self.toolbar_view.set_content(self.carousel)
