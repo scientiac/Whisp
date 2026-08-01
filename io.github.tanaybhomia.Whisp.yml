@@ -17,7 +17,7 @@ modules:
     sources:
       - type: archive
         url: https://github.com/DanBloomberg/leptonica/releases/download/1.83.1/leptonica-1.83.1.tar.gz
-        sha256: 3c572be4259b1fdf3b1aeccac48ef5cbcf8198f1a14a38217bbccbeabddac0e5
+        sha256: 8f18615e0743af7df7f50985c730dfcf0c93548073d1f56621e4156a8b54d3dd
 
   - name: tesseract
     buildsystem: cmake
@@ -26,7 +26,7 @@ modules:
     sources:
       - type: archive
         url: https://github.com/tesseract-ocr/tesseract/archive/5.3.4.tar.gz
-        sha256: e8bf0cefd8deffcb613ffdafc047a27ebdcff461cb56cde92a7e78d2bafcaedd
+        sha256: 141afc12b34a14bb691a939b4b122db0d51bd38feda7f41696822bacea7710c7
     modules:
       - name: tesseract-data
         buildsystem: simple
@@ -36,7 +36,7 @@ modules:
         sources:
           - type: file
             url: https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/eng.traineddata
-            sha256: 7d4322bd2a7749724879671f9f17227181c00bb986f3dbcbcf896cba8dce0721
+            sha256: 7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2
 
   - name: python3-pillow
     buildsystem: simple
@@ -55,7 +55,7 @@ modules:
     sources:
       - type: file
         url: https://files.pythonhosted.org/packages/source/p/pytesseract/pytesseract-0.3.10.tar.gz
-        sha256: d8d17b2b80145242ae6143cfaebdb2ccba49df4952dd8ac3ccbeaa16f562cb55
+        sha256: f1c3a8b0f07fd01a1085d451f5b8315be6eec1d5577a6796d46dc7a62bd4120f
         dest-filename: pytesseract-0.3.10.tar.gz
       - type: file
         url: https://files.pythonhosted.org/packages/source/p/packaging/packaging-24.1.tar.gz
