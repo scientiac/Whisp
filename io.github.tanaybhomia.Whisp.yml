@@ -10,6 +10,58 @@ finish-args:
   - --device=dri
 
 modules:
+  - name: leptonica
+    buildsystem: autotools
+    config-opts:
+      - --disable-static
+    sources:
+      - type: archive
+        url: https://github.com/DanBloomberg/leptonica/releases/download/1.83.1/leptonica-1.83.1.tar.gz
+        sha256: 3c572be4259b1fdf3b1aeccac48ef5cbcf8198f1a14a38217bbccbeabddac0e5
+
+  - name: tesseract
+    buildsystem: cmake
+    config-opts:
+      - -DBUILD_TRAINING_TOOLS=OFF
+    sources:
+      - type: archive
+        url: https://github.com/tesseract-ocr/tesseract/archive/5.3.4.tar.gz
+        sha256: e8bf0cefd8deffcb613ffdafc047a27ebdcff461cb56cde92a7e78d2bafcaedd
+    modules:
+      - name: tesseract-data
+        buildsystem: simple
+        build-commands:
+          - mkdir -p ${FLATPAK_DEST}/share/tessdata
+          - cp eng.traineddata ${FLATPAK_DEST}/share/tessdata/
+        sources:
+          - type: file
+            url: https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/eng.traineddata
+            sha256: 7d4322bd2a7749724879671f9f17227181c00bb986f3dbcbcf896cba8dce0721
+
+  - name: python3-pillow
+    buildsystem: simple
+    build-commands:
+      - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}" --prefix=${FLATPAK_DEST} Pillow
+    sources:
+      - type: file
+        url: https://files.pythonhosted.org/packages/source/P/Pillow/pillow-10.4.0.tar.gz
+        sha256: 166c1cd4d24309b30d695781a7fc57a2c2069de5caaaad1b0c95333550e18987
+        dest-filename: pillow-10.4.0.tar.gz
+
+  - name: python3-pytesseract
+    buildsystem: simple
+    build-commands:
+      - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}" --prefix=${FLATPAK_DEST} pytesseract
+    sources:
+      - type: file
+        url: https://files.pythonhosted.org/packages/source/p/pytesseract/pytesseract-0.3.10.tar.gz
+        sha256: d8d17b2b80145242ae6143cfaebdb2ccba49df4952dd8ac3ccbeaa16f562cb55
+        dest-filename: pytesseract-0.3.10.tar.gz
+      - type: file
+        url: https://files.pythonhosted.org/packages/source/p/packaging/packaging-24.1.tar.gz
+        sha256: 026ed72c8ed3fcce5bf8950572258698927fd1dbda10a5e981cdf0ac37f4f002
+        dest-filename: packaging-24.1.tar.gz
+
   - name: whisp
     buildsystem: meson
     sources:

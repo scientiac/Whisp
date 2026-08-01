@@ -35,7 +35,7 @@ Most note-taking apps force you into a heavy workflow of creating files, managin
 - **Spatial Navigation**: Fluidly swipe between your recent notes using 1:1 touchpad gestures via Adwaita Carousel.
 - **WYSIWYG Markdown**: Real-time rendering of Markdown. Toggle WYSIWYG mode to instantly hide Markdown syntax symbols and view clean rich text.
 - **Paper Themes**: Native dynamic styling. Choose between Dotted, Grid, or Blank backgrounds to mimic physical engineering paper or scratchpads.
-- **Smart Paste**: Copy a URL and press `Ctrl+V` to automatically shrink it via TinyURL in the background, or use `Ctrl+Shift+V` to extract and paste pure plain text, actively stripping all source Markdown formatting.
+- **Smart Paste & OCR**: Copy any image or screenshot containing text and press `Ctrl+V` to run rapid, offline OCR that automatically extracts and inserts the text while mathematically preserving exact code indentation! Alternatively, paste a URL to automatically shrink it via TinyURL in the background, or use `Ctrl+Shift+V` to strip Markdown formatting when pasting rich text.
 - **Keyboard-Centric Workflow**:
   - `Ctrl+N` to instantly create a new note.
   - `Ctrl+B`, `Ctrl+I`, `Ctrl+U` for quick text formatting.
@@ -143,6 +143,8 @@ You do not need to install the app or compile it with Meson just to test Python 
 ```bash
 ./run.sh
 ```
+
+*(Note: To test the Smart Paste OCR features locally outside of Flatpak, ensure `tesseract` (or `tesseract-ocr`), `python3-pillow`, and `pytesseract` are installed on your system).*
 
 ### Development Environment Setup
 

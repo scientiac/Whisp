@@ -30,6 +30,7 @@
       <li>Live Markdown formatting (bold, italics, headers, code, lists)</li>
       <li>Swipe navigation between notes</li>
       <li>Searchable note list directly from the header</li>
+      <li>Smart Paste OCR to instantly extract and format text from pasted images</li>
       <li>Instant saving and Native UI styling</li>
     </ul>
   </description>
