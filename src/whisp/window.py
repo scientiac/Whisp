@@ -706,6 +706,7 @@ class WhispWindow(Adw.ApplicationWindow):
                                         release_desc += f"• {li_text}\n\n"
                                 release_desc += "\n"
                                 
+                    release_desc = release_desc.replace("See our translation guide on GitHub to contribute!", "<a href=\"https://github.com/tanaybhomia/Whisp/blob/main/TRANSLATIONS.md\">Contribute Here</a>")
                     releases_list.append({"version": version, "date": date, "description": release_desc.strip()})
                     description_text += release_desc
                     

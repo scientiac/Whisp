@@ -64,7 +64,7 @@
         <p><em>New Features</em></p>
         <ul>
           <li>Smart Paste (OCR): Paste copied screenshots or image files directly into your note! Whisp automatically extracts the embedded text in-memory while preserving original indentation and paragraph formatting.</li>
-          <li>French Translation: Added official French translation support! Want to help translate Whisp into your language? Check our <a href="https://github.com/tanaybhomia/Whisp/blob/main/TRANSLATIONS.md">translation guide</a>.</li>
+          <li>French Translation: Added official French translation support! Want to help translate Whisp into your language? See our translation guide on GitHub to contribute!</li>
         </ul>
         <p><em>Fixes &amp; Polish</em></p>
         <ul>
