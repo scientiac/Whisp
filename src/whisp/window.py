@@ -665,6 +665,14 @@ class WhispWindow(Adw.ApplicationWindow):
                     
             last_seen_tuple = parse_ver(last_seen)
             
+            def get_inner_markup(elem):
+                raw = ET.tostring(elem, encoding="unicode", method="xml").strip()
+                inner = re.sub(r'^<[^>]+>', '', raw)
+                inner = re.sub(r'</[^>]+>$', '', inner).strip()
+                inner = inner.replace("<code>", "<tt>").replace("</code>", "</tt>")
+                inner = inner.replace("<em>", "<b>").replace("</em>", "</b>")
+                return inner
+            
             if releases is not None:
                 description_text = ""
                 latest_version = "Unknown"
@@ -688,18 +696,14 @@ class WhispWindow(Adw.ApplicationWindow):
                     if desc_node is not None:
                         for child in desc_node:
                             if child.tag == "p":
-                                text = "".join(child.itertext()).strip()
+                                text = get_inner_markup(child)
                                 if text:
-                                    escaped = GLib.markup_escape_text(text)
-                                    if child.find("em") is not None:
-                                        release_desc += f"<b>{escaped}</b>\n\n"
-                                    else:
-                                        release_desc += f"{escaped}\n\n"
+                                    release_desc += f"{text}\n\n"
                             elif child.tag == "ul":
                                 for li in child.findall("li"):
-                                    li_text = "".join(li.itertext()).strip()
+                                    li_text = get_inner_markup(li)
                                     if li_text:
-                                        release_desc += f"• {GLib.markup_escape_text(li_text)}\n\n"
+                                        release_desc += f"• {li_text}\n\n"
                                 release_desc += "\n"
                                 
                     releases_list.append({"version": version, "date": date, "description": release_desc.strip()})

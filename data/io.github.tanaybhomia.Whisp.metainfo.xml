@@ -57,6 +57,23 @@
   <content_rating type="oars-1.1" />
 
   <releases>
+    <release version="1.4.0" date="2026-08-01">
+      <description>
+        <p><em>Smart Paste OCR, French Translation, and UX Polish</em></p>
+        <p>This major release introduces intelligent image text extraction, new community translations, and key keyboard workflow improvements.</p>
+        <p><em>New Features</em></p>
+        <ul>
+          <li>Smart Paste (OCR): Paste copied screenshots or image files directly into your note! Whisp automatically extracts the embedded text in-memory while preserving original indentation and paragraph formatting.</li>
+          <li>French Translation: Added official French translation support! Want to help translate Whisp into your language? Check our <a href="https://github.com/tanaybhomia/Whisp/blob/main/TRANSLATIONS.md">translation guide</a>.</li>
+        </ul>
+        <p><em>Fixes &amp; Polish</em></p>
+        <ul>
+          <li>Safer Shortcuts: Remapped the "Delete Note" keyboard shortcut to Shift+Delete to prevent conflicting with standard native word deletion.</li>
+          <li>Accurate Navigation: Disabled accidental mouse-dragging swipes on the note carousel; mouse users can now navigate cleanly using the scroll wheel.</li>
+          <li>Markdown Precision: Fixed an issue where escaped asterisks (`\*`) would incorrectly trigger bold or italic markdown rendering.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.3.8" date="2026-07-19">
       <description>
         <p><em>Slate Mode , Nix Support and UI Polish</em></p>
