@@ -57,7 +57,7 @@
   <content_rating type="oars-1.1" />
 
   <releases>
-    <release version="1.4.0" date="2026-08-01">
+    <release version="1.4.0" date="2026-08-04">
       <description>
         <p><em>Smart Paste OCR, French Translation, and UX Polish</em></p>
         <p>This major release introduces intelligent image text extraction, new community translations, and key keyboard workflow improvements.</p>
