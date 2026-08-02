@@ -27,6 +27,98 @@ except locale.Error:
 
 _ = gettext.gettext
 
+def extract_text_from_image(img):
+    """Extract text from a PIL Image using Tesseract OCR with noise filtering and indentation preservation."""
+    if not HAS_OCR:
+        return ""
+    import time, re
+    start_time = time.time()
+    try:
+        # Convert to grayscale ('L' mode) to significantly speed up Tesseract
+        img = img.convert('L')
+        
+        # Upscale the image by 2x using Lanczos resampling.
+        width, height = img.size
+        if width < 3000 and height < 3000:
+            img = img.resize((width * 2, height * 2), Image.Resampling.BILINEAR)
+        
+        # Add a white border so Tesseract doesn't fail on text too close to the edge
+        img = ImageOps.expand(img, border=20, fill='white')
+        
+        data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT, config='--psm 6')
+        
+        lines = {}
+        char_widths = []
+        
+        for i in range(len(data['text'])):
+            word = data['text'][i].strip()
+            if not word:
+                continue
+                
+            try:
+                conf = int(data['conf'][i])
+                if conf != -1 and conf < 35:
+                    continue
+            except (ValueError, TypeError, KeyError):
+                pass
+                
+            line_num = data['line_num'][i]
+            block_num = data['block_num'][i]
+            par_num = data['par_num'][i]
+            
+            char_widths.append(data['width'][i] / len(word))
+            
+            key = (block_num, par_num, line_num)
+            if key not in lines:
+                lines[key] = []
+                
+            lines[key].append({
+                'text': word,
+                'left': data['left'][i],
+                'width': data['width'][i]
+            })
+            
+        char_widths.sort()
+        median_char_width = char_widths[len(char_widths)//2] if char_widths else 20
+        space_width = median_char_width * 1.2 
+        
+        out = []
+        min_left = min([words[0]['left'] for words in lines.values()]) if lines else 0
+        
+        for key in sorted(lines.keys()):
+            words = lines[key]
+            first_left = words[0]['left']
+            
+            indent_spaces = int(round((first_left - min_left) / space_width))
+            line_str = " " * indent_spaces
+            
+            for j, w in enumerate(words):
+                line_str += w['text']
+                if j < len(words) - 1:
+                    next_left = words[j+1]['left']
+                    curr_right = w['left'] + w['width']
+                    gap = next_left - curr_right
+                    spaces = max(1, int(round(gap / space_width)))
+                    line_str += " " * spaces
+                    
+            out.append(line_str)
+            
+        extracted_text = "\n".join(out)
+        
+        elapsed = time.time() - start_time
+        benchmark_str = f"[OCR Benchmark] Extracted {len(extracted_text)} chars in {elapsed:.3f} seconds."
+        print(benchmark_str)
+        
+        # Sanity check against Tesseract hallucinating random noise on non-text images (like textures or landscapes)
+        has_valid_word = bool(re.search(r'[a-zA-Z0-9]{2,}', extracted_text))
+        total_alphanumeric = len(re.findall(r'[a-zA-Z0-9]', extracted_text))
+        is_valid_text = bool(extracted_text.strip()) and has_valid_word and (total_alphanumeric >= 3)
+        
+        return extracted_text.strip() if is_valid_text else ""
+    except Exception as e:
+        print(f"OCR Error: {e}")
+        return ""
+
 class NoteEditor(Gtk.Overlay):
     def __init__(self, file_path=None, on_title_changed=None):
         super().__init__()
@@ -1409,89 +1501,11 @@ class NoteEditor(Gtk.Overlay):
                     
                 # Run OCR in a background thread to avoid freezing the UI
                 def run_ocr():
-                    import time
-                    start_time = time.time()
                     try:
                         import io
-                        
-                        # Use purely in-memory processing instead of disk I/O
                         png_bytes = texture.save_to_png_bytes()
                         img = Image.open(io.BytesIO(png_bytes.get_data()))
-                        
-                        # Convert to grayscale ('L' mode) to significantly speed up Tesseract
-                        img = img.convert('L')
-                        
-                        # Upscale the image by 2x using Lanczos resampling.
-                        # Screenshots are often 72-96 DPI, but Tesseract expects ~300 DPI for maximum accuracy.
-                        # This mathematically enhances small/blurry text for the neural net.
-                        width, height = img.size
-                        if width < 3000 and height < 3000:  # Prevent memory explosions on already-massive images
-                            img = img.resize((width * 2, height * 2), Image.Resampling.BILINEAR)
-                        
-                        # Add a white border so Tesseract doesn't fail on text too close to the edge
-                        img = ImageOps.expand(img, border=20, fill='white')
-                        
-                        # Instead of image_to_string which strips leading whitespace, 
-                        # we extract raw bounding box data to mathematically reconstruct exact indentation!
-                        data = pytesseract.image_to_data(img, output_type=pytesseract.Output.DICT, config='--psm 6')
-                        
-                        lines = {}
-                        char_widths = []
-                        
-                        for i in range(len(data['text'])):
-                            word = data['text'][i].strip()
-                            if not word:
-                                continue
-                                
-                            line_num = data['line_num'][i]
-                            block_num = data['block_num'][i]
-                            par_num = data['par_num'][i]
-                            
-                            char_widths.append(data['width'][i] / len(word))
-                            
-                            key = (block_num, par_num, line_num)
-                            if key not in lines:
-                                lines[key] = []
-                                
-                            lines[key].append({
-                                'text': word,
-                                'left': data['left'][i],
-                                'width': data['width'][i]
-                            })
-                            
-                        char_widths.sort()
-                        median_char_width = char_widths[len(char_widths)//2] if char_widths else 20
-                        # Multiply by 1.2 because spaces are usually slightly wider than average characters
-                        space_width = median_char_width * 1.2 
-                        
-                        out = []
-                        min_left = min([words[0]['left'] for words in lines.values()]) if lines else 0
-                        
-                        for key in sorted(lines.keys()):
-                            words = lines[key]
-                            first_left = words[0]['left']
-                            
-                            # Calculate leading spaces for perfect indentation
-                            indent_spaces = int(round((first_left - min_left) / space_width))
-                            line_str = " " * indent_spaces
-                            
-                            for j, w in enumerate(words):
-                                line_str += w['text']
-                                # Add interword spaces based on actual pixel distance
-                                if j < len(words) - 1:
-                                    next_left = words[j+1]['left']
-                                    curr_right = w['left'] + w['width']
-                                    gap = next_left - curr_right
-                                    spaces = max(1, int(round(gap / space_width)))
-                                    line_str += " " * spaces
-                                    
-                            out.append(line_str)
-                            
-                        extracted_text = "\n".join(out)
-                        
-                        elapsed = time.time() - start_time
-                        benchmark_str = f"[OCR Benchmark] Extracted {len(extracted_text)} chars in {elapsed:.3f} seconds."
-                        print(benchmark_str)
+                        extracted_text = extract_text_from_image(img)
                         
                         def on_success():
                             if toast:
@@ -1505,13 +1519,12 @@ class NoteEditor(Gtk.Overlay):
                             self._show_ocr_error(_("No text found in image"))
                             return False
                             
-                        if extracted_text.strip():
+                        if extracted_text:
                             GLib.idle_add(on_success)
                         else:
                             GLib.idle_add(on_empty)
                     except Exception as e:
-                        elapsed = time.time() - start_time
-                        print(f"OCR Error after {elapsed:.3f}s: {e}")
+                        print(f"OCR Error: {e}")
                         def on_error():
                             if toast:
                                 toast.dismiss()
