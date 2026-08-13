@@ -866,6 +866,25 @@ class NoteEditor(Gtk.Overlay):
                 
         word = self.buffer.get_text(word_start, word_end, False)
         
+        # Check for Markdown checkboxes
+        line_start = cursor_iter.copy()
+        line_start.set_line_offset(0)
+        line_text = self.buffer.get_text(line_start, cursor_iter, False)
+        
+        m_empty = re.match(r'^(\s*)([-*+])\s*\[\s*\]$', line_text)
+        if m_empty:
+            self.buffer.delete(line_start, cursor_iter)
+            self.buffer.insert_at_cursor(m_empty.group(1) + "☐" + insert_char)
+            self.autocomplete_box.set_visible(False)
+            return True
+            
+        m_checked = re.match(r'^(\s*)([-*+])\s*\[[xX]\]$', line_text)
+        if m_checked:
+            self.buffer.delete(line_start, cursor_iter)
+            self.buffer.insert_at_cursor(m_checked.group(1) + "☑" + insert_char)
+            self.autocomplete_box.set_visible(False)
+            return True
+        
         # Check for ::today(offset) or ::date(offset) or ::timestamp
         m_date = re.match(r'^::(today|date|tomorrow|yesterday|timestamp)(?:\(([-+]*\d+)\))?$', word, re.IGNORECASE)
         if m_date:
