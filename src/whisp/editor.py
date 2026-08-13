@@ -37,10 +37,14 @@ def extract_text_from_image(img):
         # Convert to grayscale ('L' mode) to significantly speed up Tesseract
         img = img.convert('L')
         
-        # Upscale the image by 2x using Lanczos resampling.
+        # Boost contrast to make text pop against backgrounds and reduce hallucinations
+        from PIL import ImageEnhance
+        img = ImageEnhance.Contrast(img).enhance(1.5)
+        
+        # Upscale the image by 2x using Lanczos resampling (sharper edges for text than Bilinear)
         width, height = img.size
         if width < 3000 and height < 3000:
-            img = img.resize((width * 2, height * 2), Image.Resampling.BILINEAR)
+            img = img.resize((width * 2, height * 2), Image.Resampling.LANCZOS)
         
         # Add a white border so Tesseract doesn't fail on text too close to the edge
         img = ImageOps.expand(img, border=20, fill='white')
@@ -89,17 +93,22 @@ def extract_text_from_image(img):
             words = lines[key]
             first_left = words[0]['left']
             
+            # Calculate indentation but cap it heavily so missed words don't cause massive indents
             indent_spaces = int(round((first_left - min_left) / space_width))
+            if indent_spaces > 8:
+                indent_spaces = 8
+            elif indent_spaces == 1:
+                indent_spaces = 0
+                
             line_str = " " * indent_spaces
             
             for j, w in enumerate(words):
                 line_str += w['text']
                 if j < len(words) - 1:
-                    next_left = words[j+1]['left']
-                    curr_right = w['left'] + w['width']
-                    gap = next_left - curr_right
-                    spaces = max(1, int(round(gap / space_width)))
-                    line_str += " " * spaces
+                    # Just use a single space between words on the same line.
+                    # Attempting to preserve exact gaps often results in weird artifacts
+                    # if Tesseract misses a word or miscalculates bounds.
+                    line_str += " "
                     
             out.append(line_str)
             
