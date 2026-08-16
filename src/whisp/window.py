@@ -646,6 +646,7 @@ class WhispWindow(Adw.ApplicationWindow):
             version=version,
             website="https://tanaybhomia.github.io/Whisp/",
             issue_url="https://github.com/tanaybhomia/Whisp/issues",
+            support_url="https://github.com/tanaybhomia/Whisp/discussions",
             license_type=Gtk.License.GPL_3_0
         )
         
