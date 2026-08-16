@@ -654,11 +654,47 @@ class WhispWindow(Adw.ApplicationWindow):
         about.add_link(_("Translate"), "https://github.com/tanaybhomia/Whisp/blob/main/TRANSLATIONS.md")
         about.add_link(_("Donate"), "https://tanaybhomia.github.io/Whisp/donate.html")
         
+        import os
+        import sys
         import platform
-        debug_info = f"Whisp v{version}\n"
-        debug_info += f"Python {platform.python_version()}\n"
-        debug_info += f"GTK {Gtk.get_major_version()}.{Gtk.get_minor_version()}.{Gtk.get_micro_version()}"
-        about.set_debug_info(debug_info)
+        
+        is_flatpak = "FLATPAK_ID" in os.environ
+        os_name = "Unknown OS"
+        try:
+            with open("/etc/os-release") as f:
+                for line in f:
+                    if line.startswith("PRETTY_NAME="):
+                        os_name = line.split("=")[1].strip().strip('"')
+                        break
+        except Exception:
+            pass
+            
+        debug_info = []
+        debug_info.append(f"os: {os_name}")
+        debug_info.append(f"prefix: {sys.prefix}")
+        debug_info.append(f"flatpak: {str(is_flatpak).lower()}")
+        debug_info.append(f"version: {version}")
+        debug_info.append(f"python: {platform.python_version()}")
+        debug_info.append(f"gtk: {Gtk.get_major_version()}.{Gtk.get_minor_version()}.{Gtk.get_micro_version()}")
+        
+        try:
+            debug_info.append(f"libadwaita: {Adw.get_major_version()}.{Adw.get_minor_version()}.{Adw.get_micro_version()}")
+        except Exception:
+            pass
+            
+        try:
+            import pytesseract
+            debug_info.append(f"tesseract: {pytesseract.get_tesseract_version()}")
+        except Exception:
+            pass
+            
+        try:
+            from PIL import Image
+            debug_info.append(f"pillow: {Image.__version__}")
+        except Exception:
+            pass
+            
+        about.set_debug_info("\n".join(debug_info))
         
         if hasattr(about, "set_release_notes"):
             latest_ver, releases_list = self._get_latest_release_info(last_seen="0.0.0", only_latest=True, as_list=True)
@@ -1912,7 +1948,7 @@ class WhispWindow(Adw.ApplicationWindow):
             font_css = f"font-family: '{family}'; font-size: {size}pt;"
             
         custom_css = f"""
-        textview {{ {font_css} }}
+        .editor-textview {{ {font_css} }}
         
         .theme-btn {{
             min-width: 48px;

@@ -143,6 +143,7 @@ class NoteEditor(Gtk.Overlay):
         self.set_child(self.scrolled)
         
         self.textview = Gtk.TextView()
+        self.textview.add_css_class("editor-textview")
         self.textview.set_wrap_mode(Gtk.WrapMode.WORD_CHAR)
         self.textview.set_left_margin(32)
         self.textview.set_right_margin(32)
