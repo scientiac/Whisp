@@ -438,6 +438,10 @@ class WhispWindow(Adw.ApplicationWindow):
         about_action.connect("activate", self.on_about)
         self.add_action(about_action)
         
+        export_action = Gio.SimpleAction.new("export-note", None)
+        export_action.connect("activate", self.on_export_note)
+        self.add_action(export_action)
+        
         whats_new_action = Gio.SimpleAction.new("whats-new", None)
         whats_new_action.connect("activate", self.on_whats_new)
         self.add_action(whats_new_action)
@@ -555,6 +559,10 @@ class WhispWindow(Adw.ApplicationWindow):
         
         main_menu = Gio.Menu()
         main_menu.append_item(theme_item)
+        
+        export_section = Gio.Menu()
+        export_section.append(_("Export Current Note..."), "win.export-note")
+        main_menu.append_section(None, export_section)
         
         section = Gio.Menu()
         section.append(_("What's New"), "win.whats-new")
@@ -723,6 +731,61 @@ class WhispWindow(Adw.ApplicationWindow):
         version, _ = self._get_latest_release_info(only_latest=True)
         return version
         
+    def on_export_note(self, action, param):
+        editor = self.get_current_editor()
+        if not editor:
+            return
+            
+        dialog = Gtk.FileDialog()
+        dialog.set_title(_("Export Note"))
+        
+        # Determine initial name based on note content
+        title = "note"
+        start, end = editor.buffer.get_bounds()
+        text = editor.buffer.get_text(start, end, False)
+        for line in text.split('\n'):
+            line = line.strip()
+            if line:
+                # Strip markdown headers and non-alphanumeric chars for a clean filename
+                import re
+                clean_line = re.sub(r'[^a-zA-Z0-9\s]', '', line).strip()
+                words = clean_line.split()
+                if words:
+                    title = "-".join(words[:5]).lower()
+                break
+                
+        dialog.set_initial_name(f"{title}.md")
+        
+        filters = Gio.ListStore.new(Gtk.FileFilter)
+        md_filter = Gtk.FileFilter()
+        md_filter.set_name(_("Markdown File"))
+        md_filter.add_pattern("*.md")
+        filters.append(md_filter)
+        dialog.set_filters(filters)
+        
+        def on_save_response(dialog, result):
+            try:
+                file = dialog.save_finish(result)
+                if file:
+                    start, end = editor.buffer.get_bounds()
+                    content = editor.buffer.get_text(start, end, False).encode('utf-8')
+                    file.replace_contents(
+                        content,
+                        None,
+                        False,
+                        Gio.FileCreateFlags.NONE,
+                        None
+                    )
+                    toast = Adw.Toast.new(_("Note exported successfully"))
+                    self.toast_overlay.add_toast(toast)
+            except GLib.Error as e:
+                if "dismissed" not in str(e).lower():
+                    print(f"File save error: {e}")
+            except Exception as e:
+                print(f"Error writing to file: {e}")
+                
+        dialog.save(self, None, on_save_response)
+
     def on_whats_new(self, action, param):
         latest_version, releases_list = self._get_latest_release_info(last_seen="0.0.0", only_latest=False, as_list=True)
         if releases_list:
