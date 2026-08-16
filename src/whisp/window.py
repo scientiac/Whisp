@@ -202,148 +202,6 @@ shortcuts_xml = """
 </interface>
 """
 
-class ChangelogWindow(Adw.Dialog):
-    def __init__(self, version, releases_list, parent=None):
-        super().__init__(title=_("What's New"))
-        self.set_content_width(450)
-        self.set_content_height(600)
-        
-        # We only want to show the latest release in this view
-        latest = releases_list[0] if releases_list else {}
-        v_str = latest.get("version", version)
-        date_str = latest.get("date", "Unknown Date")
-        desc_text = latest.get("description", "")
-        
-        main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.set_child(main_box)
-        
-        # Dynamically determine the exact Whisp Teal based on current theme state
-        is_dark = Adw.StyleManager.get_default().get_dark()
-        bg_color = "#004252" if is_dark else "#00cccc"
-
-        # Global CSS for the blue banner
-        css_provider = Gtk.CssProvider()
-        css = f"""
-        .support-banner {{
-            background: {bg_color};
-            color: white;
-            padding: 12px 16px;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-        }}
-        .support-banner label {{
-            color: white;
-        }}
-        .support-btn {{
-            background: rgba(255,255,255,0.2);
-            color: white;
-            font-weight: bold;
-            padding: 4px 12px;
-        }}
-        .support-btn:hover {{
-            background: rgba(255,255,255,0.3);
-        }}
-        """
-        css_provider.load_from_data(css.encode())
-        Gtk.StyleContext.add_provider_for_display(
-            Gdk.Display.get_default(),
-            css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )
-        
-        header = Adw.HeaderBar(show_end_title_buttons=False, show_start_title_buttons=False)
-        close_btn = Gtk.Button(icon_name="window-close-symbolic")
-        close_btn.add_css_class("flat")
-        close_btn.connect("clicked", lambda _: self.close())
-        header.pack_end(close_btn)
-        main_box.append(header)
-        
-        scrolled = Gtk.ScrolledWindow()
-        scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-        scrolled.set_propagate_natural_height(True)
-        scrolled.set_vexpand(True)
-        main_box.append(scrolled)
-        
-        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-        content_box.set_margin_top(16)
-        content_box.set_margin_bottom(16)
-        content_box.set_margin_start(24)
-        content_box.set_margin_end(24)
-        scrolled.set_child(content_box)
-        
-        title_lbl = Gtk.Label(label=f"<b>What's New in {v_str}?</b>")
-        title_lbl.set_use_markup(True)
-        title_lbl.add_css_class("title-2")
-        title_lbl.set_justify(Gtk.Justification.CENTER)
-        
-        # Convert YYYY-MM-DD to a nicer string if possible
-        import datetime
-        try:
-            d = datetime.datetime.strptime(date_str, "%Y-%m-%d")
-            nice_date = d.strftime("Released %B %d, %Y")
-        except:
-            nice_date = f"Released {date_str}"
-            
-        date_lbl = Gtk.Label(label=nice_date)
-        date_lbl.add_css_class("dim-label")
-        date_lbl.set_justify(Gtk.Justification.CENTER)
-        
-        header_vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
-        header_vbox.append(title_lbl)
-        header_vbox.append(date_lbl)
-        header_vbox.set_margin_bottom(8)
-        
-        content_box.append(header_vbox)
-        
-        desc_lbl = Gtk.Label(wrap=True, xalign=0)
-        desc_lbl.set_markup(desc_text)
-        content_box.append(desc_lbl)
-        
-        notes_btn = Gtk.Button(label=_("Read Full Release Notes →"))
-        notes_btn.add_css_class("pill")
-        notes_btn.set_halign(Gtk.Align.CENTER)
-        notes_btn.set_margin_top(16)
-        notes_btn.connect("clicked", lambda _: Gio.AppInfo.launch_default_for_uri("https://github.com/tanaybhomia/Whisp/releases", None))
-        content_box.append(notes_btn)
-        
-        # Bottom Support Box
-        support_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        support_box.add_css_class("support-banner")
-        
-        support_title = Gtk.Label(label=_("<b>This release was made possible by users like you!</b>"))
-        support_title.set_use_markup(True)
-        support_title.set_justify(Gtk.Justification.CENTER)
-        support_title.set_wrap(True)
-        
-        support_desc = Gtk.Label(label=_("<small>I love building Whisp, but I cannot do it alone. Help support further development by donating.</small>"))
-        support_desc.set_use_markup(True)
-        support_desc.set_justify(Gtk.Justification.CENTER)
-        support_desc.set_wrap(True)
-        
-        donate_btn = Gtk.Button()
-        donate_btn.set_child(Adw.ButtonContent(label=_("Donate to Whisp"), icon_name="emblem-favorite-symbolic"))
-        donate_btn.add_css_class("pill")
-        donate_btn.add_css_class("support-btn")
-        donate_btn.set_halign(Gtk.Align.CENTER)
-        donate_btn.set_margin_top(4)
-        donate_btn.connect("clicked", lambda _: Gio.AppInfo.launch_default_for_uri("https://tanaybhomia.github.io/Whisp/donate.html", None))
-        
-        support_box.append(support_title)
-        support_box.append(support_desc)
-        support_box.append(donate_btn)
-        
-        main_box.append(support_box)
-        
-        key_ctrl = Gtk.EventControllerKey()
-        key_ctrl.connect("key-pressed", self.on_key_pressed)
-        self.add_controller(key_ctrl)
-
-    def on_key_pressed(self, controller, keyval, keycode, state):
-        if keyval == Gdk.KEY_Escape:
-            self.close()
-            return True
-        return False
-
 class WhispWindow(Adw.ApplicationWindow):
     PAGE_SIZE = 20  # result rows rendered per page; more load as the user scrolls
 
@@ -441,10 +299,6 @@ class WhispWindow(Adw.ApplicationWindow):
         export_action = Gio.SimpleAction.new("export-note", None)
         export_action.connect("activate", self.on_export_note)
         self.add_action(export_action)
-        
-        whats_new_action = Gio.SimpleAction.new("whats-new", None)
-        whats_new_action.connect("activate", self.on_whats_new)
-        self.add_action(whats_new_action)
 
         search_action = Gio.SimpleAction.new("search", None)
         search_action.connect("activate", self.on_search_shortcut)
@@ -565,7 +419,6 @@ class WhispWindow(Adw.ApplicationWindow):
         main_menu.append_section(None, export_section)
         
         section = Gio.Menu()
-        section.append(_("What's New"), "win.whats-new")
         section.append(_("Keyboard Shortcuts"), "win.show-shortcuts")
         section.append(_("Preferences"), "win.preferences")
         section.append(_("About Whisp"), "win.about")
@@ -677,8 +530,6 @@ class WhispWindow(Adw.ApplicationWindow):
                 raw = ET.tostring(elem, encoding="unicode", method="xml").strip()
                 inner = re.sub(r'^<[^>]+>', '', raw)
                 inner = re.sub(r'</[^>]+>$', '', inner).strip()
-                inner = inner.replace("<code>", "<tt>").replace("</code>", "</tt>")
-                inner = inner.replace("<em>", "<b>").replace("</em>", "</b>")
                 return inner
             
             if releases is not None:
@@ -714,7 +565,6 @@ class WhispWindow(Adw.ApplicationWindow):
                                         release_desc += f"• {li_text}\n\n"
                                 release_desc += "\n"
                                 
-                    release_desc = release_desc.replace("See our translation guide on GitHub to contribute!", "<a href=\"https://github.com/tanaybhomia/Whisp/blob/main/TRANSLATIONS.md\">Contribute Here</a>")
                     releases_list.append({"version": version, "date": date, "description": release_desc.strip()})
                     description_text += release_desc
                     
@@ -786,11 +636,6 @@ class WhispWindow(Adw.ApplicationWindow):
                 
         dialog.save(self, None, on_save_response)
 
-    def on_whats_new(self, action, param):
-        latest_version, releases_list = self._get_latest_release_info(last_seen="0.0.0", only_latest=False, as_list=True)
-        if releases_list:
-            ChangelogWindow(latest_version, releases_list, parent=self).present(self)
-
     def on_about(self, action, param):
         version = self._get_dynamic_version()
         about = Adw.AboutDialog(
@@ -799,11 +644,49 @@ class WhispWindow(Adw.ApplicationWindow):
             developer_name="Tanay Bhomia",
             developers=["Tanay Bhomia"],
             version=version,
-            website="https://github.com/tanaybhomia/Whisp",
+            website="https://tanaybhomia.github.io/Whisp/",
             issue_url="https://github.com/tanaybhomia/Whisp/issues",
-            support_url="https://tanaybhomia.github.io/Whisp/donate.html",
             license_type=Gtk.License.GPL_3_0
         )
+        
+        about.add_link(_("Manual"), "https://tanaybhomia.github.io/Whisp/manual.html")
+        about.add_link(_("Translate"), "https://github.com/tanaybhomia/Whisp/blob/main/TRANSLATIONS.md")
+        about.add_link(_("Donate"), "https://tanaybhomia.github.io/Whisp/donate.html")
+        
+        import platform
+        debug_info = f"Whisp v{version}\n"
+        debug_info += f"Python {platform.python_version()}\n"
+        debug_info += f"GTK {Gtk.get_major_version()}.{Gtk.get_minor_version()}.{Gtk.get_micro_version()}"
+        about.set_debug_info(debug_info)
+        
+        if hasattr(about, "set_release_notes"):
+            latest_ver, releases_list = self._get_latest_release_info(last_seen="0.0.0", only_latest=True, as_list=True)
+            if releases_list:
+                rel = releases_list[0]
+                about.set_release_notes_version(rel.get("version", version))
+                
+                desc = rel.get("description", "")
+                markup = ""
+                in_list = False
+                for line in desc.split('\n'):
+                    line = line.strip()
+                    if not line:
+                        continue
+                    if line.startswith("• "):
+                        if not in_list:
+                            markup += "<ul>\n"
+                            in_list = True
+                        markup += f"<li>{line[2:]}</li>\n"
+                    else:
+                        if in_list:
+                            markup += "</ul>\n"
+                            in_list = False
+                        markup += f"<p>{line}</p>\n"
+                if in_list:
+                    markup += "</ul>\n"
+                
+                about.set_release_notes(markup)
+                
         about.present(self)
 
     def on_nav_next(self, action=None, param=None):
@@ -1087,7 +970,7 @@ class WhispWindow(Adw.ApplicationWindow):
                 if latest_version != "Unknown" and latest_version != last_seen:
                     config.set("last_seen_version", latest_version)
                     if not is_first_run and releases_list:
-                        ChangelogWindow(latest_version, releases_list, parent=self).present(self)
+                        self.on_about(None, None)
                         
                 return False
             
