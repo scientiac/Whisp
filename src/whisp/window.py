@@ -296,6 +296,10 @@ class WhispWindow(Adw.ApplicationWindow):
         about_action.connect("activate", self.on_about)
         self.add_action(about_action)
         
+        donate_action = Gio.SimpleAction.new("donate", None)
+        donate_action.connect("activate", self.on_donate)
+        self.add_action(donate_action)
+        
         export_action = Gio.SimpleAction.new("export-note", None)
         export_action.connect("activate", self.on_export_note)
         self.add_action(export_action)
@@ -423,6 +427,10 @@ class WhispWindow(Adw.ApplicationWindow):
         section.append(_("Preferences"), "win.preferences")
         section.append(_("About Whisp"), "win.about")
         main_menu.append_section(None, section)
+        
+        donate_section = Gio.Menu()
+        donate_section.append(_("Donate to Whisp"), "win.donate")
+        main_menu.append_section(None, donate_section)
         
         popover = Gtk.PopoverMenu.new_from_model(main_menu)
         
@@ -696,6 +704,7 @@ class WhispWindow(Adw.ApplicationWindow):
             
         about.set_debug_info("\n".join(debug_info))
         
+        
         if hasattr(about, "set_release_notes"):
             latest_ver, releases_list = self._get_latest_release_info(last_seen="0.0.0", only_latest=True, as_list=True)
             if releases_list:
@@ -725,6 +734,13 @@ class WhispWindow(Adw.ApplicationWindow):
                 about.set_release_notes(markup)
                 
         about.present(self)
+
+    def on_donate(self, action, param):
+        if hasattr(Gtk, "UriLauncher"):
+            launcher = Gtk.UriLauncher.new("https://tanaybhomia.github.io/Whisp/donate.html")
+            launcher.launch(self, None, None)
+        else:
+            Gio.AppInfo.launch_default_for_uri("https://tanaybhomia.github.io/Whisp/donate.html", None)
 
     def on_nav_next(self, action=None, param=None):
         n_pages = self.carousel.get_n_pages()
