@@ -658,6 +658,8 @@ class WhispWindow(Adw.ApplicationWindow):
             license_type=Gtk.License.GPL_3_0
         )
         
+        about.add_credit_section(_("Icon by"), ["gnoman"])
+        
         about.add_link(_("Manual"), "https://tanaybhomia.github.io/Whisp/manual.html")
         about.add_link(_("Translate"), "https://github.com/tanaybhomia/Whisp/blob/main/TRANSLATIONS.md")
         about.add_link(_("Donate"), "https://tanaybhomia.github.io/Whisp/donate.html")
