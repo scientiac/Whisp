@@ -644,7 +644,7 @@ class WhispWindow(Adw.ApplicationWindow):
                 
         dialog.save(self, None, on_save_response)
 
-    def on_about(self, action, param):
+    def on_about(self, action, param, open_page=None):
         version = self._get_dynamic_version()
         about = Adw.AboutDialog(
             application_name="Whisp",
@@ -736,6 +736,20 @@ class WhispWindow(Adw.ApplicationWindow):
                 about.set_release_notes(markup)
                 
         about.present(self)
+        if open_page:
+            def _find_nav(widget):
+                if isinstance(widget, Adw.NavigationView):
+                    return widget
+                child = widget.get_first_child()
+                while child:
+                    res = _find_nav(child)
+                    if res: return res
+                    child = child.get_next_sibling()
+                return None
+                
+            nav = _find_nav(about)
+            if nav:
+                GLib.idle_add(lambda: nav.push_by_tag(open_page) or False)
 
     def on_donate(self, action, param):
         if hasattr(Gtk, "UriLauncher"):
@@ -1025,7 +1039,22 @@ class WhispWindow(Adw.ApplicationWindow):
                 if latest_version != "Unknown" and latest_version != last_seen:
                     config.set("last_seen_version", latest_version)
                     if not is_first_run and releases_list:
-                        self.on_about(None, None)
+                        if hasattr(Adw, "Banner"):
+                            banner = Adw.Banner(
+                                title=_("Whisp just got better!"),
+                                button_label=_("Changelogs")
+                            )
+                            banner.add_css_class("whisp-update-banner")
+                            
+                            def on_banner_clicked(btn):
+                                banner.set_revealed(False)
+                                self.on_about(None, None, open_page="whatsnew")
+                                
+                            banner.connect("button-clicked", on_banner_clicked)
+                            self.toolbar_view.add_top_bar(banner)
+                            banner.set_revealed(True)
+                        else:
+                            self.on_about(None, None)
                         
                 return False
             
@@ -1967,6 +1996,11 @@ class WhispWindow(Adw.ApplicationWindow):
             
         custom_css = f"""
         .editor-textview {{ {font_css} }}
+        .whisp-update-banner,
+        .whisp-update-banner > revealer > widget {{
+            background: mix(@dialog_bg_color, @accent_bg_color, 0.15);
+            color: @window_fg_color;
+        }}
         
         .theme-btn {{
             min-width: 48px;
