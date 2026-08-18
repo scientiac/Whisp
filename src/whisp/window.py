@@ -345,18 +345,18 @@ class WhispWindow(Adw.ApplicationWindow):
         self.toolbar_view.add_top_bar(self.header_bar)
         self.toolbar_view.set_reveal_top_bars(not self.is_slate_mode)
         
+        # Delete Note Button
+        del_btn = Gtk.Button(icon_name="user-trash-symbolic")
+        del_btn.set_action_name("win.delete-note")
+        del_btn.add_css_class("destructive-action")
+        self.header_bar.pack_start(del_btn)
+
         # WYSIWYG Toggle Button
         self.wysiwyg_btn = Gtk.ToggleButton(icon_name="view-reveal-symbolic")
         self.wysiwyg_btn.set_tooltip_text("Toggle Live Formatting")
         self.wysiwyg_btn.set_active(config.get("wysiwyg_mode", False))
         self.wysiwyg_btn.connect("toggled", self.on_wysiwyg_toggled)
         self.header_bar.pack_start(self.wysiwyg_btn)
-
-        # Delete Note Button
-        del_btn = Gtk.Button(icon_name="user-trash-symbolic")
-        del_btn.set_action_name("win.delete-note")
-        del_btn.add_css_class("destructive-action")
-        self.header_bar.pack_start(del_btn)
 
         # Pin Note Button
         self.pin_btn = Gtk.ToggleButton(icon_name="io.github.tanaybhomia.Whisp-pin-symbolic")
