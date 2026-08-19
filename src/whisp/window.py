@@ -1048,7 +1048,37 @@ class WhispWindow(Adw.ApplicationWindow):
                             
                             def on_banner_clicked(btn):
                                 banner.set_revealed(False)
-                                self.on_about(None, None, open_page="whatsnew")
+                                
+                                body_label = Gtk.Label(
+                                    label=_("<b>Export and Better OCR</b>\n\n"
+                                           "• Export your current note instantly using the new \"Export Note\" button.\n\n"
+                                           "• Create list items seamlessly using standard markdown syntax.\n\n"
+                                           "• Fixed hard indentation issues when extracting text using Smart Paste OCR.\n\n"
+                                           "Read the <a href=\"https://github.com/tanaybhomia/Whisp/releases\">full changelog</a>."),
+                                    use_markup=True,
+                                    wrap=True,
+                                    justify=Gtk.Justification.LEFT,
+                                    halign=Gtk.Align.START,
+                                    margin_top=12,
+                                    margin_bottom=12
+                                )
+                                
+                                dialog = Adw.MessageDialog(
+                                    heading=_("What's New in v{version}").format(version=latest_version),
+                                    extra_child=body_label
+                                )
+                                dialog.add_response("donate", _("Support Whisp ❤️"))
+                                dialog.set_response_appearance("donate", Adw.ResponseAppearance.SUGGESTED)
+                                dialog.set_close_response("close")
+                                
+                                def on_response(dlg, response):
+                                    if response == "donate":
+                                        import webbrowser
+                                        webbrowser.open("https://tanaybhomia.github.io/Whisp/donate.html")
+                                
+                                dialog.connect("response", on_response)
+                                dialog.set_transient_for(self)
+                                dialog.present()
                                 
                             banner.connect("button-clicked", on_banner_clicked)
                             self.toolbar_view.add_top_bar(banner)
