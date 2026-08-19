@@ -1563,16 +1563,40 @@ class WhispWindow(Adw.ApplicationWindow):
         font_row = Adw.ActionRow(title=_("Editor Font"))
         
         font_dialog = Gtk.FontDialog()
-        font_btn = Gtk.FontDialogButton()
-        font_btn.set_dialog(font_dialog)
+        
+        # Use a standard Gtk.Button + Gtk.Label to avoid hacking internal widgets
+        # This strictly follows GNOME HIG and GTK4 architecture
+        font_btn = Gtk.Button()
         font_btn.set_valign(Gtk.Align.CENTER)
         
+        from gi.repository import Pango
+        font_label = Gtk.Label()
+        font_label.set_ellipsize(Pango.EllipsizeMode.END)
+        font_label.set_max_width_chars(15)
+        font_btn.set_child(font_label)
+        
         font_name = config.get("font_name")
+        font_desc = None
         if font_name:
             font_desc = Pango.FontDescription.from_string(font_name)
-            font_btn.set_font_desc(font_desc)
+            font_label.set_label(font_desc.to_string())
+        else:
+            font_label.set_label(_("System Default"))
             
-        font_btn.connect("notify::font-desc", self.on_font_changed)
+        def on_font_btn_clicked(btn):
+            def on_font_chosen(dialog, result):
+                try:
+                    new_desc = dialog.choose_font_finish(result)
+                    if new_desc:
+                        new_name = new_desc.to_string()
+                        font_label.set_label(new_name)
+                        config.set("font_name", new_name)
+                        self.apply_theme()
+                except GLib.Error:
+                    pass
+            font_dialog.choose_font(self, font_desc, None, on_font_chosen)
+            
+        font_btn.connect("clicked", on_font_btn_clicked)
         font_row.add_suffix(font_btn)
         font_group.add(font_row)
         
