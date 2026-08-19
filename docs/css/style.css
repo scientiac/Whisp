@@ -287,7 +287,6 @@ h1, h2, h3 {
     max-width: 1200px;
     margin: 0 auto;
     gap: 2rem;
-    padding: 0 2rem;
 }
 
 .bg-teal {
@@ -1190,7 +1189,7 @@ kbd {
 /* System Dark Mode (GNOME Libadwaita) */
 .sponsor-section, .support-section {
     background-color: #9141ac; /* GNOME Purple 3 for Light Mode */
-    padding: 6rem 0;
+    padding: 6rem 2rem;
     color: white;
 }
 
