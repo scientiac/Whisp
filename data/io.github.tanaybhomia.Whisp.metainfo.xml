@@ -57,13 +57,14 @@
   <content_rating type="oars-1.1" />
 
   <releases>
-    <release version="1.4.1" date="2026-08-18">
+    <release version="1.4.1" date="2026-08-20">
       <description>
         <p><em>Export and Better OCR</em></p>
         <ul>
           <li>Export your current note instantly using the new "Export Note" button in the main menu.</li>
           <li>Create list items seamlessly using standard markdown syntax (the legacy `ctrl+space` shortcut is still supported).</li>
           <li>Fixed hard indentation issues when extracting text using Smart Paste OCR.</li>
+          <li>Fixed Preferences dialog getting cutoff on narrow window sizes.</li>
         </ul>
       </description>
     </release>

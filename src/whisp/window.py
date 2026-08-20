@@ -1051,10 +1051,11 @@ class WhispWindow(Adw.ApplicationWindow):
                                 
                                 body_label = Gtk.Label(
                                     label=_("<b>Export and Better OCR</b>\n\n"
-                                           "• Export your current note instantly using the new \"Export Note\" button.\n\n"
-                                           "• Create list items seamlessly using standard markdown syntax.\n\n"
-                                           "• Fixed hard indentation issues when extracting text using Smart Paste OCR.\n\n"
-                                           "Read the <a href=\"https://github.com/tanaybhomia/Whisp/releases\">full changelog</a>."),
+                                           "• Export your current note instantly using the new 'Export Note' button in the main menu.\n"
+                                           "• Create list items seamlessly using standard markdown syntax.\n"
+                                           "• Fixed hard indentation issues when extracting text using Smart Paste OCR.\n"
+                                           "• Fixed Preferences dialog getting cut off on narrow window sizes.\n\n"
+                                           "<a href=\"https://github.com/tanaybhomia/Whisp/releases\">Read full changelog</a>"),
                                     use_markup=True,
                                     wrap=True,
                                     justify=Gtk.Justification.LEFT,
