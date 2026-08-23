@@ -1995,13 +1995,52 @@ class WhispWindow(Adw.ApplicationWindow):
             folder = dialog.select_folder_finish(result)
             new_dir = Path(folder.get_path())
             if new_dir != DATA_DIR:
+                old_dir = DATA_DIR
+                new_dir.mkdir(parents=True, exist_ok=True)
+                
+                try:
+                    if old_dir.exists():
+                        for item in old_dir.iterdir():
+                            if item.name == ".trash":
+                                new_trash = new_dir / ".trash"
+                                if not new_trash.exists():
+                                    shutil.move(str(item), str(new_trash))
+                            elif item.name == "metadata.json":
+                                new_meta = new_dir / "metadata.json"
+                                if new_meta.exists():
+                                    import json
+                                    try:
+                                        old_data = json.loads(item.read_text(encoding='utf-8'))
+                                        new_data = json.loads(new_meta.read_text(encoding='utf-8'))
+                                        new_data.update(old_data)
+                                        new_meta.write_text(json.dumps(new_data), encoding='utf-8')
+                                        item.unlink()
+                                    except Exception:
+                                        pass
+                                else:
+                                    shutil.move(str(item), str(new_meta))
+                            elif item.suffix == ".md":
+                                dest = new_dir / item.name
+                                if not dest.exists():
+                                    shutil.move(str(item), str(dest))
+                except Exception as e:
+                    print(f"Migration error: {e}")
+
                 config.data_dir = new_dir
                 DATA_DIR = new_dir
                 TRASH_DIR = DATA_DIR / ".trash"
                 row.set_subtitle(str(DATA_DIR))
                 
-                DATA_DIR.mkdir(parents=True, exist_ok=True)
-                
+                # Reload metadata
+                self.metadata = {}
+                meta_file = DATA_DIR / "metadata.json"
+                if meta_file.exists():
+                    import json
+                    try:
+                        self.metadata = json.loads(meta_file.read_text(encoding='utf-8'))
+                    except:
+                        pass
+                        
                 # Clear carousel and reload
                 while self.carousel.get_n_pages() > 0:
                     self.carousel.remove(self.carousel.get_nth_page(0))

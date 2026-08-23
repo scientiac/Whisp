@@ -134,7 +134,7 @@ class NoteEditor(Gtk.Overlay):
         self.set_hexpand(True)
         self.set_vexpand(True)
         
-        self.file_path = Path(file_path) if file_path else DATA_DIR / f"{uuid.uuid4().hex}.md"
+        self.file_path = Path(file_path) if file_path else config.data_dir / f"{uuid.uuid4().hex}.md"
         self.on_title_changed = on_title_changed
         
         self.scrolled = Gtk.ScrolledWindow()

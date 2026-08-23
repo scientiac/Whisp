@@ -4,7 +4,7 @@ from pathlib import Path
 
 from gi.repository import Gio, GLib
 
-from whisp.config import DATA_DIR
+from whisp.config import config, DATA_DIR
 from whisp.notes import NoteIndex, match_all_terms, body_excerpt
 
 BUS_NAME = "io.github.tanaybhomia.Whisp.SearchProvider"
@@ -89,7 +89,7 @@ class SearchProviderService(Gio.Application):
             return []
         previous = set(previous) if previous is not None else None
         results = []
-        for entry in self.note_index.load_dir(DATA_DIR):
+        for entry in self.note_index.load_dir(config.data_dir):
             if not match_all_terms(entry, terms):
                 continue
             note_id = str(entry["path"])
@@ -169,7 +169,7 @@ class SearchProviderService(Gio.Application):
             path = Path(note_id).resolve()
         except (OSError, ValueError):
             return None
-        data_dir = Path(DATA_DIR).resolve()
+        data_dir = Path(config.data_dir).resolve()
         if path.parent != data_dir or path.suffix != ".md" or not path.is_file():
             return None
         return path
