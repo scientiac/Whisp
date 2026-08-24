@@ -20,8 +20,6 @@ from whisp.text_search import body_match_offsets
 
 try:
     locale.setlocale(locale.LC_ALL, '')
-    gettext.bindtextdomain('whisp', '/usr/share/locale')
-    gettext.textdomain('whisp')
 except locale.Error:
     pass
 

@@ -7,7 +7,19 @@ gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
 pkgdatadir = '@pkgdatadir@'
+localedir = '@localedir@'
 sys.path.insert(1, pkgdatadir)
+
+import locale
+import gettext
+
+try:
+    locale.bindtextdomain('whisp', localedir)
+    locale.textdomain('whisp')
+    gettext.bindtextdomain('whisp', localedir)
+    gettext.textdomain('whisp')
+except locale.Error:
+    pass
 
 from whisp.main import main
 

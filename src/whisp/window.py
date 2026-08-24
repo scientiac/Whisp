@@ -11,8 +11,6 @@ from whisp.notes import NoteIndex
 
 try:
     locale.setlocale(locale.LC_ALL, '')
-    gettext.bindtextdomain('whisp', '/usr/share/locale')
-    gettext.textdomain('whisp')
 except locale.Error:
     pass
 
