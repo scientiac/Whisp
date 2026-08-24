@@ -134,7 +134,7 @@ If you'd like to contribute to Whisp or build your own version, we have set up s
 
 ### Translations
 
-Want to help translate Whisp into your native language? We use standard GNU gettext `.po` files. Please read our [Translations Guide](TRANSLATIONS.md) for simple instructions on how to submit a translation pull request!
+Want to help translate Whisp into your native language? Whisp is [translated on the GNOME platform Damned Lies](https://l10n.gnome.org/module/whisp/), join your language team to start translating Whisp.
 
 ### Local Testing
 
