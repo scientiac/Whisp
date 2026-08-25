@@ -417,7 +417,7 @@ class WhispWindow(Adw.ApplicationWindow):
         main_menu.append_item(theme_item)
         
         export_section = Gio.Menu()
-        export_section.append(_("Export Current Note..."), "win.export-note")
+        export_section.append(_("Export Current Note…"), "win.export-note")
         main_menu.append_section(None, export_section)
         
         section = Gio.Menu()
@@ -1820,7 +1820,7 @@ class WhispWindow(Adw.ApplicationWindow):
         reset_btn.add_css_class("flat")
         reset_btn.connect("clicked", self.on_reset_dir, row)
         
-        btn = Gtk.Button(label=_("Change..."))
+        btn = Gtk.Button(label=_("Change…"))
         btn.connect("clicked", self.on_change_dir, row)
         
         box.append(reset_btn)

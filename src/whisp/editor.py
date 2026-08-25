@@ -459,10 +459,10 @@ class NoteEditor(Gtk.Overlay):
                 ("::roll(20)", _("Roll a 20-sided die")),
                 ("::roll(d20)", _("Roll a d20 die")),
                 ("::roll(4d6)", _("Roll 4 d6 dice")),
-                ("::uppercase", _("Convert document to UPPERCASE")),
+                ("::uppercase", _("Convert document to uppercase")),
                 ("::lowercase", _("Convert document to lowercase")),
-                ("::sentence_case", _("Convert document to Sentence case")),
-                ("::title_case", _("Convert Document To Title Case")),
+                ("::sentence_case", _("Convert document to sentence case")),
+                ("::title_case", _("Convert document to title case")),
                 ("::capitalize_first", _("Capitalize first letter")),
                 ("::remove_quotes", _("Strip surrounding quotes")),
                 ("::append(text)", _("Add text to the end of every line")),
@@ -473,9 +473,9 @@ class NoteEditor(Gtk.Overlay):
                 ("::sort_lines_reverse", _("Reverse line order")),
                 ("::remove_lines_empty", _("Remove empty lines")),
                 ("::remove_lines_with(text)", _("Remove lines containing text")),
-                ("::remove_lines_without(text)", _("Remove lines NOT containing text")),
+                ("::remove_lines_without(text)", _("Remove lines not containing text")),
                 ("::keep_lines_with(text)", _("Keep only lines containing text")),
-                ("::keep_lines_without(text)", _("Keep only lines NOT containing text")),
+                ("::keep_lines_without(text)", _("Keep only lines not containing text")),
                 ("::trim_each_whitespace", _("Trim whitespace from all lines")),
                 ("::dedupe_lines", _("Remove duplicate lines")),
                 ("::get_dupes", _("Find and group duplicate lines")),
@@ -1056,7 +1056,7 @@ class NoteEditor(Gtk.Overlay):
         try:
             if cmd == "uppercase":
                 new_text = text.upper()
-                msg = _("Converted to UPPERCASE")
+                msg = _("Converted to uppercase")
             elif cmd == "lowercase":
                 new_text = text.lower()
                 msg = _("Converted to lowercase")
@@ -1522,7 +1522,7 @@ class NoteEditor(Gtk.Overlay):
                 window = self.get_root()
                 toast = None
                 if hasattr(window, 'toast_overlay'):
-                    toast = Adw.Toast.new(_("Extracting text from image..."))
+                    toast = Adw.Toast.new(_("Extracting text from image…"))
                     toast.set_timeout(0)  # Make it persistent until we dismiss it manually
                     window.toast_overlay.add_toast(toast)
                     
@@ -1583,7 +1583,7 @@ class NoteEditor(Gtk.Overlay):
                 if re.match(r'^https?://[^\s]+$', url) and len(url) > 30:
                     display_url = url.replace("https://", "").replace("http://", "").replace("www.", "")
                     if len(display_url) > 25:
-                        display_url = display_url[:25] + "..."
+                        display_url = display_url[:25] + "…"
                     markdown_link = f"[{display_url}]({url})"
                     
                     def do_insert():
@@ -1659,7 +1659,7 @@ class NoteEditor(Gtk.Overlay):
         if re.match(r'^https?://[^\s]+$', url) and len(url) > 30:
             display_url = url.replace("https://", "").replace("http://", "").replace("www.", "")
             if len(display_url) > 25:
-                display_url = display_url[:25] + "..."
+                display_url = display_url[:25] + "…"
             markdown_link = f"[{display_url}]({url})"
             
             start_mark = self.buffer.create_mark(None, start, True)
