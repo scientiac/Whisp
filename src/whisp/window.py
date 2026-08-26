@@ -1805,6 +1805,54 @@ class WhispWindow(Adw.ApplicationWindow):
         behavior_page.add(running_group)
         pref_window.add(behavior_page)
 
+        # --- Shortcuts Page ---
+        shortcuts_page = Adw.PreferencesPage(title=_("Shortcuts"), icon_name="preferences-desktop-keyboard-shortcuts-symbolic")
+        shortcuts_group = Adw.PreferencesGroup(title=_("Custom Keybinds"), description=_("Click a shortcut to change it."))
+        
+        shortcut_labels = {
+            "win.new-note": _("New Note"),
+            "win.delete-note": _("Delete Note"),
+            "win.preferences": _("Preferences"),
+            "win.toggle-wysiwyg": _("Toggle WYSIWYG"),
+            "win.undo-delete": _("Undo Delete"),
+            "win.show-shortcuts": _("Show Shortcuts"),
+            "win.search": _("Search Notes"),
+            "win.pin-note": _("Pin Note"),
+            "win.nav-first": _("First Note"),
+            "win.nav-last": _("Last Note"),
+            "win.nav-next": _("Next Note"),
+            "win.nav-prev": _("Previous Note"),
+            "win.copy-note": _("Copy Note"),
+            "win.bump-note": _("Move Note to Front"),
+            "win.slate-mode": _("Toggle Slate Mode"),
+            "win.quit": _("Quit Application")
+        }
+        
+        shortcuts = config.get("shortcuts")
+        for action, accels in shortcuts.items():
+            if action not in shortcut_labels:
+                continue
+                
+            row = Adw.ActionRow(title=shortcut_labels[action])
+            
+            # Display the primary shortcut
+            display_accel = accels[0] if accels else ""
+            # Format nicely (e.g. <Ctrl>n -> Ctrl+N)
+            display_text = display_accel.replace("<Ctrl>", "Ctrl+").replace("<Shift>", "Shift+").replace("<Alt>", "Alt+").upper() if display_accel else _("Disabled")
+            
+            btn = Gtk.Button(label=display_text)
+            btn.set_valign(Gtk.Align.CENTER)
+            btn.add_css_class("flat")
+            
+            # We'll hook up the actual recording logic in the next step
+            
+            row.add_suffix(btn)
+            row.set_activatable_widget(btn)
+            shortcuts_group.add(row)
+            
+        shortcuts_page.add(shortcuts_group)
+        pref_window.add(shortcuts_page)
+
         # --- Storage Page ---
         storage_page = Adw.PreferencesPage(title=_("Storage"), icon_name="drive-harddisk-symbolic")
 

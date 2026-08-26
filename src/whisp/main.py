@@ -23,22 +23,10 @@ class WhispApp(Adw.Application):
         if icon_dir.exists():
             icon_theme.add_search_path(str(icon_dir))
             
-        self.set_accels_for_action("win.new-note", ["<Ctrl>n"])
-        self.set_accels_for_action("win.delete-note", ["<Ctrl>d", "<Shift>Delete"])
-        self.set_accels_for_action("win.preferences", ["<Ctrl>comma"])
-        self.set_accels_for_action("win.toggle-wysiwyg", ["<Ctrl>e"])
-        self.set_accels_for_action("win.undo-delete", ["<Ctrl><Shift>t"])
-        self.set_accels_for_action("win.show-shortcuts", ["<Ctrl>slash"])
-        self.set_accels_for_action("win.nav-next", ["<Ctrl>bracketright"])
-        self.set_accels_for_action("win.nav-prev", ["<Ctrl>bracketleft"])
-        self.set_accels_for_action("win.search", ["<Ctrl>f"])
-        self.set_accels_for_action("win.pin-note", ["<Ctrl><Shift>p"])
-        self.set_accels_for_action("win.nav-first", ["<Alt>f"])
-        self.set_accels_for_action("win.nav-last", ["<Alt>l"])
-        self.set_accels_for_action("win.copy-note", ["<Ctrl><Shift>c"])
-        self.set_accels_for_action("win.bump-note", ["<Ctrl><Shift>m"])
-        self.set_accels_for_action("win.slate-mode", ["F11", "<Alt>s"])
-        self.set_accels_for_action("win.quit", ["<Ctrl>q"])
+        from whisp.config import config
+        shortcuts = config.get("shortcuts")
+        for action, accels in shortcuts.items():
+            self.set_accels_for_action(action, accels)
 
         # Cohesive Background CSS
         css_provider = Gtk.CssProvider()
