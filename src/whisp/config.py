@@ -20,6 +20,25 @@ STATE_KEYS = {
 }
 
 class Config:
+    DEFAULT_SHORTCUTS = {
+        "win.new-note": ["<Ctrl>n"],
+        "win.delete-note": ["<Ctrl>d", "<Shift>Delete"],
+        "win.preferences": ["<Ctrl>comma"],
+        "win.toggle-wysiwyg": ["<Ctrl>e"],
+        "win.undo-delete": ["<Ctrl><Shift>t"],
+        "win.show-shortcuts": ["<Ctrl>slash"],
+        "win.nav-next": ["<Ctrl>bracketright"],
+        "win.nav-prev": ["<Ctrl>bracketleft"],
+        "win.search": ["<Ctrl>f"],
+        "win.pin-note": ["<Ctrl><Shift>p"],
+        "win.nav-first": ["<Alt>f"],
+        "win.nav-last": ["<Alt>l"],
+        "win.copy-note": ["<Ctrl><Shift>c"],
+        "win.bump-note": ["<Ctrl><Shift>m"],
+        "win.slate-mode": ["<Alt>s", "F11"],
+        "win.quit": ["<Ctrl>q"]
+    }
+
     def __init__(self):
         self.config_data = {
             "data_dir": str(Path(GLib.get_user_data_dir()) / "whisp" / "notes"),
@@ -36,24 +55,7 @@ class Config:
             "max_carousel_size": 10,
             "start_in_slate_mode": False,
             "wysiwyg_scope": "global",
-            "shortcuts": {
-                "win.new-note": ["<Ctrl>n"],
-                "win.delete-note": ["<Ctrl>d", "<Shift>Delete"],
-                "win.preferences": ["<Ctrl>comma"],
-                "win.toggle-wysiwyg": ["<Ctrl>e"],
-                "win.undo-delete": ["<Ctrl><Shift>t"],
-                "win.show-shortcuts": ["<Ctrl>slash"],
-                "win.nav-next": ["<Ctrl>bracketright"],
-                "win.nav-prev": ["<Ctrl>bracketleft"],
-                "win.search": ["<Ctrl>f"],
-                "win.pin-note": ["<Ctrl><Shift>p"],
-                "win.nav-first": ["<Alt>f"],
-                "win.nav-last": ["<Alt>l"],
-                "win.copy-note": ["<Ctrl><Shift>c"],
-                "win.bump-note": ["<Ctrl><Shift>m"],
-                "win.slate-mode": ["F11", "<Alt>s"],
-                "win.quit": ["<Ctrl>q"]
-            }
+            "shortcuts": self.DEFAULT_SHORTCUTS.copy()
         }
         
         self.state_data = {

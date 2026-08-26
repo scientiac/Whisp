@@ -1551,6 +1551,145 @@ class WhispWindow(Adw.ApplicationWindow):
             self.update_title()
         self.popover.popdown()
 
+    def on_shortcut_reset(self, btn, action, shortcut_label, reset_btn):
+        from whisp.config import config, Config
+        
+        default_accels = Config.DEFAULT_SHORTCUTS.get(action, [])
+        shortcuts = config.get("shortcuts", {})
+        shortcuts[action] = default_accels.copy()
+        config.set("shortcuts", shortcuts)
+        
+        # Update app accels
+        app = self.get_application()
+        if hasattr(app, "set_accels_for_action"):
+            app.set_accels_for_action(action, default_accels)
+            
+        # Update UI
+        display_accel = default_accels[0] if default_accels else ""
+        shortcut_label.set_accelerator(display_accel)
+        reset_btn.set_visible(False)
+
+    def on_shortcut_record(self, btn, action, label_text, shortcut_label, reset_btn, pref_window=None):
+        dialog = Adw.MessageDialog(
+            transient_for=self,
+            heading=_("Set Shortcut"),
+            body=_("Recording Shortcut for <b>{}</b>").format(label_text),
+            body_use_markup=True
+        )
+        
+        # Create a smaller, cleaner keyboard graphic
+        icon = Gtk.Image.new_from_icon_name("preferences-desktop-keyboard-shortcuts-symbolic")
+        icon.set_pixel_size(64) # Reduced from 128 to save space
+        icon.add_css_class("dim-label")
+        
+        # Add the bottom instructions (original style)
+        instructions = Gtk.Label(
+            label=_("<span foreground='gray' size='small'>press backspace to disable</span>"),
+            use_markup=True,
+            wrap=True,
+            justify=Gtk.Justification.CENTER
+        )
+        
+        # Pack them together with minimal spacing
+        extra_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18, margin_top=12)
+        
+        # Use squeezer to hide icon on very small windows
+        squeezer = Adw.Squeezer()
+        squeezer.add(icon)
+        squeezer.add(Gtk.Box()) # Empty fallback
+        
+        extra_box.append(squeezer)
+        extra_box.append(instructions)
+        
+        dialog.set_extra_child(extra_box)
+        
+        # Add key controller
+        key_ctrl = Gtk.EventControllerKey()
+        key_ctrl.connect("key-pressed", self._on_shortcut_key_pressed, dialog, action, shortcut_label, reset_btn, pref_window)
+        dialog.add_controller(key_ctrl)
+        
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.set_response_appearance("cancel", Adw.ResponseAppearance.DEFAULT)
+        dialog.connect("response", lambda d, r: d.close())
+        
+        # Present the dialog correctly
+        dialog.present()
+        
+    def _on_shortcut_key_pressed(self, ctrl, keyval, keycode, state, dialog, action, shortcut_label, reset_btn, pref_window=None):
+        from gi.repository import Gdk
+        
+        # Ignore raw modifier keys being pressed alone
+        modifier_keys = (
+            Gdk.KEY_Control_L, Gdk.KEY_Control_R,
+            Gdk.KEY_Shift_L, Gdk.KEY_Shift_R,
+            Gdk.KEY_Alt_L, Gdk.KEY_Alt_R,
+            Gdk.KEY_Super_L, Gdk.KEY_Super_R,
+            Gdk.KEY_Meta_L, Gdk.KEY_Meta_R
+        )
+        if keyval in modifier_keys:
+            return False
+            
+        # Cancel if Escape
+        if keyval == Gdk.KEY_Escape:
+            dialog.close()
+            return True
+            
+        # Clear if Backspace
+        if keyval == Gdk.KEY_BackSpace:
+            accel_str = ""
+            accels = []
+        else:
+            # Mask out irrelevant state bits
+            mask = state & Gtk.accelerator_get_default_mod_mask()
+            
+            # CRITICAL RULE 1: Must have a valid modifier (Ctrl, Alt, or Super)
+            # Shift alone is not allowed because it interferes with typing text!
+            required_masks = Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.ALT_MASK | Gdk.ModifierType.SUPER_MASK
+            if not (mask & required_masks):
+                # Reject invalid standard keystroke
+                return False
+                
+            accel_str = Gtk.accelerator_name(keyval, mask)
+            
+            if not accel_str:
+                return False
+                
+            # CRITICAL RULE 2: Collision detection
+            from whisp.config import config, Config
+            shortcuts = config.get("shortcuts", {})
+            for existing_action, existing_accels in shortcuts.items():
+                if existing_action != action and accel_str in existing_accels:
+                    # Found a collision! Close dialog and toast on the pref window
+                    dialog.close()
+                    if pref_window and hasattr(pref_window, "add_toast"):
+                        # Use a clean static string to guarantee it renders perfectly
+                        toast = Adw.Toast.new(_("This shortcut is already in use"))
+                        toast.set_timeout(4) # Force dismiss after 4 seconds
+                        pref_window.add_toast(toast)
+                        
+                    return True # Consume event but don't save
+                    
+            accels = [accel_str]
+            
+        from whisp.config import config, Config
+        shortcuts = config.get("shortcuts", {})
+        shortcuts[action] = accels
+        config.set("shortcuts", shortcuts)
+        
+        # Update app accels
+        app = self.get_application()
+        if hasattr(app, "set_accels_for_action"):
+            app.set_accels_for_action(action, accels)
+        
+        # Update UI
+        shortcut_label.set_accelerator(accel_str)
+        
+        default_accels = Config.DEFAULT_SHORTCUTS.get(action, [])
+        reset_btn.set_visible(accels != default_accels)
+        
+        dialog.close()
+        return True
+
     def on_preferences(self, action, param):
         pref_window = Adw.PreferencesDialog()
         
@@ -1818,7 +1957,7 @@ class WhispWindow(Adw.ApplicationWindow):
         pref_window.add(behavior_page)
 
         # --- Shortcuts Page ---
-        shortcuts_page = Adw.PreferencesPage(title=_("Shortcuts"), icon_name="preferences-desktop-keyboard-shortcuts-symbolic")
+        shortcuts_page = Adw.PreferencesPage(title=_("Shortcuts"), icon_name="keyboard-symbolic")
         
         shortcuts = config.get("shortcuts")
         
@@ -1856,23 +1995,33 @@ class WhispWindow(Adw.ApplicationWindow):
                 
                 row = Adw.ActionRow(title=label)
                 
-                # Use native GTK keycap styling
-                shortcut_label = Gtk.ShortcutLabel(accelerator=display_accel)
+                # Use Adwaita's native shortcut label (no + signs, matches cheat sheet)
+                shortcut_label = Adw.ShortcutLabel(accelerator=display_accel)
                 shortcut_label.set_disabled_text(_("Disabled"))
                 shortcut_label.set_valign(Gtk.Align.CENTER)
                 
-                # The user likes the button hit-box and the slight bolding, but we need
-                # to prevent the button from artificially inflating the font size.
-                btn = Gtk.Button()
-                btn.set_child(shortcut_label)
-                btn.set_valign(Gtk.Align.CENTER)
-                btn.add_css_class("flat")
+                from whisp.config import Config
+                default_accels = Config.DEFAULT_SHORTCUTS.get(action, [])
+                is_custom = accels != default_accels
                 
-                # Boost the font size back up to match the cheat sheet
-                shortcut_label.add_css_class("large-shortcut")
+                reset_btn = Gtk.Button(icon_name="edit-undo-symbolic")
+                reset_btn.set_valign(Gtk.Align.CENTER)
+                reset_btn.add_css_class("flat")
+                reset_btn.add_css_class("circular")
+                reset_btn.set_visible(is_custom)
+                reset_btn.set_tooltip_text(_("Reset to Default"))
                 
-                row.add_suffix(btn)
-                row.set_activatable_widget(btn)
+                reset_btn.connect("clicked", self.on_shortcut_reset, action, shortcut_label, reset_btn)
+                
+                # The whole row is activatable, no need for an extra button
+                row.connect("activated", self.on_shortcut_record, action, label, shortcut_label, reset_btn, pref_window)
+                row.set_activatable(True)
+                
+                suffix_box = Gtk.Box(spacing=12)
+                suffix_box.append(reset_btn)
+                suffix_box.append(shortcut_label)
+                
+                row.add_suffix(suffix_box)
                 group.add(row)
                 
             shortcuts_page.add(group)

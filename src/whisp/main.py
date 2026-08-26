@@ -38,9 +38,6 @@ class WhispApp(Adw.Application):
             textview > text {
                 padding: 0 8px; /* Prevent left-edge glyph clipping */
             }
-            .large-shortcut {
-                font-size: 1.1em;
-            }
             toast {
                 margin-left: 48px;
                 margin-right: 48px;
