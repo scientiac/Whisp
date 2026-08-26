@@ -41,6 +41,7 @@ class WhispApp(Adw.Application):
             toast {
                 margin-left: 48px;
                 margin-right: 48px;
+                margin-bottom: 24px;
             }
             window.about image.icon { transform: scale(0.8); }
 

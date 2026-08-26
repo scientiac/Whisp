@@ -1692,6 +1692,7 @@ class WhispWindow(Adw.ApplicationWindow):
 
     def on_preferences(self, action, param):
         pref_window = Adw.PreferencesDialog()
+        pref_window.set_search_enabled(True)
         
         # --- Appearance Page ---
         appearance_page = Adw.PreferencesPage(title=_("Appearance"), icon_name="preferences-desktop-appearance-symbolic")
