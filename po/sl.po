@@ -1,0 +1,970 @@
+# Slovenian translation for whisp.
+# Copyright (C) 2026 whisp's COPYRIGHT HOLDER
+# This file is distributed under the same license as the whisp package.
+#
+# Martin <miles@filmsi.net>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: whisp main\n"
+"Report-Msgid-Bugs-To: https://github.com/tanaybhomia/Whisp/issues\n"
+"POT-Creation-Date: 2026-08-26 03:33+0000\n"
+"PO-Revision-Date: 2026-08-26 11:36+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
+"n%100==4 ? 3 : 0);\n"
+"X-Generator: Poedit 3.8\n"
+
+#: data/io.github.tanaybhomia.Whisp.desktop.in:2
+msgid "Whisp"
+msgstr ""
+
+#: data/io.github.tanaybhomia.Whisp.desktop.in:3
+#, fuzzy
+msgid "Note Taker"
+msgstr "Zapisovalnik sporočilc"
+
+#: data/io.github.tanaybhomia.Whisp.desktop.in:4
+#, fuzzy
+msgid "A minimalist note taking widget application"
+msgstr "Preprost program za zapiske"
+
+#: src/whisp/editor.py:441 src/whisp/editor.py:445
+msgid "Current date"
+msgstr "Trenutni datum"
+
+#: src/whisp/editor.py:442 src/whisp/editor.py:446
+#, fuzzy
+msgid "Date offset (+/- days)"
+msgstr "dnevi"
+
+#: src/whisp/editor.py:443
+#, fuzzy
+msgid "Tomorrow's date"
+msgstr "jutri"
+
+#: src/whisp/editor.py:444
+#, fuzzy
+msgid "Yesterday's date"
+msgstr "Včeraj"
+
+#: src/whisp/editor.py:447
+#, fuzzy
+msgid "Current date and time"
+msgstr "Vstavi trenutni datum in čas na položaju kazalke."
+
+#: src/whisp/editor.py:448 src/whisp/editor.py:449
+msgid "Current time"
+msgstr "Trenutni čas"
+
+#: src/whisp/editor.py:450
+#, fuzzy
+msgid "Random numbers"
+msgstr "Uporabi strojno ustvarjena naključna števila"
+
+#: src/whisp/editor.py:451
+#, fuzzy
+msgid "Random letters"
+msgstr "Naključno"
+
+#: src/whisp/editor.py:452
+msgid "Random alphanumeric"
+msgstr ""
+
+#: src/whisp/editor.py:453
+#, fuzzy
+msgid "Insert a random inspirational quote"
+msgstr "Vstavi navedek"
+
+#: src/whisp/editor.py:454
+#, fuzzy
+msgid "Open a random Wikipedia page"
+msgstr "Wikipedija"
+
+#: src/whisp/editor.py:455
+#, fuzzy
+msgid "Ask the Magic 8-Ball"
+msgstr "Magic Lantern"
+
+#: src/whisp/editor.py:456
+#, fuzzy
+msgid "Insert standard placeholder text"
+msgstr "<text>Besedilo ograde</text>"
+
+#: src/whisp/editor.py:457
+#, fuzzy
+msgid "Generate a secure 16-char password"
+msgstr "Ustvari naključno geslo"
+
+#: src/whisp/editor.py:458
+#, fuzzy
+msgid "Generate a standard developer UUID"
+msgstr "UUID:"
+
+#: src/whisp/editor.py:459
+#, fuzzy
+msgid "Roll a 20-sided die"
+msgstr "Kotaljenje"
+
+#: src/whisp/editor.py:460
+#, fuzzy
+msgid "Roll a d20 die"
+msgstr "Kotaljenje"
+
+#: src/whisp/editor.py:461
+#, fuzzy
+msgid "Roll 4 d6 dice"
+msgstr "Kotaljenje"
+
+#: src/whisp/editor.py:462
+#, fuzzy
+msgid "Convert document to uppercase"
+msgstr "Pretvori besedilo v velike črke"
+
+#: src/whisp/editor.py:463
+#, fuzzy
+msgid "Convert document to lowercase"
+msgstr "Pretvori besedilo v male črke"
+
+#: src/whisp/editor.py:464
+#, fuzzy
+msgid "Convert document to sentence case"
+msgstr "Stavčni zapis"
+
+#: src/whisp/editor.py:465
+#, fuzzy
+msgid "Convert document to title case"
+msgstr "Pretvori izbor besedila v besede z veliko začetnico"
+
+#: src/whisp/editor.py:466
+#, fuzzy
+msgid "Capitalize first letter"
+msgstr "_Pismo"
+
+#: src/whisp/editor.py:467
+#, fuzzy
+msgid "Strip surrounding quotes"
+msgstr "Trak %d"
+
+#: src/whisp/editor.py:468
+#, fuzzy
+msgid "Add text to the end of every line"
+msgstr "Označi konec izbora beesedila: konec izbire kopiranja"
+
+#: src/whisp/editor.py:469
+#, fuzzy
+msgid "Add text to the beginning of every line"
+msgstr "Označi začetek izbora besedila"
+
+#: src/whisp/editor.py:470
+#, fuzzy
+msgid "Find and replace text"
+msgstr "Poišči in zamenjaj _besedilo"
+
+#: src/whisp/editor.py:471
+#, fuzzy
+msgid "Sort lines alphabetically"
+msgstr "Račune v drevesu map razvrsti abecedno"
+
+#: src/whisp/editor.py:472
+#, fuzzy
+msgid "Sort lines by first number"
+msgstr "Najprej razvrsti mape"
+
+#: src/whisp/editor.py:473
+#, fuzzy
+msgid "Reverse line order"
+msgstr "_Obrnjen vrstni red"
+
+#: src/whisp/editor.py:474
+#, fuzzy
+msgid "Remove empty lines"
+msgstr "Odstrani komentar izbranih vrstic (odstrani znak »%«)"
+
+#: src/whisp/editor.py:475
+#, fuzzy
+msgid "Remove lines containing text"
+msgstr "Datoteke, ki _ne vsebujejo besedila"
+
+#: src/whisp/editor.py:476
+#, fuzzy
+msgid "Remove lines not containing text"
+msgstr "Odstrani besedilo"
+
+#: src/whisp/editor.py:477
+#, fuzzy
+msgid "Keep only lines containing text"
+msgstr "Ohrani le izbrane besedilne predmete"
+
+#: src/whisp/editor.py:478
+#, fuzzy
+msgid "Keep only lines not containing text"
+msgstr "Ohrani le izbrane besedilne predmete"
+
+#: src/whisp/editor.py:479
+#, fuzzy
+msgid "Trim whitespace from all lines"
+msgstr "Med shranjevanjem bodo končni presledni znaki vrstic obrezani"
+
+#: src/whisp/editor.py:480
+#, fuzzy
+msgid "Remove duplicate lines"
+msgstr "Ali želite odstraniti podvojena sporočila?"
+
+#: src/whisp/editor.py:481
+#, fuzzy
+msgid "Find and group duplicate lines"
+msgstr "Iskanje podvojenih sporočil je spodletelo."
+
+#: src/whisp/editor.py:482
+#, fuzzy
+msgid "Convert comma-separated items to list"
+msgstr "Seznam ID-jev komponent, ločenih z vejico, ki jih je treba sprejeti."
+
+#: src/whisp/editor.py:483
+#, fuzzy
+msgid "Convert commas to custom delimiter"
+msgstr "Ločilo po meri"
+
+#: src/whisp/editor.py:484
+#, fuzzy
+msgid "Convert lines to comma-separated"
+msgstr "Z vejico ločen seznam vrednosti (CSV)"
+
+#: src/whisp/editor.py:485
+#, fuzzy
+msgid "Convert lines to custom delimiter"
+msgstr "Ločilo po meri"
+
+#: src/whisp/editor.py:486
+#, fuzzy
+msgid "Move checked items to bottom"
+msgstr "Pomakni območje v ozadje"
+
+#: src/whisp/editor.py:487
+#, fuzzy
+msgid "Remove all checked items"
+msgstr "Ni mogoče odstraniti predmetov iz %s"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "It is certain."
+msgstr "Spremeni določen obseg HSV v sivo "
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "It is decidedly so."
+msgstr "_Zvoki"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "Without a doubt."
+msgstr "(Brez)"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "Yes definitely."
+msgstr "_Da"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "You may rely on it."
+msgstr "... ali pa lahko podarite svoj čas"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "As I see it, yes."
+msgstr "Da (glejte opozorilo)"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "Most likely."
+msgstr ""
+"Postavitve novega besedila ni mogoče ustvariti. Najverjetneje je pisava "
+"prevelika."
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "Outlook good."
+msgstr "Outlook"
+
+#: src/whisp/editor.py:990
+msgid "Yes."
+msgstr "Da."
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "Signs point to yes."
+msgstr "Da"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "Reply hazy, try again."
+msgstr "Poskusi znova"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "Ask again later."
+msgstr "_Vprašaj ponovno kasneje"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "Better not tell you now."
+msgstr "Ali nam lahko poveste kaj o sebi? "
+
+#: src/whisp/editor.py:990
+msgid "Cannot predict now."
+msgstr ""
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "Concentrate and ask again."
+msgstr "Ne vprašaj več"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "Don't count on it."
+msgstr "Števec"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "My reply is no."
+msgstr "_Odgovori _na:"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "My sources say no."
+msgstr "Viri"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "Outlook not so good."
+msgstr "Outlook"
+
+#: src/whisp/editor.py:990
+#, fuzzy
+msgid "Very doubtful."
+msgstr "Zelo debel"
+
+#: src/whisp/editor.py:1059
+#, fuzzy
+msgid "Converted to uppercase"
+msgstr "VELIKE ČRKE"
+
+#: src/whisp/editor.py:1062
+#, fuzzy
+msgid "Converted to lowercase"
+msgstr "male črke"
+
+#: src/whisp/editor.py:1065
+#, fuzzy
+msgid "Converted to Title Case"
+msgstr "_Velike prve črke besed"
+
+#: src/whisp/editor.py:1071
+#, fuzzy
+msgid "Converted to Sentence case"
+msgstr "Stavčni zapis"
+
+#: src/whisp/editor.py:1075
+#, fuzzy
+msgid "Capitalized first letter"
+msgstr "_Pismo"
+
+#: src/whisp/editor.py:1079
+#, fuzzy
+msgid "Stripped quotes"
+msgstr "Oznani _navedke v načinu polne izgovorjave"
+
+#: src/whisp/editor.py:1111
+#, fuzzy
+msgid "Sorted lines alphabetically"
+msgstr "Nerazvrščeno"
+
+#: src/whisp/editor.py:1118
+#, fuzzy
+msgid "Sorted lines numerically"
+msgstr "razvrščeno"
+
+#: src/whisp/editor.py:1121
+#, fuzzy
+msgid "Reversed line order"
+msgstr "Obratno"
+
+#: src/whisp/editor.py:1124
+#, fuzzy
+msgid "Removed empty lines"
+msgstr "Odložišče Nautilus ne sme vsebovati praznih vrstic."
+
+#: src/whisp/editor.py:1143
+#, fuzzy
+msgid "Trimmed whitespace from all lines"
+msgstr "Med shranjevanjem bodo končni presledni znaki vrstic obrezani"
+
+#: src/whisp/editor.py:1152
+#, fuzzy
+msgid "Removed duplicate lines"
+msgstr "Odstranjenih je bilo %d dvojnikov"
+
+#: src/whisp/editor.py:1163
+#, fuzzy
+msgid "Found duplicate lines"
+msgstr "Podvojenih sporočil ni mogoče najti."
+
+#: src/whisp/editor.py:1165
+msgid "No duplicates found"
+msgstr "Ni mogoče najti dvojnikov"
+
+#: src/whisp/editor.py:1169
+#, fuzzy
+msgid "Converted commas to list"
+msgstr "Domene iskanja morajo biti ločene z vejicami"
+
+#: src/whisp/editor.py:1177
+#, fuzzy
+msgid "Converted lines to comma-separated"
+msgstr "Z vejico ločen seznam vrednosti (CSV)"
+
+#: src/whisp/editor.py:1193
+#, fuzzy
+msgid "Moved checked items to bottom"
+msgstr "potrjeno"
+
+#: src/whisp/editor.py:1199
+#, fuzzy
+msgid "Removed all checked items"
+msgstr "izbrani so vsi predmeti"
+
+#: src/whisp/editor.py:1525
+#, fuzzy
+msgid "Extracting text from image…"
+msgstr "Pogovorno okno Shrani sliko za izvlečenje sličic"
+
+#: src/whisp/editor.py:1546
+#, fuzzy
+msgid "No text found in image"
+msgstr "Ni najdene slike"
+
+#: src/whisp/editor.py:1558
+#, fuzzy
+msgid "Failed to extract text from image"
+msgstr "Obnovitev iz slike je spodletela"
+
+#: src/whisp/window.py:233
+#, fuzzy
+msgid "Whisp (Development)"
+msgstr "Razvoj"
+
+#: src/whisp/window.py:432
+#, fuzzy
+msgid "Export Current Note…"
+msgstr "Izvozi trenutne nastavitve v sta_rem zapisu ..."
+
+#: src/whisp/window.py:436
+msgid "Keyboard Shortcuts"
+msgstr "Tipkovne bližnjice"
+
+#: src/whisp/window.py:437 src/whisp/window.py:1829
+msgid "Preferences"
+msgstr "Nastavitve"
+
+#: src/whisp/window.py:438
+#, fuzzy
+msgid "About Whisp"
+msgstr "O programu Whisp"
+
+#: src/whisp/window.py:442
+#, fuzzy
+msgid "Donate to Whisp"
+msgstr "Donirajte"
+
+#: src/whisp/window.py:608
+#, fuzzy
+msgid "Export Note"
+msgstr "Opomba"
+
+#: src/whisp/window.py:629
+#, fuzzy
+msgid "Markdown File"
+msgstr "Odpri datoteko Markdown"
+
+#: src/whisp/window.py:647
+msgid "Note exported successfully"
+msgstr "Beležka je bilo uspešno izvoženo"
+
+#: src/whisp/window.py:670
+#, fuzzy
+msgid "translator-credits"
+msgstr "Martin Srebotnjak <miles@filmsi.net>"
+
+#: src/whisp/window.py:671
+msgid "Icon by"
+msgstr "Avtor ikone"
+
+#: src/whisp/window.py:674
+msgid "Manual"
+msgstr "Priročnik"
+
+#: src/whisp/window.py:675
+#, fuzzy
+msgid "Translate"
+msgstr "Prevedi"
+
+#: src/whisp/window.py:676
+#, fuzzy
+msgid "Donate"
+msgstr "Doniraj"
+
+#: src/whisp/window.py:906
+#, fuzzy
+msgid "Note Pinned to front"
+msgstr "Brez pripetih vzorcev\n"
+
+#: src/whisp/window.py:936
+#, fuzzy
+msgid "Note Unpinned"
+msgstr "%s je odstranjen iz pripetih programov"
+
+#: src/whisp/window.py:952
+#, python-brace-format
+msgid ""
+"# 👋 Welcome to Whisp!\n"
+"\n"
+"Whisp is the frictionless anti-note. There are no save buttons or files to "
+"manage here.\n"
+"\n"
+"## Navigation\n"
+"👉 **Swipe left and right** on your touchpad (or use `Ctrl+[` and `Ctrl+]`) "
+"to switch between notes.\n"
+"➕ To create a new note, simply swipe past the last note!\n"
+"\n"
+"## Features\n"
+"☑ **Checklists**: Press `Ctrl+S` on any line to instantly create or toggle a "
+"checkbox.\n"
+"🔗 **Smart Links**: Paste any long URL, and Whisp will automatically shorten "
+"it to keep your notes clean.\n"
+"📋 **Plain Paste**: Use `Ctrl+Shift+V` to paste text cleanly without weird "
+"formatting.\n"
+"🎨 **Themes**: Open Preferences (`Ctrl+,`) to pick a paper background (like "
+"Grid or Dotted) and color scheme.\n"
+"\n"
+"📖 **Manual**: For a full list of features, check out the [User Manual]"
+"({url})\n"
+"\n"
+"🗑️ Press `Ctrl+D` to delete this note when you're done reading it!"
+msgstr ""
+
+#: src/whisp/window.py:1055
+#, fuzzy
+msgid "Whisp just got better!"
+msgstr "bolje"
+
+#: src/whisp/window.py:1056
+msgid "Changelogs"
+msgstr ""
+
+#: src/whisp/window.py:1064
+msgid ""
+"<b>Export and Better OCR</b>\n"
+"\n"
+"• Export your current note instantly using the new 'Export Note' button in "
+"the main menu.\n"
+"• Create list items seamlessly using standard markdown syntax.\n"
+"• Fixed hard indentation issues when extracting text using Smart Paste OCR.\n"
+"• Fixed Preferences dialog getting cut off on narrow window sizes.\n"
+"\n"
+"<a href=\"https://github.com/tanaybhomia/Whisp/releases\">Read full "
+"changelog</a>"
+msgstr ""
+
+#: src/whisp/window.py:1079
+#, fuzzy, python-brace-format
+msgid "What's New in v{version}"
+msgstr "v{version} - v tej različici ..."
+
+#: src/whisp/window.py:1082
+#, fuzzy
+msgid "Support Whisp ❤️"
+msgstr "Podpri"
+
+#: src/whisp/window.py:1169
+#, fuzzy
+msgid "Note Copied"
+msgstr "Kopirano"
+
+#: src/whisp/window.py:1192
+#, fuzzy
+msgid "Note moved to front"
+msgstr "_Prednja"
+
+#: src/whisp/window.py:1225
+#, fuzzy
+msgid "Cannot delete the default empty note"
+msgstr "Privzetega sloga ni mogoče izbrisati."
+
+#: src/whisp/window.py:1236
+#, fuzzy
+msgid "Delete Note?"
+msgstr "Izbriši zapisek"
+
+#: src/whisp/window.py:1237
+#, python-brace-format
+msgid ""
+"“{title}” will be moved to the trash. You can undo this with Ctrl+Shift+T."
+msgstr ""
+
+#: src/whisp/window.py:1239
+msgid "Cancel"
+msgstr "Prekliči"
+
+#: src/whisp/window.py:1240
+msgid "Delete"
+msgstr "Izbriši"
+
+#: src/whisp/window.py:1265
+msgid "Note deleted"
+msgstr "Beležka izbrisana"
+
+#: src/whisp/window.py:1283
+#, fuzzy, python-brace-format
+msgid "Permanent delete fallback (Error: {error})"
+msgstr ""
+"Napaka: '--permanent-only' in '--permanent' ni možno uporabljati skupaj."
+
+#: src/whisp/window.py:1285
+#, fuzzy, python-brace-format
+msgid "Failed to delete completely: {error}"
+msgstr "Naslov URI %s bo izpuščen; razširjanje je povsem spodletelo: %s"
+
+#. --- Appearance Page ---
+#: src/whisp/window.py:1558
+msgid "Appearance"
+msgstr "Videz"
+
+#. Appearance Group
+#: src/whisp/window.py:1561
+msgid "Text"
+msgstr "Besedilo"
+
+#: src/whisp/window.py:1562
+msgid "Editor Font"
+msgstr "Pisava urejevalnika"
+
+#: src/whisp/window.py:1583
+msgid "System Default"
+msgstr "Privzeta sistemska"
+
+#. Theme Snippets Group
+#: src/whisp/window.py:1603
+#, fuzzy
+msgid "Paper Theme"
+msgstr "Papir"
+
+#. Line Spacing
+#: src/whisp/window.py:1633
+msgid "Line Spacing"
+msgstr "Razmik med vrsticami"
+
+#. --- Behavior Page ---
+#: src/whisp/window.py:1653
+msgid "Behavior"
+msgstr "Vedenje"
+
+#. Behavior Group
+#: src/whisp/window.py:1656
+msgid "Workflow"
+msgstr "Potek dela"
+
+#: src/whisp/window.py:1659
+#, fuzzy
+msgid "WYSIWYG Scope"
+msgstr "Področje"
+
+#: src/whisp/window.py:1660
+msgid "Apply Live Formatting globally to all notes, or remember it per note."
+msgstr ""
+
+#: src/whisp/window.py:1662
+#, fuzzy
+msgid "Global"
+msgstr "Globalno"
+
+#: src/whisp/window.py:1662
+#, fuzzy
+msgid "Per Note"
+msgstr "Opomba"
+
+#: src/whisp/window.py:1674
+#, fuzzy
+msgid "Startup Behavior"
+msgstr "Vedenje"
+
+#: src/whisp/window.py:1675
+#, fuzzy
+msgid "Restore last active note"
+msgstr "Zastavica za obnovitev zadnjega pogleda"
+
+#: src/whisp/window.py:1675
+#, fuzzy
+msgid "Start with empty note"
+msgstr "Sporočilce začnite tukaj"
+
+#: src/whisp/window.py:1688
+#, fuzzy
+msgid "Auto-Archive Inactive Notes"
+msgstr "Nedejavno"
+
+#: src/whisp/window.py:1689
+msgid ""
+"Notes are not deleted. They are simply hidden from the app to reduce "
+"clutter, but remain fully searchable via Ctrl+F."
+msgstr ""
+
+#: src/whisp/window.py:1691
+#, fuzzy
+msgid "Never"
+msgstr "Nikoli"
+
+#: src/whisp/window.py:1691
+msgid "1 Week"
+msgstr "1 teden"
+
+#: src/whisp/window.py:1691
+#, fuzzy
+msgid "1 Month"
+msgstr "1 mesec nazaj"
+
+#: src/whisp/window.py:1691
+#, fuzzy
+msgid "1 Year"
+msgstr "1 leto nazaj"
+
+#: src/whisp/window.py:1710
+#, fuzzy
+msgid "Max Carousel Size"
+msgstr "Največja velikost prikazne datoteke"
+
+#: src/whisp/window.py:1711
+msgid ""
+"Limit the number of notes loaded into the swipable carousel. Older notes "
+"remain fully searchable."
+msgstr ""
+
+#: src/whisp/window.py:1713
+#, fuzzy
+msgid "10 Notes"
+msgstr "10"
+
+#: src/whisp/window.py:1713
+#, fuzzy
+msgid "25 Notes"
+msgstr "25"
+
+#: src/whisp/window.py:1713
+#, fuzzy
+msgid "50 Notes"
+msgstr "50"
+
+#: src/whisp/window.py:1713
+msgid "Unlimited"
+msgstr "Neomejeno"
+
+#: src/whisp/window.py:1732
+#, fuzzy
+msgid "Confirm Before Deleting"
+msgstr "Potrdi pred brisanjem"
+
+#: src/whisp/window.py:1733
+#, fuzzy
+msgid "Ask for confirmation when deleting a note"
+msgstr "_Vprašaj za potrditev ob brisanju predmetov"
+
+#: src/whisp/window.py:1744
+#, fuzzy
+msgid "Show Command Confirmations"
+msgstr "Potrjevanje"
+
+#: src/whisp/window.py:1745
+msgid ""
+"Display a small confirmation message when you use a text manipulation command"
+msgstr ""
+
+#: src/whisp/window.py:1760
+#, fuzzy
+msgid "Enable Slate Mode on Startup"
+msgstr "Omogoči način prostega pisanja"
+
+#: src/whisp/window.py:1761
+msgid "Always launch Whisp directly into Slate Mode"
+msgstr ""
+
+#. --- Running Group ---
+#: src/whisp/window.py:1778
+#, fuzzy
+msgid "Running"
+msgstr "Ne teče"
+
+#: src/whisp/window.py:1781
+#, fuzzy
+msgid "Keep Running in Background"
+msgstr "Program se izvaja v ozadju"
+
+#: src/whisp/window.py:1782
+#, fuzzy
+msgid "Hides the application when closed instead of terminating"
+msgstr "Ohrani delovanje programa v ozadju ob zagonu in po zapiranju"
+
+#: src/whisp/window.py:1793
+msgid "Run on Startup"
+msgstr "Zaženi ob zagonu"
+
+#: src/whisp/window.py:1794
+#, fuzzy
+msgid "Automatically launch the application when you log in"
+msgstr "Programi, zagnani samodejno ob prijavi uporabnika v sistem."
+
+#: src/whisp/window.py:1805
+#, fuzzy
+msgid "Start Hidden"
+msgstr "_Skrito"
+
+#: src/whisp/window.py:1806
+#, fuzzy
+msgid "Launch in the background without opening a window"
+msgstr "Zmanjša prekrivnost okna ozadja"
+
+#. --- Shortcuts Page ---
+#: src/whisp/window.py:1821
+msgid "Shortcuts"
+msgstr "Tipkovne bližnjice"
+
+#: src/whisp/window.py:1826
+msgid "Application"
+msgstr "Program"
+
+#: src/whisp/window.py:1827
+#, fuzzy
+msgid "New Note"
+msgstr "Novo sporočilce"
+
+#: src/whisp/window.py:1828
+#, fuzzy
+msgid "Search Notes"
+msgstr "Iščite po beležkah"
+
+#: src/whisp/window.py:1830
+msgid "Show Shortcuts"
+msgstr "Pokaži tipkovne bližnjice‫"
+
+#: src/whisp/window.py:1831
+#, fuzzy
+msgid "Toggle Slate Mode"
+msgstr "Pre&klopi način prikaza izbora"
+
+#: src/whisp/window.py:1832
+msgid "Quit Application"
+msgstr "Izhod iz programa"
+
+#: src/whisp/window.py:1834
+#, fuzzy
+msgid "Note Management"
+msgstr "Opomba"
+
+#: src/whisp/window.py:1835
+msgid "Delete Note"
+msgstr "Izbriši zapisek"
+
+#: src/whisp/window.py:1836
+msgid "Undo Delete"
+msgstr "Razveljavi brisanje"
+
+#: src/whisp/window.py:1837
+#, fuzzy
+msgid "Pin Note"
+msgstr "Koda PIN"
+
+#: src/whisp/window.py:1838
+#, fuzzy
+msgid "Move Note to Front"
+msgstr "Premakni v ospredje"
+
+#: src/whisp/window.py:1839
+#, fuzzy
+msgid "Copy Note"
+msgstr "Izjema med izdelavo kopije sporočilca"
+
+#: src/whisp/window.py:1840
+#, fuzzy
+msgid "Toggle WYSIWYG"
+msgstr "Preklop"
+
+#: src/whisp/window.py:1842
+msgid "Navigation"
+msgstr "Krmarjenje"
+
+#: src/whisp/window.py:1843
+#, fuzzy
+msgid "Previous Note"
+msgstr "Odpri prejšnjo beležko"
+
+#: src/whisp/window.py:1844
+#, fuzzy
+msgid "Next Note"
+msgstr "Skoči na naslednjo opombo"
+
+#: src/whisp/window.py:1845
+#, fuzzy
+msgid "First Note"
+msgstr "Opomba"
+
+#: src/whisp/window.py:1846
+#, fuzzy
+msgid "Last Note"
+msgstr "Opomba"
+
+#: src/whisp/window.py:1861
+msgid "Disabled"
+msgstr "Onemogočene"
+
+#. --- Storage Page ---
+#: src/whisp/window.py:1882
+msgid "Storage"
+msgstr "Shramba"
+
+#. Storage Group
+#: src/whisp/window.py:1885
+msgid "Data Location"
+msgstr "Kraj podatkov"
+
+#: src/whisp/window.py:1887
+#, fuzzy
+msgid "Notes Directory"
+msgstr "Uskladi sporočilca Gnote s spletno mapo"
+
+#: src/whisp/window.py:1893
+msgid "Reset to Default"
+msgstr "Ponastavi na privzeto"
+
+#: src/whisp/window.py:1897
+msgid "Change…"
+msgstr "Spremeni …"
+
+#: src/whisp/window.py:2071
+#, fuzzy
+msgid "Select Notes Directory"
+msgstr "Izberite mapo"
+
+#: src/whisp/window.py:2211
+#, fuzzy
+msgid "Entered Slate mode"
+msgstr "Skrilasto modra"
+
+#: src/whisp/window.py:2211
+#, fuzzy
+msgid "Exited Slate mode"
+msgstr "Program je končan"
