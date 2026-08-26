@@ -167,15 +167,3 @@ Whisp is free and open-source software licensed under the **GNU General Public L
 ## Inspiration
 
 Whisp was heavily inspired by the core workflow and design philosophy of **[Anti Note on macos](https://antinote.io/)**. I loved the concept of a distraction-free, "anti-folder" scratchpad, but since it wasn't available on Linux, I built Whisp to bring that exact experience natively to the GNOME ecosystem!
-
-## Stargazers
-
-Thank you to everyone who has starred the repository and supported the project!
-<a href="https://www.star-history.com/?repos=tanaybhomia%2FWhisp&type=timeline&legend=top-left">
-<picture>
-
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=tanaybhomia/Whisp&type=timeline&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=tanaybhomia/Whisp&type=timeline&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=tanaybhomia/Whisp&type=timeline&legend=top-left" />
- </picture>
-</a>
