@@ -43,71 +43,113 @@ shortcuts_xml = """
   <object class="AdwShortcutsDialog" id="shortcuts_dialog">
     <child>
       <object class="AdwShortcutsSection">
-        <property name="title">General</property>
+        <property name="title">Application</property>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title">Preferences</property>
+            <property name="action-name">win.preferences</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title">Show Shortcuts</property>
+            <property name="action-name">win.show-shortcuts</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title">Toggle Slate Mode</property>
+            <property name="action-name">win.slate-mode</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title">Quit Application</property>
+            <property name="action-name">win.quit</property>
+          </object>
+        </child>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwShortcutsSection">
+        <property name="title">Note Management</property>
         <child>
           <object class="AdwShortcutsItem">
             <property name="title">Create New Note</property>
-            <property name="accelerator">&lt;Primary&gt;n</property>
+            <property name="action-name">win.new-note</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title">Search Notes</property>
+            <property name="action-name">win.search</property>
           </object>
         </child>
         <child>
           <object class="AdwShortcutsItem">
             <property name="title">Delete Note</property>
-            <property name="accelerator">&lt;Primary&gt;d &lt;Shift&gt;Delete</property>
+            <property name="action-name">win.delete-note</property>
           </object>
         </child>
         <child>
           <object class="AdwShortcutsItem">
             <property name="title">Undo Delete</property>
-            <property name="accelerator">&lt;Primary&gt;&lt;Shift&gt;t</property>
-          </object>
-        </child>
-        <child>
-          <object class="AdwShortcutsItem">
-            <property name="title">Previous Note</property>
-            <property name="accelerator">&lt;Primary&gt;bracketleft</property>
-          </object>
-        </child>
-        <child>
-          <object class="AdwShortcutsItem">
-            <property name="title">Next Note</property>
-            <property name="accelerator">&lt;Primary&gt;bracketright</property>
-          </object>
-        </child>
-        <child>
-          <object class="AdwShortcutsItem">
-            <property name="title">First Note</property>
-            <property name="accelerator">&lt;Alt&gt;f</property>
-          </object>
-        </child>
-        <child>
-          <object class="AdwShortcutsItem">
-            <property name="title">Last Note</property>
-            <property name="accelerator">&lt;Alt&gt;l</property>
+            <property name="action-name">win.undo-delete</property>
           </object>
         </child>
         <child>
           <object class="AdwShortcutsItem">
             <property name="title">Pin Note</property>
-            <property name="accelerator">&lt;Primary&gt;&lt;Shift&gt;p</property>
+            <property name="action-name">win.pin-note</property>
           </object>
         </child>
         <child>
           <object class="AdwShortcutsItem">
             <property name="title">Move Note to Front</property>
-            <property name="accelerator">&lt;Primary&gt;&lt;Shift&gt;m</property>
+            <property name="action-name">win.bump-note</property>
           </object>
         </child>
         <child>
           <object class="AdwShortcutsItem">
-            <property name="title">Preferences</property>
-            <property name="accelerator">&lt;Primary&gt;comma</property>
+            <property name="title">Copy Entire Note</property>
+            <property name="action-name">win.copy-note</property>
           </object>
         </child>
         <child>
           <object class="AdwShortcutsItem">
-            <property name="title">Quit</property>
-            <property name="accelerator">&lt;Primary&gt;q</property>
+            <property name="title">Toggle WYSIWYG</property>
+            <property name="action-name">win.toggle-wysiwyg</property>
+          </object>
+        </child>
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwShortcutsSection">
+        <property name="title">Navigation</property>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title">Previous Note</property>
+            <property name="action-name">win.nav-prev</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title">Next Note</property>
+            <property name="action-name">win.nav-next</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title">First Note</property>
+            <property name="action-name">win.nav-first</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
+            <property name="title">Last Note</property>
+            <property name="action-name">win.nav-last</property>
           </object>
         </child>
       </object>
@@ -115,13 +157,7 @@ shortcuts_xml = """
     
     <child>
       <object class="AdwShortcutsSection">
-        <property name="title">Editor</property>
-        <child>
-          <object class="AdwShortcutsItem">
-            <property name="title">Search Notes</property>
-            <property name="accelerator">&lt;Primary&gt;f</property>
-          </object>
-        </child>
+        <property name="title">Editor Actions</property>
         <child>
           <object class="AdwShortcutsItem">
             <property name="title">Toggle Checkbox</property>
@@ -132,12 +168,6 @@ shortcuts_xml = """
           <object class="AdwShortcutsItem">
             <property name="title">Paste Plain Text</property>
             <property name="accelerator">&lt;Primary&gt;&lt;Shift&gt;v</property>
-          </object>
-        </child>
-        <child>
-          <object class="AdwShortcutsItem">
-            <property name="title">Copy Entire Note</property>
-            <property name="accelerator">&lt;Primary&gt;&lt;Shift&gt;c</property>
           </object>
         </child>
         <child>
@@ -174,24 +204,6 @@ shortcuts_xml = """
           <object class="AdwShortcutsItem">
             <property name="title">Insert Emoji</property>
             <property name="accelerator">&lt;Primary&gt;period</property>
-          </object>
-        </child>
-      </object>
-    </child>
-
-    <child>
-      <object class="AdwShortcutsSection">
-        <property name="title">Modes</property>
-        <child>
-          <object class="AdwShortcutsItem">
-            <property name="title">Toggle WYSIWYG Mode</property>
-            <property name="accelerator">&lt;Primary&gt;e</property>
-          </object>
-        </child>
-        <child>
-          <object class="AdwShortcutsItem">
-            <property name="title">Toggle Slate Mode</property>
-            <property name="accelerator">&lt;Alt&gt;s</property>
           </object>
         </child>
       </object>
@@ -1807,50 +1819,63 @@ class WhispWindow(Adw.ApplicationWindow):
 
         # --- Shortcuts Page ---
         shortcuts_page = Adw.PreferencesPage(title=_("Shortcuts"), icon_name="preferences-desktop-keyboard-shortcuts-symbolic")
-        shortcuts_group = Adw.PreferencesGroup(title=_("Custom Keybinds"), description=_("Click a shortcut to change it."))
-        
-        shortcut_labels = {
-            "win.new-note": _("New Note"),
-            "win.delete-note": _("Delete Note"),
-            "win.preferences": _("Preferences"),
-            "win.toggle-wysiwyg": _("Toggle WYSIWYG"),
-            "win.undo-delete": _("Undo Delete"),
-            "win.show-shortcuts": _("Show Shortcuts"),
-            "win.search": _("Search Notes"),
-            "win.pin-note": _("Pin Note"),
-            "win.nav-first": _("First Note"),
-            "win.nav-last": _("Last Note"),
-            "win.nav-next": _("Next Note"),
-            "win.nav-prev": _("Previous Note"),
-            "win.copy-note": _("Copy Note"),
-            "win.bump-note": _("Move Note to Front"),
-            "win.slate-mode": _("Toggle Slate Mode"),
-            "win.quit": _("Quit Application")
-        }
         
         shortcuts = config.get("shortcuts")
-        for action, accels in shortcuts.items():
-            if action not in shortcut_labels:
-                continue
+        
+        shortcut_categories = {
+            _("Application"): {
+                "win.new-note": _("New Note"),
+                "win.search": _("Search Notes"),
+                "win.preferences": _("Preferences"),
+                "win.show-shortcuts": _("Show Shortcuts"),
+                "win.slate-mode": _("Toggle Slate Mode"),
+                "win.quit": _("Quit Application")
+            },
+            _("Note Management"): {
+                "win.delete-note": _("Delete Note"),
+                "win.undo-delete": _("Undo Delete"),
+                "win.pin-note": _("Pin Note"),
+                "win.bump-note": _("Move Note to Front"),
+                "win.copy-note": _("Copy Note"),
+                "win.toggle-wysiwyg": _("Toggle WYSIWYG")
+            },
+            _("Navigation"): {
+                "win.nav-prev": _("Previous Note"),
+                "win.nav-next": _("Next Note"),
+                "win.nav-first": _("First Note"),
+                "win.nav-last": _("Last Note")
+            }
+        }
+        
+        for category_title, actions in shortcut_categories.items():
+            group = Adw.PreferencesGroup(title=category_title)
+            
+            for action, label in actions.items():
+                accels = shortcuts.get(action, [])
+                display_accel = accels[0] if accels else ""
                 
-            row = Adw.ActionRow(title=shortcut_labels[action])
-            
-            # Display the primary shortcut
-            display_accel = accels[0] if accels else ""
-            # Format nicely (e.g. <Ctrl>n -> Ctrl+N)
-            display_text = display_accel.replace("<Ctrl>", "Ctrl+").replace("<Shift>", "Shift+").replace("<Alt>", "Alt+").upper() if display_accel else _("Disabled")
-            
-            btn = Gtk.Button(label=display_text)
-            btn.set_valign(Gtk.Align.CENTER)
-            btn.add_css_class("flat")
-            
-            # We'll hook up the actual recording logic in the next step
-            
-            row.add_suffix(btn)
-            row.set_activatable_widget(btn)
-            shortcuts_group.add(row)
-            
-        shortcuts_page.add(shortcuts_group)
+                row = Adw.ActionRow(title=label)
+                
+                # Use native GTK keycap styling
+                shortcut_label = Gtk.ShortcutLabel(accelerator=display_accel)
+                shortcut_label.set_disabled_text(_("Disabled"))
+                shortcut_label.set_valign(Gtk.Align.CENTER)
+                
+                # The user likes the button hit-box and the slight bolding, but we need
+                # to prevent the button from artificially inflating the font size.
+                btn = Gtk.Button()
+                btn.set_child(shortcut_label)
+                btn.set_valign(Gtk.Align.CENTER)
+                btn.add_css_class("flat")
+                
+                # Boost the font size back up to match the cheat sheet
+                shortcut_label.add_css_class("large-shortcut")
+                
+                row.add_suffix(btn)
+                row.set_activatable_widget(btn)
+                group.add(row)
+                
+            shortcuts_page.add(group)
         pref_window.add(shortcuts_page)
 
         # --- Storage Page ---
