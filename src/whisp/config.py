@@ -35,6 +35,7 @@ class Config:
         "win.nav-last": ["<Alt>l"],
         "win.copy-note": ["<Ctrl><Shift>c"],
         "win.bump-note": ["<Ctrl><Shift>m"],
+        "win.export-note": ["<Ctrl><Shift>s"],
         "win.slate-mode": ["<Alt>s", "F11"],
         "win.quit": ["<Ctrl>q"]
     }

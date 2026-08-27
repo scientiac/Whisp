@@ -118,6 +118,12 @@ shortcuts_xml = """
         </child>
         <child>
           <object class="AdwShortcutsItem">
+            <property name="title">Export Note</property>
+            <property name="action-name">win.export-note</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
             <property name="title">Toggle WYSIWYG</property>
             <property name="action-name">win.toggle-wysiwyg</property>
           </object>
@@ -429,7 +435,7 @@ class WhispWindow(Adw.ApplicationWindow):
         main_menu.append_item(theme_item)
         
         export_section = Gio.Menu()
-        export_section.append(_("Export Current Note…"), "win.export-note")
+        export_section.append(_("Export Note"), "win.export-note")
         main_menu.append_section(None, export_section)
         
         section = Gio.Menu()
@@ -1977,6 +1983,7 @@ class WhispWindow(Adw.ApplicationWindow):
                 "win.pin-note": _("Pin Note"),
                 "win.bump-note": _("Move Note to Front"),
                 "win.copy-note": _("Copy Note"),
+                "win.export-note": _("Export Note"),
                 "win.toggle-wysiwyg": _("Toggle WYSIWYG")
             },
             _("Navigation"): {
