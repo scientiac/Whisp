@@ -8,6 +8,7 @@ from gi.repository import Gtk, Adw, Gdk, Gio, GLib, Pango
 from whisp.config import config, DATA_DIR, TRASH_DIR
 from whisp.editor import NoteEditor
 from whisp.notes import NoteIndex
+from whisp.stats import tracker
 
 try:
     locale.setlocale(locale.LC_ALL, '')
@@ -776,6 +777,8 @@ class WhispWindow(Adw.ApplicationWindow):
             Gio.AppInfo.launch_default_for_uri("https://tanaybhomia.github.io/Whisp/donate.html", None)
 
     def on_nav_next(self, action=None, param=None):
+        if action is not None:
+            tracker.increment("shortcuts_used")
         n_pages = self.carousel.get_n_pages()
         if n_pages == 0:
             return
@@ -786,6 +789,8 @@ class WhispWindow(Adw.ApplicationWindow):
             GLib.idle_add(lambda: [editor.textview.grab_focus(), False][-1])
             
     def on_nav_prev(self, action=None, param=None):
+        if action is not None:
+            tracker.increment("shortcuts_used")
         n_pages = self.carousel.get_n_pages()
         if n_pages == 0:
             return
@@ -1110,6 +1115,15 @@ class WhispWindow(Adw.ApplicationWindow):
                 GLib.timeout_add(50, restore_session)
 
     def add_note(self, file_path=None, grab_focus=True, index=None):
+        if file_path is None:
+            tracker.increment("notes_created")
+            from datetime import datetime
+            hour = datetime.now().hour
+            if 22 <= hour or hour < 5:
+                tracker.increment("notes_created_night")
+            else:
+                tracker.increment("notes_created_day")
+                
         editor = NoteEditor(file_path=file_path, on_title_changed=self.on_editor_title_changed)
         editor.window = self
         if index is not None:
@@ -1213,6 +1227,7 @@ class WhispWindow(Adw.ApplicationWindow):
             shutil.move(str(trash_path), str(data_path))
             idx = getattr(self, 'last_deleted_index', None)
             self.add_note(data_path, grab_focus=True, index=idx)
+            tracker.increment("notes_rescued")
             self.last_deleted_file = None
             self.last_deleted_index = None
 
@@ -1281,6 +1296,7 @@ class WhispWindow(Adw.ApplicationWindow):
                 # Try to move to trash first
                 shutil.move(str(editor.file_path), str(dest_path))
                 self.last_deleted_file = editor.file_path.name
+                tracker.increment("notes_trashed")
             except Exception as e:
                 # Fallback
                 try:
@@ -1311,6 +1327,7 @@ class WhispWindow(Adw.ApplicationWindow):
             self.update_title()
 
     def on_page_changed(self, carousel, index):
+        tracker.increment("total_swipes")
         self.update_title()
         editor = carousel.get_nth_page(int(round(index)))
         if editor:

@@ -17,6 +17,7 @@ except ImportError:
 from whisp.config import config, DATA_DIR
 from whisp.highlighter import MarkdownHighlighter
 from whisp.text_search import body_match_offsets
+from whisp.stats import tracker
 
 try:
     locale.setlocale(locale.LC_ALL, '')
@@ -1680,6 +1681,9 @@ class NoteEditor(Gtk.Overlay):
             content = self.file_path.read_text(encoding='utf-8')
             self.buffer.set_text(content)
             self.highlighter.highlight()
+            self.last_word_count = len(content.split())
+        else:
+            self.last_word_count = 0
 
     def set_search_highlight(self, term):
         self.highlighter.set_search_term(term)
@@ -1723,6 +1727,13 @@ class NoteEditor(Gtk.Overlay):
         start, end = self.buffer.get_bounds()
         text = self.buffer.get_text(start, end, True)
         self.file_path.write_text(text, encoding='utf-8')
+        
+        current_words = len(text.split())
+        diff = current_words - getattr(self, 'last_word_count', 0)
+        if diff > 0:
+            tracker.increment("total_words_written", diff)
+        self.last_word_count = current_words
+        
         return False
 
     def get_title(self, max_length=50):
