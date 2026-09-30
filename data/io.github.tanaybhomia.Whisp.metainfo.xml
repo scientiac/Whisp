@@ -37,20 +37,28 @@
 
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/tanaybhomia/Whisp/efc206caa65392a6eda0821d1952ed4d54ecf0ba/docs/assets/1-hero.png</image>
+      <image>https://raw.githubusercontent.com/tanaybhomia/Whisp/main/docs/assets/01Hero.png</image>
       <caption>A clutter-free workspace</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/tanaybhomia/Whisp/efc206caa65392a6eda0821d1952ed4d54ecf0ba/docs/assets/2-pinned-dev.png</image>
-      <caption>Pin important notes and format technical snippets with ease</caption>
+      <image>https://raw.githubusercontent.com/tanaybhomia/Whisp/main/docs/assets/02SlateMode.png</image>
+      <caption>Distraction-free Slate Mode</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/tanaybhomia/Whisp/efc206caa65392a6eda0821d1952ed4d54ecf0ba/docs/assets/3-feature-roadmap.png</image>
-      <caption>Stay organized with tiered list management</caption>
+      <image>https://raw.githubusercontent.com/tanaybhomia/Whisp/main/docs/assets/03ListModule.png</image>
+      <caption>Create lists easily with list module</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/tanaybhomia/Whisp/efc206caa65392a6eda0821d1952ed4d54ecf0ba/docs/assets/4-formatting.png</image>
-      <caption>Rich WYSIWYG markdown support with formatted links</caption>
+      <image>https://raw.githubusercontent.com/tanaybhomia/Whisp/main/docs/assets/04TextExpansion.png</image>
+      <caption>Use smart methods using text functions</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/tanaybhomia/Whisp/main/docs/assets/05PinnedNotes.png</image>
+      <caption>Pin important notes to the front</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/tanaybhomia/Whisp/main/docs/assets/06Preferences.png</image>
+      <caption>Customize shortcuts, themes, and behavior</caption>
     </screenshot>
   </screenshots>
 
