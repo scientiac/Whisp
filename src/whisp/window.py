@@ -252,9 +252,7 @@ class WhispWindow(Adw.ApplicationWindow):
         if config.get("is_maximized"):
             self.maximize()
             
-        from whisp.main import IS_DEV_MODE
-        title=_("Whisp (Development)") if IS_DEV_MODE else "Whisp"
-        self.set_title(title)
+        self.set_title("Whisp")
         self.connect("close-request", self.on_close_request)
         
         app = self.get_application()
@@ -388,11 +386,9 @@ class WhispWindow(Adw.ApplicationWindow):
         self.header_bar.add_css_class("flat")
         self.toolbar_view.add_top_bar(self.header_bar)
 
-        # Apply Libadwaita development striped headerbar appearance
+        # Apply Libadwaita headerbar appearance
         app = self.get_application() or Gio.Application.get_default()
         app_id = app.get_application_id() if app else ""
-        if (bool(app_id) and app_id.endswith(".Devel")) or "--dev" in sys.argv:
-            self.add_css_class("devel")
         self.toolbar_view.set_reveal_top_bars(not self.is_slate_mode)
         
         # Delete Note Button
@@ -967,7 +963,7 @@ class WhispWindow(Adw.ApplicationWindow):
                 
                 if hasattr(self, '_pin_toast') and self._pin_toast:
                     self._pin_toast.dismiss()
-                self._pin_toast = Adw.Toast.new(_("Note Pinned to front"))
+                self._pin_toast = Adw.Toast.new(_("Note pinned"))
                 self.toast_overlay.add_toast(self._pin_toast)
             else:
                 self.carousel.remove(current_page)
