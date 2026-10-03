@@ -2,7 +2,7 @@
   
   <img src="data/icons/io.github.tanaybhomia.Whisp.svg" alt="Whisp Icon" width="192" height="192" style="vertical-align: middle;"> 
   <h1>Whisp</h1>
-  <p><b>The Anti Note for GNOME</b></p>
+  <p><b>Anti Note for GNOME</b></p>
 
   <a href="https://flathub.org/apps/io.github.tanaybhomia.Whisp">
     <img src="https://flathub.org/api/badge?svg&locale=en" alt="Download on Flathub" height="80">
@@ -15,7 +15,7 @@
 </div>
 
 <div align="center">
-  <img alt="Whisp Main Interface" src="docs/assets/1-hero.png" style="max-width: 100%; height: auto;" />
+  <img alt="Whisp Main Interface" src="docs/assets/01Hero.png" style="max-width: 100%; height: auto;" />
 </div>
 
 Whisp is a fast note-taking application built for the GNOME desktop environment. It replaces traditional file hierarchies with a spatial, swipeable canvas. Inspired by the "anti-note" philosophy, it acts as a quick desktop scratchpad with Markdown editing, built natively with GTK4 and Libadwaita.
